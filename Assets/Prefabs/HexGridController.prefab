@@ -1,0 +1,857 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1461185929339582}
+  m_IsPrefabParent: 1
+--- !u!1 &1229670413414204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4847409430776580}
+  - component: {fileID: 114394933980401302}
+  m_Layer: 0
+  m_Name: TileManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1288716553366640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4523449661608624}
+  - component: {fileID: 114711663613918036}
+  m_Layer: 0
+  m_Name: HexWorld
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1461185929339582
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4755236147448000}
+  - component: {fileID: 114557922605563380}
+  m_Layer: 0
+  m_Name: HexGridController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4523449661608624
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1288716553366640}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4755236147448000}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4755236147448000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1461185929339582}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4523449661608624}
+  - {fileID: 4847409430776580}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4847409430776580
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1229670413414204}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4755236147448000}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114394933980401302
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1229670413414204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e85afd8a62c7eac4e9d7e02c32f5a45d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tiles:
+  - name: gras
+    tilePrefab: {fileID: 1456703219772408, guid: c0e3a644af33467478970ae6a68da9af,
+      type: 2}
+    walkable: 1
+  - name: escape_capsule
+    tilePrefab: {fileID: 1254093644460976, guid: 49aa410b060400c46a939c92b9cd43f4,
+      type: 2}
+    walkable: 0
+  - name: stone
+    tilePrefab: {fileID: 1035812868024930, guid: dd10fdf17ecad4647be9aae154647964,
+      type: 2}
+    walkable: 0
+  - name: teleporter
+    tilePrefab: {fileID: 1614196455937404, guid: 4ba29403f7cb9ea49909f5edcca5765f,
+      type: 2}
+    walkable: 1
+  - name: tree1
+    tilePrefab: {fileID: 1926832117759920, guid: 928c6cc592e5ee749aff4fcbc44bebbd,
+      type: 2}
+    walkable: 0
+  - name: tree2
+    tilePrefab: {fileID: 1861582595781406, guid: e9d733d3bd982fe40ae4a26e25fdfb85,
+      type: 2}
+    walkable: 0
+  - name: tree3
+    tilePrefab: {fileID: 1398776882922502, guid: 998adf52798c9ab44b2790c1d914c244,
+      type: 2}
+    walkable: 0
+  - name: wall1
+    tilePrefab: {fileID: 0}
+    walkable: 0
+  - name: wall2
+    tilePrefab: {fileID: 0}
+    walkable: 0
+  - name: water
+    tilePrefab: {fileID: 1124333613787404, guid: 6315ad6b9e32c074aa4d27c2c68ab8a8,
+      type: 2}
+    walkable: 0
+  - name: building
+    tilePrefab: {fileID: 1904344842650458, guid: c62a11377fe614547b6f3c8e0f2658d5,
+      type: 2}
+    walkable: 0
+  - name: space_ship
+    tilePrefab: {fileID: 1329162281433624, guid: c2f4a4a82978aeb49ba3ac7c5219b15f,
+      type: 2}
+    walkable: 0
+  - name: soil
+    tilePrefab: {fileID: 1668567884256220, guid: 1e5cc92c05986b54f9380cfc033f4e72,
+      type: 2}
+    walkable: 1
+  - name: gravel
+    tilePrefab: {fileID: 1091571501420740, guid: 02ce82cb2f96cf443880aeac70a338ea,
+      type: 2}
+    walkable: 1
+  - name: step_stone
+    tilePrefab: {fileID: 1079272057355178, guid: 99a4259e62dcbb14092e4aa45a4ca1ed,
+      type: 2}
+    walkable: 1
+  - name: hill
+    tilePrefab: {fileID: 1839990609936294, guid: f5dcd4f7a94ecf34dbf7dd8785c4ad08,
+      type: 2}
+    walkable: 1
+  _fallbackTile:
+    name: fallback_tile
+    tilePrefab: {fileID: 1807991152686782, guid: eaaea942abcf2c24bbbbfb5b02417e82,
+      type: 2}
+    walkable: 1
+  _items:
+  - name: energy_cell
+    itemPrefab: {fileID: 1442111793144756, guid: c4e12ab1253f27a4f994307dfdbaa4dc,
+      type: 2}
+    blockingTile: 0
+  - name: jaw_spanner
+    itemPrefab: {fileID: 1486687860615234, guid: f0cc5877375d6bb45bb62169fa3c8f2c,
+      type: 2}
+    blockingTile: 0
+  - name: item_3
+    itemPrefab: {fileID: 1648612359235528, guid: 1850c92bcf16f70468453b81f0109b22,
+      type: 2}
+    blockingTile: 0
+  - name: fence
+    itemPrefab: {fileID: 1029514759018156, guid: 93616ff27fa42fb4e87bcdc3fb7dd985,
+      type: 2}
+    blockingTile: 1
+  - name: fence_corner
+    itemPrefab: {fileID: 1691576625009018, guid: 4445e54107b440e48bcd74a301d61546,
+      type: 2}
+    blockingTile: 1
+  - name: fence_gate
+    itemPrefab: {fileID: 1200992380614820, guid: 9d33b2a99fa5db747b3928f85b2faa6b,
+      type: 2}
+    blockingTile: 1
+  - name: turning_crank
+    itemPrefab: {fileID: 1562126893278970, guid: 1503571c53998554fb63967b16160249,
+      type: 2}
+    blockingTile: 0
+  _fallbackItem:
+    name: fallback_item
+    itemPrefab: {fileID: 1331626740190568, guid: 5ab920fc15b77194e9d719372670ff54,
+      type: 2}
+    blockingTile: 0
+--- !u!114 &114557922605563380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1461185929339582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7483eda7c8e7de94f95693c76bbf6a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tileDistance: 1
+  _borderThickness: 10
+  _tileManager: {fileID: 114394933980401302}
+  _borderTileIDs: 040000000500000006000000
+  _hexWorld: {fileID: 114711663613918036}
+--- !u!114 &114711663613918036
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1288716553366640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37509bc56e51afd40b3c324dc91846c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _worldName: 
+  _worldJSON: {fileID: 4900000, guid: 5fdbfbf4de258d541b8e0c5566a34971, type: 3}
+  _width: 5
+  _height: 5
+  _timeStamp: 0
+  _startX: 2
+  _startY: 2
+  defaultGridTile:
+    x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  _tiles:
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0
+  - x: 0
+    y: 0
+    tileID: 0
+    tileRotation: 0
+    itemID: 0
+    itemRotation: 0

@@ -1,0 +1,247 @@
+{
+    "_worldName": "example-level-test",
+    "_worldJSON": {
+        "instanceID": 0
+    },
+    "_width": 5,
+    "_height": 5,
+    "_timeStamp": 636511278433032604,
+    "_startX": 0,
+    "_startY": 0,
+    "defaultGridTile": {
+        "fieldType": 0,
+        "x": 0,
+        "y": 0,
+        "tileID": 0,
+        "tileRotation": 0,
+        "objectID": -1,
+        "objectRotation": 0
+    },
+    "_tiles": [
+        {
+            "fieldType": 0,
+            "x": 0,
+            "y": 0,
+            "tileID": 1,
+            "tileRotation": 3,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 1,
+            "y": 0,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 2,
+            "y": 0,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 3,
+            "y": 0,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 4,
+            "y": 0,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 0,
+            "y": 1,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 1,
+            "y": 1,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 2,
+            "y": 1,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 3,
+            "y": 1,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 4,
+            "y": 1,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 0,
+            "y": 2,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 1,
+            "y": 2,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 2,
+            "y": 2,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 3,
+            "y": 2,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 4,
+            "y": 2,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 0,
+            "y": 3,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 1,
+            "y": 3,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 2,
+            "y": 3,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 3,
+            "y": 3,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 4,
+            "y": 3,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 0,
+            "y": 4,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 1,
+            "y": 4,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 2,
+            "y": 4,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 3,
+            "y": 4,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        },
+        {
+            "fieldType": 0,
+            "x": 4,
+            "y": 4,
+            "tileID": 0,
+            "tileRotation": 0,
+            "objectID": -1,
+            "objectRotation": 0
+        }
+    ]
+}

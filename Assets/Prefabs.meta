@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+<<<<<<< HEAD
+guid: 88fc60482a1c89648a83fa98cf958106
+folderAsset: yes
+timeCreated: 1509639954
+licenseType: Free
+DefaultImporter:
+  externalObjects: {}
+=======
+guid: c98dd7e024e6ed34a8c55ecea1b050e0
+folderAsset: yes
+timeCreated: 1510839229
+licenseType: Free
+DefaultImporter:
+>>>>>>> hex world grid generator
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

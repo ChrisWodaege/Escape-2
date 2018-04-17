@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Models/Environment/envSpaceShip/Materials.meta
+guid: ec7c67df697c60644af72fb91106c5b9
+folderAsset: yes
+timeCreated: 1517416826
+=======
+guid: 6eb58bf6fcc2c7a47816f90752924afa
+folderAsset: yes
+timeCreated: 1517416651
+>>>>>>> develop:Assets/Models/Tiles/tileBasic/Materials.meta
+licenseType: Free
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,3 @@
+0 - 300 start
+310 - 400 idle
+405 - 455 hand hoch
