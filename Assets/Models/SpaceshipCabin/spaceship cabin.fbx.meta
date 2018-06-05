@@ -1,0 +1,204 @@
+fileFormatVersion: 2
+guid: fb308c9f0e312ca4298d1e43a8b7bb7a
+timeCreated: 1528179265
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: back
+    100002: cabin
+    100004: cabin 1
+    100006: door
+    100008: entrance
+    100010: erde
+    100012: human
+    100014: jalusieCtrl
+    100016: left
+    100018: mond
+    100020: polySurface2
+    100022: polySurface3
+    100024: polySurface4
+    100026: polySurface5
+    100028: polySurface6
+    100030: pSphere1
+    100032: scene
+    100034: schrift
+    100036: screen
+    100038: screen1
+    100040: //RootNode
+    100042: stuhl
+    100044: tisch
+    100046: universum
+    400000: back
+    400002: cabin
+    400004: cabin 1
+    400006: door
+    400008: entrance
+    400010: erde
+    400012: human
+    400014: jalusieCtrl
+    400016: left
+    400018: mond
+    400020: polySurface2
+    400022: polySurface3
+    400024: polySurface4
+    400026: polySurface5
+    400028: polySurface6
+    400030: pSphere1
+    400032: scene
+    400034: schrift
+    400036: screen
+    400038: screen1
+    400040: //RootNode
+    400042: stuhl
+    400044: tisch
+    400046: universum
+    2000000: back
+    2000002: left
+    2300000: entrance
+    2300002: erde
+    2300004: human
+    2300006: mond
+    2300008: polySurface2
+    2300010: polySurface3
+    2300012: polySurface4
+    2300014: polySurface5
+    2300016: polySurface6
+    2300018: pSphere1
+    2300020: schrift
+    2300022: screen
+    2300024: screen1
+    2300026: stuhl
+    2300028: tisch
+    2300030: universum
+    3300000: entrance
+    3300002: erde
+    3300004: human
+    3300006: mond
+    3300008: polySurface2
+    3300010: polySurface3
+    3300012: polySurface4
+    3300014: polySurface5
+    3300016: polySurface6
+    3300018: pSphere1
+    3300020: schrift
+    3300022: screen
+    3300024: screen1
+    3300026: stuhl
+    3300028: tisch
+    3300030: universum
+    4300000: mond
+    4300002: polySurface5
+    4300004: polySurface6
+    4300006: human
+    4300008: tisch
+    4300010: screen1
+    4300012: screen
+    4300014: polySurface2
+    4300016: polySurface3
+    4300018: polySurface4
+    4300020: entrance
+    4300022: stuhl
+    4300024: schrift
+    4300026: universum
+    4300028: erde
+    4300030: pSphere1
+    9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: blinn1
+    second: {fileID: 2100000, guid: 754a3131fde546247ab0137691238fd9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 1d2c2fe811e2c9e43ab2c57fd33186ca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert3
+    second: {fileID: 2100000, guid: ce2f8184eb010d94dbce68bfe957c1c3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: universe
+    second: {fileID: 2100000, guid: f3f7ef3ea9ce8a4488742a998391e3c4, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
