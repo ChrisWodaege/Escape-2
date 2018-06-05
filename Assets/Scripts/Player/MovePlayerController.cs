@@ -4,8 +4,9 @@ using UnityEngine.Events;
 
 public class MovePlayerController : MonoBehaviour, IMovePlayerController, IMoveController
 {
-    IMoveController moveController;
-    IPlayerPosition playerPosition;
+    //IMoveController moveController;
+	CommandReceiver moveController;
+	IPlayerPosition playerPosition;
 
     [SerializeField]
     private Vector3 _start;
@@ -17,7 +18,7 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController, IMoveC
     private UnityEvent _walkingFinished;
 
     [SerializeField]
-    private float _timeToRotate = 0.1f;
+    private float _timeToRotate = 1f;
     private float _rotateTimeRemaining = 0f;
     private Quaternion _fromRotation;
     private Quaternion _toRotation;
@@ -47,137 +48,130 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController, IMoveC
         playerPosition = new PlayerPosition(_start);
         moveController = new MoveController(_gridController, playerPosition, this);
         transform.position = _start;
-        _walkingFinished = new UnityEvent();
+
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (_allowGeneralMoving && KeyMovement)
-        {
-            if (Input.GetKeyDown("w"))
-            {
-                MoveUp();
-            }
-            if (Input.GetKeyDown("e"))
-            {
-                MoveUpRight();
-            }
-            if (Input.GetKeyDown("d"))
-            {
-                MoveDownRight();
-            }
-            if (Input.GetKeyDown("s"))
-            {
-                MoveDown();
-            }
-            if (Input.GetKeyDown("a"))
-            {
-                MoveDownLeft();
-            }
-            if (Input.GetKeyDown("q"))
-            {
-                MoveUpLeft();
-            }
-        }
-
-        if (moving)
-        {
-            MovePlayer();
-        }
-        if (rotating)
-        {
-            RotatePlayer();
-        }
+    void Update() {
+		if (moving)
+			MovePlayer ();
+		if (rotating)
+			RotatePlayer ();
     }
 
-    private void MovePlayer()
-    {
-        _moveTimeRemaining -= Time.deltaTime;
-
+    private void MovePlayer() {
+		_moveTimeRemaining -= Time.deltaTime;
         float percentage = 1 - (_moveTimeRemaining / _timeToMove);
         transform.position = Vector3.Lerp(_start, _end, percentage);
 
-        if (_moveTimeRemaining < 0f)
-        {
+        if (_moveTimeRemaining < 0f) {
             moving = false;
             _walkingFinished.Invoke();
         }
     }
 
-    private void RotatePlayer()
-    {
+    private void RotatePlayer() {
         _rotateTimeRemaining -= Time.deltaTime;
-
         float percentage = 1 - (_rotateTimeRemaining / _timeToRotate);
         _playerAnimator.transform.rotation = Quaternion.Lerp(_fromRotation, _toRotation, percentage);
 
-        if (_rotateTimeRemaining < 0f)
-        {
+        if (_rotateTimeRemaining < 0f) {
+			_walkingFinished.Invoke();
             rotating = false;
         }
     }
 
-    public void MovePlayer(Vector3 from, Vector3 to)
-    {
+    public void MovePlayer(Vector3 from, Vector3 to) {
         _moveTimeRemaining = _timeToMove;
         _start = from;
         _end = to;
         moving = true;
     }
 
-    public void RotatePlayer(GridDirection to)
-    {
+    public void RotatePlayer(GridDirection to) {
         _rotateTimeRemaining = _timeToRotate;
         _fromRotation = _playerAnimator.transform.rotation;
         _toRotation = Quaternion.LookRotation(_gridController.GetDirectionVector(to));
         rotating = true;
     }
 
-    public void AddWalkingFinishedListener(UnityAction listener)
-    {
-        _walkingFinished.AddListener(listener);
+    public void AddWalkingFinishedListener(UnityAction listener) {
+		if(_walkingFinished==null)_walkingFinished = new UnityEvent();
+		_walkingFinished.AddListener(listener);
     }
 
-    public void MoveUp()
-    {
-        moveController.MoveUp();
+	public void sendCommand(Command c){
+		moveController.execute (c);
+	}
+
+//	public void Move() {
+//		Command c = new Command (CommandType.Move);
+//		moveController.execute (c);
+//	}
+//
+//	public void TurnLeft() {
+//		Command c = new Command (CommandType.TurnLeft);
+//		moveController.execute (c);
+//	}
+//
+//	public void TurnRight() {
+//		Command c = new Command (CommandType.TurnRight);
+//		moveController.execute (c);
+//	}
+
+    public void MoveUp() {
+		Command c = new Command (CommandType.Move);
+		moveController.execute (c);
     }
 
-    public void MoveUpRight()
-    {
-        moveController.MoveUpRight();
+    public void MoveUpRight() {
+		Command c = new Command (CommandType.TurnRight);
+		moveController.execute (c);
+		c = new Command (CommandType.Move);
+		moveController.execute (c);
     }
 
-    public void MoveDownRight()
-    {
-        moveController.MoveDownRight();
+    public void MoveDownRight() {
+		Command c = new Command (CommandType.TurnLeft);
+		moveController.execute (c);
+		c = new Command (CommandType.Move);
+		moveController.execute (c);
     }
 
-    public void MoveDown()
-    {
-        moveController.MoveDown();
+    public void MoveDown() {
+		Debug.Log("Move South Step 2");
+		Command c = new Command (CommandType.TurnLeft);
+		moveController.execute (c);
+		c = new Command (CommandType.TurnLeft);
+		moveController.execute (c);
+		c = new Command (CommandType.Move);
+		moveController.execute (c);
     }
 
-    public void MoveDownLeft()
-    {
-        moveController.MoveDownLeft();
+    public void MoveDownLeft() {
+		Command c = new Command (CommandType.TurnRight);
+		moveController.execute (c);
+		c = new Command (CommandType.TurnRight);
+		moveController.execute (c);
+		c = new Command (CommandType.Move);
+		moveController.execute (c);
     }
 
-    public void MoveUpLeft()
-    {
-        moveController.MoveUpLeft();
+    public void MoveUpLeft() {
+		Command c = new Command (CommandType.TurnRight);
+		moveController.execute (c);
+		c = new Command (CommandType.TurnRight);
+		moveController.execute (c);
+		c = new Command (CommandType.Move);
+		moveController.execute (c);
     }
 
-    public IEnumerator BootCharacter()
-    {
+    public IEnumerator BootCharacter() {
         _playerAnimator.SetBool("StartUp", true);
-
         yield return new WaitForSeconds(5);
     }
 
-    public void ChangeHandUp(bool up)
-    {
+    public void ChangeHandUp(bool up) {
         _playerAnimator.SetBool("HandUp", up);
     }
 }

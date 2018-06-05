@@ -65,7 +65,7 @@ public class Parser : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
     string regexReplace(string regex, string text, string rpl)
@@ -217,7 +217,9 @@ public class Parser : MonoBehaviour {
         //File.WriteAllText("parsed.txt", toString(commands));
         File.WriteAllText("parsed.txt", result);
 
-        foreach (string s in cmds.Split('\n')) { list.Add(s); }
+		//TODO Klammern entfernen,trimmen, tolower
+		foreach (string s in cmds.Split('\n')) { list.Add(s.Replace("(","").Replace(")","").ToLower()); }
+
 
         // an parser error occured
         if (error.Length > 0) {
@@ -346,7 +348,7 @@ public class Parser : MonoBehaviour {
                 if (f.type == "VAR")
                 {
                     var rbody = matchAll(@"([*/+-])\((\w+),(\w+)\)", f.body);
-                    
+
                     var result = f.body;
 
                     if (rbody.Count > 0 && rbody[0].list.Count > 3)
@@ -534,3 +536,4 @@ public class Parser : MonoBehaviour {
         if (cmd == "function") ;
     }*/
 }
+

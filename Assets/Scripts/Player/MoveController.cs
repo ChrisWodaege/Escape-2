@@ -1,64 +1,102 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
+public interface CommandReceiver{
+	void execute(Command command);
+}
 
-public class MoveController : IMoveController
-{
+public class Command {
+	public CommandType type;
+	public Command(CommandType type){
+		this.type = type;
+	}
+}
+
+public enum CommandType {
+	Boot,
+	Move,
+	TurnRight,
+	TurnLeft
+}
+
+public class MoveController : CommandReceiver {
     private IGridController _gridController;
     private IPlayerPosition _playerPosition;
     private IMovePlayerController _movePlayerController;
+	private int direction;
+	private Queue<Command> commandQueue;
 
-    public MoveController(IGridController gridController, IPlayerPosition playerPosition, IMovePlayerController movePlayerController)
-    {
+    public MoveController(IGridController gridController, IPlayerPosition playerPosition, IMovePlayerController movePlayerController) {
         this._gridController = gridController;
         this._playerPosition = playerPosition;
         this._movePlayerController = movePlayerController;
+		_movePlayerController.AddWalkingFinishedListener(commandFinished);
+		commandQueue = new Queue<Command> ();
     }
 
-    public void MoveUp()
-    {
-        MoveTo(GridDirection.Up);
-    }
+	public void commandFinished(){
+		executeCommand();
+	}
 
-    public void MoveUpRight()
-    {
-        MoveTo(GridDirection.UpRight);
-    }
+	public void execute(Command command) {
+		commandQueue.Enqueue (command);
+		if (active == false) {
+			active = true;
+			executeCommand ();
+		}
+	}
 
-    public void MoveDownRight()
-    {
-        MoveTo(GridDirection.DownRight);
-    }
+	public bool active = false;
+	public void executeCommand(){
+		if (commandQueue.Count == 0) {
+			active = false;
+			return;
+		}
 
-    public void MoveDown()
-    {
-        MoveTo(GridDirection.Down);
-    }
+		Command command = commandQueue.Dequeue ();
+		Debug.Log ("Command Received:"+command.type.ToString());
+		switch (command.type) {
+		case CommandType.Move:
+			{
+				MoveTo ((GridDirection)direction);
+				break;			
+			}
+		case CommandType.TurnLeft: {
+				rotateLeft();
+				break;
+			}
+		case CommandType.TurnRight: {
+				rotateRight();
+				break;			
+			}
+		}
+	}
 
-    public void MoveDownLeft()
-    {
-        MoveTo(GridDirection.DownLeft);
-    }
+	private void rotateLeft(){
+		direction--;
+		if (direction < 0)
+			direction = 5;
+		_movePlayerController.RotatePlayer((GridDirection)direction);
+	}
 
-    public void MoveUpLeft()
-    {
-        MoveTo(GridDirection.UpLeft);
-    }
+	private void rotateRight(){
+		direction++;
+		if (direction > 5)
+			direction = 0;
+		_movePlayerController.RotatePlayer((GridDirection)direction);
+	}
 
-    private void MoveTo(GridDirection direction)
-    {
-        Vector3 currentPosition = _playerPosition.GetCurrentPosition();
-        Vector3 newPosition = currentPosition;
-        try
-        {
-            newPosition = _gridController.GetNeighborTileVector(currentPosition, direction);
-        }
-        catch (Exception e)
-        {
-            //Debug.Log("Was not a valid move, so let it be :D");
-        }
-        _playerPosition.ChangePosition(newPosition);
-        _movePlayerController.MovePlayer(currentPosition, newPosition);
-        _movePlayerController.RotatePlayer(direction);
+	private void MoveTo(GridDirection direction) {
+		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
+		Vector3 newPosition = currentPosition;
+	    try {
+	        newPosition = _gridController.GetNeighborTileVector(currentPosition, direction);
+			_playerPosition.ChangePosition(newPosition);
+			_movePlayerController.MovePlayer(currentPosition, newPosition);
+	    }
+	    catch (Exception e) {
+			Debug.Log(e.Message);
+	    }
     }
 }
