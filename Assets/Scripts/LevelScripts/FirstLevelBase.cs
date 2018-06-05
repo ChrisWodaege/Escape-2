@@ -5,22 +5,22 @@ public class FirstLevelBase : BaseLevelScript
 {
     private MovePlayerController _movePlayerController;
 
-    private void Awake()
-    {
+    private void Awake() {
         _movePlayerController = GameObject.Find("Player").GetComponent<MovePlayerController>();
     }
 
-    public void TestMove()
-    {
-        AddMethod(MoveCoroutine(_movePlayerController.MoveDown));
-    }
+	public void Move() {
+		Command c = new Command(CommandType.Move);
+		_movePlayerController.sendCommand (c);
+	}
 
-    private IEnumerator MoveCoroutine(System.Action moveAction)
-    {
-        moveAction();
+	public void TurnLeft() {
+		Command c = new Command(CommandType.TurnLeft);
+		_movePlayerController.sendCommand(c);
+	}
 
-        yield return new WaitForSeconds(1);
-
-        LoadNextLevel();
-    }
+	public void TurnRight() {
+		Command c = new Command(CommandType.TurnRight);
+		_movePlayerController.sendCommand(c);
+	}
 }
