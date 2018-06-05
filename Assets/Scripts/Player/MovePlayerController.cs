@@ -60,9 +60,6 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController, IMoveC
     }
 
     private void MovePlayer() {
-		Debug.Log ("Move player Controller");
-		Debug.Log ("remainingTime:"+_moveTimeRemaining);
-		Debug.Log ("Moving:"+_moveTimeRemaining);
 		_moveTimeRemaining -= Time.deltaTime;
         float percentage = 1 - (_moveTimeRemaining / _timeToMove);
         transform.position = Vector3.Lerp(_start, _end, percentage);

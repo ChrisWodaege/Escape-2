@@ -72,10 +72,6 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
 	private MovePlayerController _movePlayerController;
 
-//	private void Awake() {
-//		_movePlayerController = GameObject.Find("Player").GetComponent<MovePlayerController>();
-//	}
-
     private string ComponentName {
         get {
             if (_levelController != null) {
@@ -132,8 +128,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         yield return WriteToCodingBox(_codeToShow);
     }
 
-    public void Reload()
-    {
+    public void Reload() {
         _levelController.ReloadLevelScript();
     }
 
@@ -155,20 +150,29 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 	bool booted = false;
 
     public void Run() {
-//		if (booted) {
-//			List<Command> commands = stringToCommandMapper (Parser.parse (_unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text)));
-//			_movePlayerController.sendCommand (commands[0]);
-////			foreach (Command c in commands)
-//
-//			return;
-//		}
+		if (booted) {
+	//		List<String> validCommands = new List<String>{ "boot", "move", "turnleft", "turnright" } ();
+			Parser p = new Parser();
+			List<Command> commands = stringToCommandMapper (p.parse (_unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text)));
+
+			foreach (Command c in commands)	_movePlayerController.sendCommand (c);
+
+			return;
+		}
 		booted = true;
         RunWithCoroutine();
     }
 
-	private List<Command> stringToCommandMapper(List<String> source){
+	private List<Command> stringToCommandMapper(List<String> source) {
 		List<Command> cl = new List<Command> ();
-		cl.Add(new Command(CommandType.Move));
+		foreach(String s in source){
+			switch (s) {
+				case "boot":{ cl.Add(new Command(CommandType.Boot)); break;}
+				case "move":{ cl.Add(new Command(CommandType.Move)); break;}
+				case "turnleft":{ cl.Add(new Command(CommandType.TurnLeft)); break;}
+				case "turnright":{ cl.Add(new Command(CommandType.TurnRight)); break;}
+			}
+		}
 		return cl;
 	}
 
@@ -219,62 +223,50 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         }
     }
 
-    public void DisableComponent(Component component)
-    {
+    public void DisableComponent(Component component) {
         if (component != null && component is MonoBehaviour) (component as MonoBehaviour).enabled = false;
     }
-    public void DisableComponent(string componentName)
-    {
-        foreach (var dicts in _gameobjectComponents.Values)
-        {
+
+    public void DisableComponent(string componentName) {
+        foreach (var dicts in _gameobjectComponents.Values) {
             Component component;
-            if (dicts.TryGetValue(componentName, out component))
-            {
+            if (dicts.TryGetValue(componentName, out component)) {
                 DisableComponent(component);
                 return;
             }
         }
     }
 
-    public void DestroyComponent(Component component)
-    {
+    public void DestroyComponent(Component component) {
         _loader.destroyInstance(component);
     }
-    public void DestroyComponent(string componentName)
-    {
-        foreach (var dicts in _gameobjectComponents.Values)
-        {
+
+    public void DestroyComponent(string componentName) {
+        foreach (var dicts in _gameobjectComponents.Values) {
             Component component;
-            if (dicts.TryGetValue(componentName, out component))
-            {
+            if (dicts.TryGetValue(componentName, out component)) {
                 DestroyComponent(component);
                 return;
             }
         }
     }
 
-    public void BlockUserInputForCodingBox()
-    {
+    public void BlockUserInputForCodingBox() {
         _codingBoxInputField.readOnly = true;
     }
 
-    public void UnblockUserInputForCodingBox()
-    {
+    public void UnblockUserInputForCodingBox() {
         _codingBoxInputField.readOnly = false;
     }
 
-    public void HideCaret()
-    {
-        if (_codingBoxInputField.caretColor != new Color(0, 0, 0, 0))
-        {
+    public void HideCaret() {
+        if (_codingBoxInputField.caretColor != new Color(0, 0, 0, 0)) {
             _caretColorOnHighlighting = _codingBoxInputField.caretColor;
         }
-
         _codingBoxInputField.caretColor = new Color(0, 0, 0, 0);
     }
 
-    public void ShowCaret()
-    {
+    public void ShowCaret() {
         _codingBoxInputField.caretColor = _caretColorOnHighlighting;
     }
 
@@ -283,8 +275,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     }
 
     public void ClearCodingBox() {
-        if (_automatedTextWritingCoroutine != null)
-        {
+        if (_automatedTextWritingCoroutine != null) {
             _currentAutomatedTextWriting = string.Empty;
             StopCoroutine(_automatedTextWritingCoroutine);
             _automatedTextWritingCoroutine = null;
@@ -292,34 +283,25 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         _codingBoxInputField.text = string.Empty;
     }
 
-    public Coroutine WriteToCodingBox(string text, float timeBetweenCharacters = -1)
-    {
-        if (timeBetweenCharacters < 0)
-        {
+    public Coroutine WriteToCodingBox(string text, float timeBetweenCharacters = -1) {
+        if (timeBetweenCharacters < 0) {
             timeBetweenCharacters = _autometedWritingTimeBetweenCharacters;
         }
-
         _currentAutomatedTextWriting += text;
-
-        if (_automatedTextWritingCoroutine == null)
-        {
+        if (_automatedTextWritingCoroutine == null) {
             _automatedTextWritingCoroutine = StartCoroutine(WriteToCodingBoxCoroutine(timeBetweenCharacters));
         }
-
         return _automatedTextWritingCoroutine;
     }
 
-    private IEnumerator WriteToCodingBoxCoroutine(float timeBetweenCharacters)
-    {
+    private IEnumerator WriteToCodingBoxCoroutine(float timeBetweenCharacters) {
         _codingBoxInputField.readOnly = true;
         ForbitRunningCode();
         Color caretColorBeforeWriting;
-        if (_codingBoxInputField.caretColor != new Color(0, 0, 0, 0))
-        {
+        if (_codingBoxInputField.caretColor != new Color(0, 0, 0, 0)) {
             caretColorBeforeWriting = _codingBoxInputField.caretColor;
         }
-        else
-        {
+        else {
             caretColorBeforeWriting = _caretColorOnHighlighting;
         }
 
@@ -327,8 +309,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         Color selectionColorBeforWriting = _codingBoxInputField.selectionColor;
         _codingBoxInputField.selectionColor = new Color(0, 0, 0, 0);
 
-        while (_currentAutomatedTextWriting.Length > 0)
-        {
+        while (_currentAutomatedTextWriting.Length > 0) {
             WriteToCodingBox(_currentAutomatedTextWriting[0]);
             _currentAutomatedTextWriting = _currentAutomatedTextWriting.Remove(0, 1);
             yield return new WaitForSeconds(timeBetweenCharacters);
@@ -350,8 +331,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 		_movePlayerController = GameObject.Find("Player").GetComponent<MovePlayerController>();
         _fileController = new FileController(FILE_SUBFOLDER);
 
-        _unitySyntaxHighlighter = new UnitySyntaxHighlighter(new UnitySyntaxHighlighter.SyntaxColors()
-        {
+        _unitySyntaxHighlighter = new UnitySyntaxHighlighter(new UnitySyntaxHighlighter.SyntaxColors() {
             CommentColor = _syntaxColors.CommentColor.ColorToHex(),
             KeywordColor = _syntaxColors.KeywordColor.ColorToHex(),
             CustomWordColor = _syntaxColors.CustomWordColor.ColorToHex(),
@@ -364,47 +344,33 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         _codingBoxInputField.onValueChanged.AddListener(ResetCodeHighlighting);
 
         _synchronizedInvoke = new DeferredSynchronizeInvoke();
-        _loader = new ScriptBundleLoader(_synchronizedInvoke)
-        {
+        _loader = new ScriptBundleLoader(_synchronizedInvoke) {
             logWriter = new UnityLogTextWriter(),
-            createInstance = (Type type) =>
-            {
-                if (typeof(Component).IsAssignableFrom(type))
-                {
+            createInstance = (Type type) => {
+                if (typeof(Component).IsAssignableFrom(type)) {
                     var componentParent = ComponentParent;
                     var components = _gameobjectComponents.GetOrAdd(componentParent, new Dictionary<string, Component>());
-
                     string componentName = type.Name;// _fileNameInputField.text;
                     Component component;
-                    if (components.TryGetValue(componentName, out component))
-                    {
+                    if (components.TryGetValue(componentName, out component)) {
                         Destroy(component);
                     }
-
                     component = componentParent.AddComponent(type);
-
                     components.Update(componentName, component);
-
                     return component;
                 }
-                else
-                {
+                else {
                     return Activator.CreateInstance(type);
                 }
             },
-            destroyInstance = (object instance) =>
-            {
-                if (instance != null && instance is Component)
-                {
-                    if (instance is MonoBehaviour)
-                    {
+            destroyInstance = (object instance) => {
+                if (instance != null && instance is Component) {
+                    if (instance is MonoBehaviour) {
                         var component = (instance as MonoBehaviour);
                         Dictionary<string, Component> components;
-                        if (_gameobjectComponents.TryGetValue(component.gameObject, out components))
-                        {
+                        if (_gameobjectComponents.TryGetValue(component.gameObject, out components)) {
                             components.Remove(component.GetType().ToString());
                         }
-
                         Destroy(component);
                     }
                 }
@@ -412,34 +378,27 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         };
     }
 
-    private void Update()
-    {
+    private void Update() {
         if (_codingBoxInputField.isFocused && Input.GetKey(KeyCode.LeftControl)
-            && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
-        {
+            && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))) {
             Run();
         }
     }
 
-    private void HighlightCode(string content)
-    {
+    private void HighlightCode(string content) {
         _highlightCoroutine = StartCoroutine(_unitySyntaxHighlighter.HighlightSourceCoroutine(content, OnCodingTextHighlighted));
     }
 
-    public void ResetCodeHighlighting(string content)
-    {
-        if (_highlightCoroutine != null)
-        {
+    public void ResetCodeHighlighting(string content) {
+        if (_highlightCoroutine != null) {
             StopCoroutine(_highlightCoroutine);
         }
 
         HighlightCode(_unitySyntaxHighlighter.getCodeWithoutRichText(_codingBoxInputField.text));
     }
 
-    private void OnCodingTextHighlighted(string content)
-    {
-        if (!_codingBoxInputField.text.Equals(content))
-        {
+    private void OnCodingTextHighlighted(string content) {
+        if (!_codingBoxInputField.text.Equals(content)) {
             _codingBoxInputField.onValueChanged.RemoveListener(ResetCodeHighlighting);
             bool isReadonly = _codingBoxInputField.readOnly;
             _codingBoxInputField.readOnly = true;
@@ -454,30 +413,13 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         }
     }
 
-    private IEnumerator SetCaret(int offset, bool isReadonly)
-    {
+    private IEnumerator SetCaret(int offset, bool isReadonly) {
         yield return new WaitForEndOfFrame();
-
         _codingBoxInputField.caretPosition = _caretPositionOnHighlighting + offset;
-
         _codingBoxInputField.caretColor = _caretColorOnHighlighting;
-
         yield return new WaitForEndOfFrame();
-
         _codingBoxInputField.readOnly = isReadonly;
-
         _codingBoxInputField.onValueChanged.AddListener(ResetCodeHighlighting);
-
         _highlightCoroutine = null;
     }
-}
-
-
-public class Parser{
-	static public List<String> parse(String sourceCode){
-//		String[] parts = sourceCode.Split (new char[]{'\n'});
-//		foreach (String s in parts)
-//			Debug.Log (s);
-		return new List<String>();
-	}
 }

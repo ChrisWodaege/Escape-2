@@ -14,6 +14,7 @@ public class Command {
 }
 
 public enum CommandType {
+	Boot,
 	Move,
 	TurnRight,
 	TurnLeft
@@ -87,21 +88,15 @@ public class MoveController : CommandReceiver {
 	}
 
 	private void MoveTo(GridDirection direction) {
-		Debug.Log ("Move");
 		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
 		Vector3 newPosition = currentPosition;
 	    try {
-			Debug.Log ("Move1");
 	        newPosition = _gridController.GetNeighborTileVector(currentPosition, direction);
-			Debug.Log ("Move2");
 			_playerPosition.ChangePosition(newPosition);
-			Debug.Log ("Move3");
 			_movePlayerController.MovePlayer(currentPosition, newPosition);
-			Debug.Log ("Move4");
 	    }
 	    catch (Exception e) {
 			Debug.Log(e.Message);
 	    }
-		Debug.Log ("Move5");
     }
 }

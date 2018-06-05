@@ -1,0 +1,39 @@
+Calls(2)
+	Boot()
+	TurnLeft()
+--------------------------
+
+// .                                           
+// ..                                          
+// ...                                         
+
+// INITIATING SELF CHECK                            
+// ..1..                                       
+// ..2..                                       
+// ..3..                                        
+// FAILED!
+
+// LOADING MANUAL BACKUP SYSTEM
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// DONE!
+
+// Please type the command "" below.                 
+// When you are done press the -(Run,Button) above.
+
+==========================
+
+// .                                           
+// ..                                          
+// ...                                         
+// INITIATING SELF CHECK                            
+// ..1..                                       
+// ..2..                                       
+// ..3..                                        
+// FAILED!
+// LOADING MANUAL BACKUP SYSTEM
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// DONE!
+// Please type the command "Boot()
+" below.                 
+// When you are done press the -(Run,Button) above.
+TurnLeft()
