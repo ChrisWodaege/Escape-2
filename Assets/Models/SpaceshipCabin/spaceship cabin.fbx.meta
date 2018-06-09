@@ -29,6 +29,24 @@ ModelImporter:
     100042: stuhl
     100044: tisch
     100046: universum
+    100048: cabin1
+    100050: entrance1
+    100052: human1
+    100054: jalusieCtrl 1
+    100056: polySurface12
+    100058: polySurface13
+    100060: polySurface14
+    100062: polySurface17
+    100064: polySurface2 1
+    100066: polySurface5 1
+    100068: polySurface7
+    100070: polySurface9
+    100072: PyBot3
+    100074: PyBot4
+    100076: PyBot5
+    100078: schrift 1
+    100080: shadowmesh
+    100082: tisch1
     400000: back
     400002: cabin
     400004: cabin 1
@@ -53,6 +71,24 @@ ModelImporter:
     400042: stuhl
     400044: tisch
     400046: universum
+    400048: cabin1
+    400050: entrance1
+    400052: human1
+    400054: jalusieCtrl 1
+    400056: polySurface12
+    400058: polySurface13
+    400060: polySurface14
+    400062: polySurface17
+    400064: polySurface2 1
+    400066: polySurface5 1
+    400068: polySurface7
+    400070: polySurface9
+    400072: PyBot3
+    400074: PyBot4
+    400076: PyBot5
+    400078: schrift 1
+    400080: shadowmesh
+    400082: tisch1
     2000000: back
     2000002: left
     2300000: entrance
@@ -71,6 +107,21 @@ ModelImporter:
     2300026: stuhl
     2300028: tisch
     2300030: universum
+    2300032: entrance1
+    2300034: human1
+    2300036: polySurface12
+    2300038: polySurface13
+    2300040: polySurface14
+    2300042: polySurface17
+    2300044: polySurface2 1
+    2300046: polySurface5 1
+    2300048: polySurface7
+    2300050: polySurface9
+    2300052: PyBot3
+    2300054: PyBot4
+    2300056: schrift 1
+    2300058: shadowmesh
+    2300060: tisch1
     3300000: entrance
     3300002: erde
     3300004: human
@@ -87,6 +138,21 @@ ModelImporter:
     3300026: stuhl
     3300028: tisch
     3300030: universum
+    3300032: entrance1
+    3300034: human1
+    3300036: polySurface12
+    3300038: polySurface13
+    3300040: polySurface14
+    3300042: polySurface17
+    3300044: polySurface2 1
+    3300046: polySurface5 1
+    3300048: polySurface7
+    3300050: polySurface9
+    3300052: PyBot3
+    3300054: PyBot4
+    3300056: schrift 1
+    3300058: shadowmesh
+    3300060: tisch1
     4300000: mond
     4300002: polySurface5
     4300004: polySurface6
@@ -103,6 +169,21 @@ ModelImporter:
     4300026: universum
     4300028: erde
     4300030: pSphere1
+    4300032: entrance1
+    4300034: polySurface17
+    4300036: polySurface2
+    4300038: polySurface5
+    4300040: schrift
+    4300042: PyBot4
+    4300044: PyBot3
+    4300046: human1
+    4300048: shadowmesh
+    4300050: tisch1
+    4300052: polySurface7
+    4300054: polySurface9
+    4300056: polySurface12
+    4300058: polySurface13
+    4300060: polySurface14
     9500000: //RootNode
   externalObjects:
   - first:
@@ -110,6 +191,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: blinn1
     second: {fileID: 2100000, guid: 754a3131fde546247ab0137691238fd9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: blinn2
+    second: {fileID: 2100000, guid: 49a6aaf67539c8d45930055a24ed2125, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -167,6 +253,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
