@@ -152,10 +152,10 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     public void Run() {
 		if (booted) {
 	//		List<String> validCommands = new List<String>{ "boot", "move", "turnleft", "turnright" } ();
-			Parser p = new Parser();
-			List<Command> commands = stringToCommandMapper (p.parse (_unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text)));
+			//Parser p = new Parser();
+			//List<Command> commands = stringToCommandMapper (p.parse (_unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text)));
 
-			foreach (Command c in commands)	_movePlayerController.sendCommand (c);
+			//foreach (Command c in commands)	_movePlayerController.sendCommand (c);
 
 			return;
 		}
