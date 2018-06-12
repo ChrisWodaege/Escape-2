@@ -190,6 +190,8 @@ public static class Parser {
     }
 
     public static List<string> parse(string sourceCode, List<string> validCommands){
+        var removeFunctionSyntax = true;
+
         var p = new ParserObject();
         p.validCommands = validCommands;
         var cleaned = cleanCode(sourceCode); // clean
@@ -227,17 +229,19 @@ public static class Parser {
 
         // syntax for valid commands, regular expression replace
         List<Regex> sregex = new List<Regex>();
-        foreach (string v in p.validCommands) {
+        foreach (string vcmd in p.validCommands) {
             //.Replace("#",@"\w+") @"(((?<=([\'\""]))?.*?(?=\1))|(\w+))" @"[^,)]+"
-            Regex r = new Regex(v.Replace("(","\\(").Replace(")","\\)").Replace("#", @"[^,)]+"));
+            string v = removeFunctionSyntax ? vcmd.Replace("(","").Replace(")","") : vcmd.Replace("(","\\(").Replace(")","\\)").Replace("#", @"[^,)]+");
+            Regex r = new Regex(v);
             sregex.Add(r);
         }
 
         var count = countLines(sourceCode,cmds);
         // find invalid code lines
         var line = -1;
-        foreach (string c in cmds.Split('\n')) {
+        foreach (string cmd in cmds.Split('\n')) {
             ++line;
+            var c = removeFunctionSyntax ? cmd.Replace("(","").Replace(")","") : cmd;
             var err = true;
             //if(!p.validCommands.Contains(c.)) {
             foreach (Regex r in sregex) {
