@@ -5,8 +5,8 @@ using System.Text.RegularExpressions;
 using System.IO;
 using UnityEngine;
 
-public class Parser : MonoBehaviour {
-
+public static class Parser {
+  /*
     public class Command
     {
         string name = "";
@@ -30,51 +30,10 @@ public class Parser : MonoBehaviour {
         //foreach(var obj in list) str += "," + obj.ToString();
         //return str;
         return string.Join("\n", list.ConvertAll<string>(new Converter<Command, string>(Obj2string)).ToArray());
-    }
+    }*/
 
-    // Use this for initialization
-    void Start() { testParser(); }
 
-    void testParser() {
-        string sourceCode = ""+
-            //"function a endFunction function b endFunction function c endFunction\n" +
-            "var testA = 1 + 2\n"+
-            "var testB = testA / testA\n" +
-            "var testB = testA\n" +
-            "function abc(a, b, c)\n" +
-            "var z = 0\n" +
-            "var a = 0\n" +
-            "moveVorward()\n" +
-            "endFunction\n" +
-            "function cde(c, d, e)\n" +
-            "moveVorward()\n" +
-            "turnLeft()\n" +
-            "turnLeft()\n" +
-            "turnRight()\n" +
-            "moveVorward()\n" +
-            "endFunction\n" +
-            "moveVorward(); turnLeft(1,2); inspect(\"\"); interact(\"sdsd\",\"aa\"); abc(1,2,3); cde(1,2,3)\n" +
-            "loop(i = 1:5); moveVorward(); endLoop\n" +
-            "loop(i = testA:5); moveVorward(); endLoop\n" +
-            "loop(i = 1:testB); moveVorward(); endLoop\n" +
-            "loop(i = testA:testB); moveVorward(); endLoop\n" +
-            "loop(i = testA:testC); moveVorward(); endLoop\n" +
-            "";
-        parse(sourceCode);
-    }
-
-	// Update is called once per frame
-	void Update () {
-
-	}
-
-    string regexReplace(string regex, string text, string rpl)
-    {
-        Regex rgx = new Regex(regex);
-        return rgx.Replace(text, rpl);
-    }
-
-    struct RegMatch
+    public struct RegMatch
     {
         public Match match;
         public List<string> list;
@@ -82,37 +41,21 @@ public class Parser : MonoBehaviour {
         public RegMatch(Match match, List<string> matched) { this.match = match; this.list = matched; }
     }
 
-    List<RegMatch> matchAll(string regex, string text)
+    public class ParserException : Exception
     {
-        List<RegMatch> matchlist = new List<RegMatch>();
-        //string text = "One car red car blue car";
-        //string pat = @"(\w+)\s+(car)";
-
-        // Instantiate the regular expression object.
-        Regex r = new Regex(regex, RegexOptions.IgnoreCase);
-
-        // Match the regular expression pattern against a text string.
-        Match m = r.Match(text);
-        //int matchCount = m.Length;
-
-        while (m.Success)
+        public List<string> messages;
+        public ParserException(List<string> messages) : base(listToString(messages))
         {
-            List<string> list = new List<string>();
-            for (int i = 0; i < m.Groups.Count; i++)
-            {
-                Group g = m.Groups[i];
-                list.Add(g.Value);
-                //CaptureCollection cc = g.Captures;
-                //for (int j = 0; j < cc.Count; j++) { Capture c = cc[j]; }
-            }
-            matchlist.Add(new RegMatch(m,list));
-            m = m.NextMatch();
+            this.messages = messages;
         }
-
-        return matchlist;
     }
 
-    struct Function
+    public class ParserObject
+    {
+        public List<string> validCommands = new List<string>();
+    }
+
+    public class Function
     {
         public string line;
         public string type;
@@ -155,7 +98,50 @@ public class Parser : MonoBehaviour {
         }
     }
 
-    bool parseVar(ref List<Function> functions, string name, out string value, int depth=4)
+    public static string listToString(List<string> strings)
+    {
+        string str = "";
+        foreach(string s in strings) { if (str != "") str += "\n"; str += s; }
+        return str;
+    }
+
+    public static string regexReplace(string regex, string text, string rpl)
+    {
+        Regex rgx = new Regex(regex);
+        return rgx.Replace(text, rpl);
+    }
+
+    public static List<RegMatch> matchAll(string regex, string text)
+    {
+        List<RegMatch> matchlist = new List<RegMatch>();
+        //string text = "One car red car blue car";
+        //string pat = @"(\w+)\s+(car)";
+
+        // Instantiate the regular expression object.
+        Regex r = new Regex(regex, RegexOptions.IgnoreCase);
+
+        // Match the regular expression pattern against a text string.
+        Match m = r.Match(text);
+        //int matchCount = m.Length;
+
+        while (m.Success)
+        {
+            List<string> list = new List<string>();
+            for (int i = 0; i < m.Groups.Count; i++)
+            {
+                Group g = m.Groups[i];
+                list.Add(g.Value);
+                //CaptureCollection cc = g.Captures;
+                //for (int j = 0; j < cc.Count; j++) { Capture c = cc[j]; }
+            }
+            matchlist.Add(new RegMatch(m,list));
+            m = m.NextMatch();
+        }
+
+        return matchlist;
+    }
+
+    public static bool parseVar(ref List<Function> functions, string name, out string value, int depth=4)
     {
         float fvalue = 0;
         if (float.TryParse(name, out fvalue)) { value=name; return true; }
@@ -173,77 +159,124 @@ public class Parser : MonoBehaviour {
         return false;
     }
 
-    void updateBody(ref List<Function> functions, int index, string value)
+    public static void updateBody(ref List<Function> functions, int index, string value)
     {
         var func = functions[index];
         func.body = value;
         functions[index] = func;
     }
 
-    public static string listToString(List<string> strings)
-    {
-        string str = "";
-        foreach(string s in strings) { if (str != "") str += "\n"; str += s; }
-        return str;
+    public static string cleanCode(string sourceCode) {
+        var c = sourceCode;
+
+        c = c.Replace("\r",""); // remove windows '\r' character
+        //c = c.Replace(";", "\n"); // replace ',' with linebreak
+
+        // remove spaces and invalid signs
+        //code = code.Replace("[^A-Za-z0-9()\"\n\t \\/]",""); // remove invalid signs
+        c = new Regex(@"(^|\n)[\t ]+(.*)").Replace(c, "$1$2"); // remove tab spaces
+
+        // remove comments
+        c = new Regex(@"(?<comment>/\* (?s)((?:(?!\*/).)*) \*/)").Replace(c, ""); // remove block comment
+        c = new Regex(@"//[^\n]*").Replace(c, ""); // remove line comment
+
+        // translate definitions
+        c = new Regex(@"(\w+)[ \t]*([*/+-])[ \t]*(\w+)").Replace(c, "$2($1,$3)"); // translate math-operation to function call
+        c = new Regex(@"var[ \t]+(\w+)[ \t]+\=[ \t]+([^\n]+)").Replace(c, "var_$1($2)"); // translate variable to function call
+
+        //new Regex(@"(?s)\n+").Replace(c, "\n");
+
+        return c;
     }
 
-    public class ParserException : Exception
-    {
-        public List<string> messages;
-        public ParserException(List<string> messages) : base(listToString(messages))
-        {
-            this.messages = messages;
-        }
-    }
+    public static List<string> parse(string sourceCode, List<string> validCommands){
+        var p = new ParserObject();
+        p.validCommands = validCommands;
+        var cleaned = cleanCode(sourceCode); // clean
 
-
-    public List<string> parse(string sourceCode)
-    {
         List<string> list = new List<string>();
         string result = "";
-        string[] results = parsePart(sourceCode,0);
+        string[] results = parsePart(ref p,cleaned,0);
 
         string find = results[0];
-        string code = results[1];
+        string rest = results[1];
         string cmds = results[2];
         string error = results[3];
+        List<string> errors = new List<string>();
 
-        result += find;
-        result += "--------------------------\n";
-        result += code;
+        result += sourceCode;
+        result += "____________________________________________________\n";
+        result += "[FOUND]\n";
         result += "==========================\n";
+        result += find;
+        result += "__________________________\n";
+        result += "[REST]\n";
+        result += "==========================\n";
+        result += rest;
+        result += "____________________________________________________\n";
+        result += "[RESULT]\n";
         result += cmds;
 
         //File.WriteAllText("parsed.txt", toString(commands));
         File.WriteAllText("parsed.txt", result);
 
-		//TODO Klammern entfernen,trimmen, tolower
-		foreach (string s in cmds.Split('\n')) { list.Add(s.Replace("(","").Replace(")","").ToLower()); }
+        //TODO Klammern entfernen,trimmen, tolower
+        //foreach (string s in cmds.Split('\n')) { list.Add(s.Replace("(","").Replace(")","").ToLower()); }
 
+        cmds = new Regex(@"(?<var>var_(\w+)\((?s)((?:(?!\)\n).)*)\)\n)").Replace(cmds, ""); // remove vars
 
-        // an parser error occured
-        if (error.Length > 0) {
-            List<string> errors = new List<string>();
-            foreach (string s in error.Split('\n')) { errors.Add(s); }
+        // syntax for valid commands, regular expression replace
+        List<Regex> sregex = new List<Regex>();
+        foreach (string v in p.validCommands) {
+            //.Replace("#",@"\w+") @"(((?<=([\'\""]))?.*?(?=\1))|(\w+))" @"[^,)]+"
+            Regex r = new Regex(v.Replace("(","\\(").Replace(")","\\)").Replace("#", @"[^,)]+"));
+            sregex.Add(r);
+        }
+
+        var count = countLines(sourceCode,cmds);
+        // find invalid code lines
+        var line = -1;
+        foreach (string c in cmds.Split('\n')) {
+            ++line;
+            var err = true;
+            //if(!p.validCommands.Contains(c.)) {
+            foreach (Regex r in sregex) {
+                if(r.Match(c).Success) {
+                  if(r.Replace(c, "").Length<=0) err = false;
+                  else list.Add(c); // passed
+                  break;
+                }
+            }
+            if(!err) continue;
+            errors.Add("Invalid Code \"" + c + "\" on Line " + (line + count));
+        }
+
+        // throw parser exception when invalid code lines are found
+        if (errors.Count > 0) {
+            //List<string> errors = new List<string>();
+            //foreach (string s in error.Split('\n')) { errors.Add(s); }
             throw new ParserException(errors);
         }
 
         return list;
     }
 
-    string[] parsePart(string code, int depth)
+    public static int countLines(string before, string after) {
+        int bcount = 0;
+        int acount = 0;
+
+        foreach (char c in before) if (c == '\n') bcount++;
+        foreach (char c in after) if (c == '\n') acount++;
+
+        return Math.Abs(acount - bcount);
+    }
+
+    public static string[] parsePart(ref ParserObject p, string code, int depth)
     {
         List<Function> functions = new List<Function>();
 
         string found = "";
         string errors = "";
-
-        code = code.Replace("\r","");
-        code = new Regex(@"(\w+)[ \t]*([*/+-])[ \t]*(\w+)").Replace(code, "$2($1,$3)");
-        code = new Regex(@"var[ \t]+(\w+)[ \t]+\=[ \t]+([^\n;]+)[ \t]*([\n;]|$)").Replace(code, "var_$1($2)\n");
-        code = code.Replace(";", "\n");
-        code = new Regex(@"(^|\n)[\t ]+(.*)").Replace(code, "$1$2");
-        //new Regex(@"(?s)\n+").Replace(code, "\n");
 
         string cmds = code;
         //code = code.Replace("while(true)","");
@@ -381,7 +414,7 @@ public class Parser : MonoBehaviour {
                             }
                         } else
                         {
-                            errors += name + " : (" + s_left + "," + s_right + ") is not updated on Index " + body.match.Index;
+                            errors += s_op + " : (" + s_left + "," + s_right + ") is not updated on Index " + body.match.Index;
                             //Debug.LogError(name + " : (" + s_left + "," + s_right + ") is not updated!");
                         }
                     }
@@ -422,13 +455,16 @@ public class Parser : MonoBehaviour {
                     {
                         if (f2.type == "CUSTOM" && f2.name == f.name)
                         {
-                            string[] parsed = parsePart(f2.body, depth + 1);
+                            string[] parsed = parsePart(ref p, f2.body, depth + 1);
                             string parsedline = "(" + f.name + "):\n";
                             parsedline += parsed[0];
                             parsedline += "--------------------------\n";
                             parsedline += parsed[1];
                             parsedline += "__________________________\n";
                             found = found.Replace(f.ToString(), parsedline);
+
+                            var cmdline = parsed[2];
+                            cmds = cmds.Replace(f.line, cmdline);
                             break;
                         }
                     }
@@ -454,7 +490,7 @@ public class Parser : MonoBehaviour {
                             Int32.TryParse(s_start, out start);
                             Int32.TryParse(s_end, out end);
 
-                            string[] parsed = parsePart(f.body, depth + 1);
+                            string[] parsed = parsePart(ref p, f.body, depth + 1);
                             bool p1 = parsed[0].Length > 0;
                             bool p2 = parsed[1].Length > 0;
                             bool p3 = parsed[2].Length > 0;
@@ -486,7 +522,7 @@ public class Parser : MonoBehaviour {
                         }
                         else
                         {
-                            errors += name + " : cannot parse loop on Index " + head.match.Index;
+                            errors += f.type + " : cannot parse loop on Index " + head.match.Index;
                             // error cant parse line ...
                             // var cannot be found or is invalid
                         }
@@ -536,4 +572,3 @@ public class Parser : MonoBehaviour {
         if (cmd == "function") ;
     }*/
 }
-
