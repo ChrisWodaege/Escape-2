@@ -46,6 +46,7 @@ ModelImporter:
     100076: rumpf
     100078: wolkeschicht
     100080: leuchten
+    100082: left1
     400000: "b\xFCro"
     400002: cabin
     400004: cabin 1
@@ -87,7 +88,9 @@ ModelImporter:
     400076: rumpf
     400078: wolkeschicht
     400080: leuchten
+    400082: left1
     2000000: camera1
+    2000002: left1
     2100000: lambert2
     2100002: lambert1
     2100004: blinn6
@@ -226,8 +229,6 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
-    preserveHierarchy: 0
-    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
