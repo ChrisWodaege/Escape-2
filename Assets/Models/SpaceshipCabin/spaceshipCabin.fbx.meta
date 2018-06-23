@@ -47,6 +47,9 @@ ModelImporter:
     100078: wolkeschicht
     100080: leuchten
     100082: left1
+    100084: beleuchtung1
+    100086: left
+    100088: scheibe
     400000: "b\xFCro"
     400002: cabin
     400004: cabin 1
@@ -89,8 +92,12 @@ ModelImporter:
     400078: wolkeschicht
     400080: leuchten
     400082: left1
+    400084: beleuchtung1
+    400086: left
+    400088: scheibe
     2000000: camera1
     2000002: left1
+    2000004: left
     2100000: lambert2
     2100002: lambert1
     2100004: blinn6
@@ -128,6 +135,8 @@ ModelImporter:
     2300052: beleuchtung
     2300054: wolkeschicht
     2300056: leuchten
+    2300058: beleuchtung1
+    2300060: scheibe
     3300000: erde
     3300002: human
     3300004: jalousie
@@ -157,6 +166,8 @@ ModelImporter:
     3300052: beleuchtung
     3300054: wolkeschicht
     3300056: leuchten
+    3300058: beleuchtung1
+    3300060: scheibe
     4300000: lampe
     4300002: jalousie
     4300004: schrift
@@ -185,6 +196,8 @@ ModelImporter:
     4300050: beleuchtung
     4300052: wolkeschicht
     4300054: leuchten
+    4300056: beleuchtung1
+    4300058: scheibe
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -229,6 +242,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
