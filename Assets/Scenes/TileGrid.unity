@@ -190,6 +190,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.size
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4755236147448000, guid: f37006dca0f254d3da52c49dd5f48f1b, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -226,14 +231,139 @@ Prefab:
         type: 2}
       propertyPath: _tiles.Array.data[7].tilePrefab
       value: 
-      objectReference: {fileID: 1877321280199088, guid: bd491387b9841ee4ebe7a77c06d96567,
-        type: 2}
+      objectReference: {fileID: 100000, guid: b087b9e2befb7d34282c9d36938b25e9, type: 3}
     - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
         type: 2}
       propertyPath: _tiles.Array.data[8].tilePrefab
       value: 
-      objectReference: {fileID: 1869601948361422, guid: 966643715f28738429016c96154b0e56,
+      objectReference: {fileID: 100000, guid: f907794261ebac14e8b68ac33ef77596, type: 3}
+    - target: {fileID: 114711663613918036, guid: f37006dca0f254d3da52c49dd5f48f1b,
         type: 2}
+      propertyPath: _worldJSON
+      value: 
+      objectReference: {fileID: 4900000, guid: d241ff64200087d4b9970a1822ce79b5, type: 3}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[10].name
+      value: building
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[10].tilePrefab
+      value: 
+      objectReference: {fileID: 1904344842650458, guid: c62a11377fe614547b6f3c8e0f2658d5,
+        type: 2}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[11].name
+      value: space_ship
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[11].tilePrefab
+      value: 
+      objectReference: {fileID: 1329162281433624, guid: c2f4a4a82978aeb49ba3ac7c5219b15f,
+        type: 2}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[12].name
+      value: soil
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[12].tilePrefab
+      value: 
+      objectReference: {fileID: 1668567884256220, guid: 1e5cc92c05986b54f9380cfc033f4e72,
+        type: 2}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[12].walkable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[13].name
+      value: gravel
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[13].tilePrefab
+      value: 
+      objectReference: {fileID: 1091571501420740, guid: 02ce82cb2f96cf443880aeac70a338ea,
+        type: 2}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[13].walkable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[14].name
+      value: step_stone
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[14].tilePrefab
+      value: 
+      objectReference: {fileID: 1079272057355178, guid: 99a4259e62dcbb14092e4aa45a4ca1ed,
+        type: 2}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[14].walkable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[15].name
+      value: hill
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[15].tilePrefab
+      value: 
+      objectReference: {fileID: 1839990609936294, guid: f5dcd4f7a94ecf34dbf7dd8785c4ad08,
+        type: 2}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[15].walkable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[3].name
+      value: water
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[3].tilePrefab
+      value: 
+      objectReference: {fileID: 1124333613787404, guid: 6315ad6b9e32c074aa4d27c2c68ab8a8,
+        type: 2}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[3].walkable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[7].name
+      value: mountainSmall
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[8].name
+      value: mountainMid
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[9].name
+      value: mountainHigh
+      objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[9].tilePrefab
+      value: 
+      objectReference: {fileID: 100000, guid: 22e79d11c2602c54184008943da4a2e2, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f37006dca0f254d3da52c49dd5f48f1b, type: 2}
   m_IsPrefabParent: 0
