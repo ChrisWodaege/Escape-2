@@ -50,11 +50,6 @@ public static class Parser {
         }
     }
 
-    public class ParserObject
-    {
-        public List<string> validCommands = new List<string>();
-    }
-
     public class Function
     {
         public string line;
@@ -98,6 +93,12 @@ public static class Parser {
         }
     }
 
+    public class ParserObject
+    {
+        public List<string> validCommands = new List<string>();
+        public List<Function> functions = new List<Function>();
+    }
+
     public static string listToString(List<string> strings)
     {
         string str = "";
@@ -109,6 +110,10 @@ public static class Parser {
     {
         Regex rgx = new Regex(regex);
         return rgx.Replace(text, rpl);
+    }
+
+    public static bool isMatch(string regex, string text)  {
+      return new Regex(regex, RegexOptions.IgnoreCase).Match(text).Success;
     }
 
     public static List<RegMatch> matchAll(string regex, string text)
@@ -141,24 +146,6 @@ public static class Parser {
         return matchlist;
     }
 
-    public static bool parseVar(ref List<Function> functions, string name, out string value, int depth=4)
-    {
-        float fvalue = 0;
-        if (float.TryParse(name, out fvalue)) { value=name; return true; }
-
-        if(depth>0) foreach (var f in functions)
-        {
-            if (f.type == "VAR" && name == f.name)
-            {
-                return parseVar(ref functions, f.body, out value, depth-=1);
-            }
-        }
-
-        // function not found
-        value = name;
-        return false;
-    }
-
     public static void updateBody(ref List<Function> functions, int index, string value)
     {
         var func = functions[index];
@@ -187,6 +174,73 @@ public static class Parser {
         //new Regex(@"(?s)\n+").Replace(c, "\n");
 
         return c;
+    }
+
+    public static bool parseVar(ref List<Function> functions, string content, out string value, bool isVar=true, int depth=4)
+    {
+        float fvalue = 0;
+
+        if (float.TryParse(content, out fvalue)) { value=""+fvalue; return true; }
+        else if(isMatch(@"true", content)) { value="1"; return true; }
+        else if(isMatch(@"false", content)) { value="0"; return true; }
+        else if(isMatch(@"w*", content)) { value=content; return true; }
+        
+        if(depth>0) foreach (var f in functions)
+        {
+          if(content == f.name) {
+            if ((isVar && f.type == "VAR") || (!isVar && f.type == "CUSTOM"))
+            {
+                return parseVar(ref functions, f.body, out value, isVar, depth-=1);
+            }
+          }
+        }
+
+        // function not found
+        value = content;
+        return false;
+    }
+    
+    public static bool parseFloat(ref List<Function> functions, string content, out float value, bool isVar=true, int depth=4){
+      string svalue = "";
+      if(parseVar(ref functions, content, out svalue, isVar, depth)) {
+        return float.TryParse(svalue, out value);
+      }
+      // could not parse
+      value = 0;
+      return false;
+    }
+
+    public static bool parseBoolean(ref List<Function> functions, string content, out bool value, bool isVar=true, int depth=4){
+      float fvalue = 0;
+
+      if(parseFloat(ref functions, content, out fvalue, isVar, depth)){
+        value = fvalue != 0;
+        return true;
+      }
+
+      value = false;
+      return false;
+    }
+
+    public static bool parseArguments(ref List<Function> functions, string content, out List<string> values, int depth=4)  {
+      var list = matchAll(@"[^,]+", content);
+      values = new List<string>();
+
+      foreach (var r in list)
+      {
+          var e = r.list;
+          var name = e[0];
+          //float fvalue = 0;
+          string svalue = "";
+
+          if(parseVar(ref functions, name, out svalue, true, depth)) {
+            //content = content.Replace(name,fvalue);
+            values.Add(svalue);
+          } else {
+            return false;
+          }
+      }
+      return true;
     }
 
     public static List<string> parse(string sourceCode, List<string> validCommands){
@@ -246,8 +300,10 @@ public static class Parser {
             //if(!p.validCommands.Contains(c.)) {
             foreach (Regex r in sregex) {
                 if(r.Match(c).Success) {
-                  if(r.Replace(c, "").Length<=0) err = false;
-                  else list.Add(c); // passed
+                  if(r.Replace(c, "").Length<=0) {
+                    err = false;
+                    list.Add(c); // passed
+                  }
                   break;
                 }
             }
@@ -261,6 +317,8 @@ public static class Parser {
             //foreach (string s in error.Split('\n')) { errors.Add(s); }
             throw new ParserException(errors);
         }
+        
+        //foreach (string entry in list) { Debug.Log(entry); }
 
         return list;
     }
@@ -305,23 +363,35 @@ public static class Parser {
             cmds = code; // remove custom definitions of custom functions
         }
 
-        /* // parse mutliple if, elseif, last is else or nothing
+        // parse mutliple if, elseif, last is else or nothing
         {
-            var list = matchAll(@"(?<if>if[ \t]*\(([^)]*)\)[ \t]*\n(?s)((?:(?!endif)).)*)endif[ \t]*(\n|$))", code);
+            var list = matchAll(@"(?<if>(if)[ \t]*\(([^)]*)\)[ \t]*\n(?s)((?:(?!((endif)|(elseif)|(else))).)*)"+
+            @"((elseif)[ \t]*\(([^)]*)\)[ \t]*\n(?s)((?:(?!((endif)|(elseif)|(else))).)*))*"+
+            @"((else)[ \t]*\n(?s)((?:(?!endif).)*))?"+
+            @"endif[ \t]*(\n|$))",code);
 
-            if (list.Count > 0) found += "Loops(" + list.Count + ")\n";
+            if (list.Count > 0) found += "if(" + list.Count + ")\n";
             int i = -1;
-            foreach (var e in list)
+            foreach (var r in list)
             {
+                var e = r.list;
                 ++i;
-                var f = new Function("LOOP", e[0], "loop" + i, e[1], e[2]);
-                functions.Add(f);
+                //var f = new Function("IF", e[0], "if" + i, e[1], e[2]);
+                //functions.Add(f);
 
-                found += "\t" + f.ToString() + "\n";
+                //found += "\t" + f.ToString() + "\n";
                 code = code.Replace(e[0], ""); // remove
+                found += "\tif:\n";
+                found += "----------------------\n";
+                var j = -1;
+                foreach (var l in e){
+                  j++;
+                  if(j==0) continue;
+                  found += "\t"+j+":\t" + l + "\n";
+                }
+                found += "----------------------\n";
             }
         }
-        */
 
         {
             var list = matchAll(@"(?<loop>loop[ \t]*\(([^)]*)\)[ \t]*\n(?s)((?:(?!endLoop).)*)endLoop[ \t]*(\n|$))", code);

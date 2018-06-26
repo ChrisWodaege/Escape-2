@@ -15,7 +15,8 @@ public class ParserExecutor : MonoBehaviour {
 	}
 
 	void testParser() {
-			string sourceCode = ""+
+			string sourceCode = "moveVorward()\nturnLeft()\nturnRight()";
+      /*
 					//"function a endFunction function b endFunction function c endFunction\n" +
 					"var testA = 1 + 2\n"+
 					"var testB = testA / testA\n" +
@@ -27,7 +28,7 @@ public class ParserExecutor : MonoBehaviour {
 					"endFunction\n" +
 					"function cde(c, d, e)\n" +
 					"/* var testA = 1 + 2\n"+
-					"var testB = testA / testA */\n" +
+					"var testB = testA / testA * /\n" +
 					"//var testA = testA / testA\n" +
 					"moveVorward()\n" +
 					"turnLeft()\n" +
@@ -35,13 +36,27 @@ public class ParserExecutor : MonoBehaviour {
 					"turnRight()\n" +
 					"moveVorward()\n" +
 					"endFunction\n" +
-					"moveVorward()\n turnLeft(1,2)\n inspect(\"\")\n interact(\"sdsd\",\"aa\")\n abc(1,2,3)\n cde(1,2,3)\n" +
+					//"moveVorward()\n turnLeft(1,2)\n inspect(\"\")\n interact(\"sdsd\",\"aa\")\n abc(1,2,3)\n cde(1,2,3)\n" +
 					"loop(i = 1:5)\n moveVorward()\n endLoop\n" +
 					"loop(i = testA:5)\n moveVorward()\n endLoop\n" +
 					"loop(i = 1:testB)\n moveVorward()\n endLoop\n" +
 					"loop(i = testA:testB)\n moveVorward()\n endLoop\n" +
 					"loop(i = testA:testC)\n moveVorward()\n endLoop\n" +
-					"";
+          "if(true)\n"+
+          " moveVorward()\n"+
+          "elseif(true)\n"+
+          " moveVorward()\n"+
+          " moveVorward()\n"+
+          "elseif(true)\n"+
+          " turnLeft()\n"+
+          " turnRight()\n"+
+          "elseif(true)\n"+
+          " turnLeft()\n"+
+          " moveVorward()\n"+
+          "else\n"+
+          " turnRight()\n"+
+          "endif\n" +
+					"";*/
 
 			List<string> validCommands = new List<string>();
 
