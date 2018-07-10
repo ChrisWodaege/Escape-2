@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public interface CommandReceiver{
 	void execute(Command command);
@@ -20,26 +21,41 @@ public enum CommandType {
 	TurnLeft
 }
 
-public class MoveController : CommandReceiver {
+public class MoveController : MonoBehaviour, CommandReceiver {
     private IGridController _gridController;
     private IPlayerPosition _playerPosition;
     private IMovePlayerController _movePlayerController;
 	private int direction;
 	private Queue<Command> commandQueue;
+	private Camera _mainCamera;
 
     public MoveController(IGridController gridController, IPlayerPosition playerPosition, IMovePlayerController movePlayerController) {
-        this._gridController = gridController;
-        this._playerPosition = playerPosition;
-        this._movePlayerController = movePlayerController;
+
+    }
+
+	public void Init(IGridController gridController, IPlayerPosition playerPosition, IMovePlayerController movePlayerController){
+		this._gridController = gridController;
+		this._playerPosition = playerPosition;
+		this._movePlayerController = movePlayerController;
 		_movePlayerController.AddWalkingFinishedListener(commandFinished);
 		commandQueue = new Queue<Command> ();
-    }
+	}
+
+	private void Awake(){
+		_mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+		_cameraAnimator = _mainCamera.GetComponent<Animator>();
+		_methodController = gameObject.AddComponent<CodingBoxMethodController>() as CodingBoxMethodController;
+
+
+	}
 
 	public void commandFinished(){
 		executeCommand();
 	}
 
 	public void execute(Command command) {
+		Debug.Log ("Excecute:"+command.type.ToString());
+		Debug.Log ("Status:"+active);
 		commandQueue.Enqueue (command);
 		if (active == false) {
 			active = true;
@@ -57,6 +73,15 @@ public class MoveController : CommandReceiver {
 		Command command = commandQueue.Dequeue ();
 		Debug.Log ("Command Received:"+command.type.ToString());
 		switch (command.type) {
+		case CommandType.Boot:
+			{
+				AddMethod(_movePlayerController.BootCharacter());
+				AddMethod(ControllCamera());
+				AddMethod(BootCoroutine());
+				_methodController.StartMethodLoop();
+				_movePlayerController.BootCharacter ();
+				break;			
+			}
 		case CommandType.Move:
 			{
 				MoveTo ((GridDirection)direction);
@@ -71,6 +96,42 @@ public class MoveController : CommandReceiver {
 				break;			
 			}
 		}
+		if (commandQueue.Count == 0) {
+			active = false;
+			return;
+		}
+	}
+
+	private IEnumerator BootCoroutine() {
+		//TODO Hier müsste dann die GameStateMachine aktuallisiert werden
+		//LoadNextLevel();
+		yield return null;
+	}
+	private Animator _cameraAnimator;
+	private IEnumerator ControllCamera() {
+		_cameraAnimator.SetBool("Zoom", false);
+		yield return new WaitForSeconds(1);
+	}
+
+	private CodingBoxMethodController _methodController = null;
+	protected void AddMethod(IEnumerator method)
+	{
+		if (_methodController == null)
+		{
+			
+
+			Debug.Log ("Line 107"+			gameObject.name);
+			//_methodController = GameObject.Find("CodingBox/CodingBox").GetComponent<CodingBoxMethodController>();
+			Debug.Log ("Line 109");
+			_methodController.SetOnCompleteAction(AllowRunndingCode);
+		}
+
+
+		_methodController.AddMethod(method);
+	}
+
+	protected void AllowRunndingCode(){
+		//LevelController.AllowRunningCode();
 	}
 
 	private void rotateLeft(){
@@ -88,6 +149,7 @@ public class MoveController : CommandReceiver {
 	}
 
 	private void MoveTo(GridDirection direction) {
+		Debug.Log ("Move");
 		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
 		Vector3 newPosition = currentPosition;
 	    try {

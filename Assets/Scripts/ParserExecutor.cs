@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ParserExecutor : MonoBehaviour {
+using System;
+public class ParserExecutor {
 
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 		 testParser();
 	}
 
@@ -69,6 +69,7 @@ public class ParserExecutor : MonoBehaviour {
 			validCommands.Add("inspect(#)");
 			validCommands.Add("interact(#,#)");
 
-			Parser.parse(sourceCode, validCommands);
+		List<String>source =	Parser.parse(sourceCode, validCommands);
+		Debug.Log ("ParserExecutor..."+source.Count);
 	}
 }
