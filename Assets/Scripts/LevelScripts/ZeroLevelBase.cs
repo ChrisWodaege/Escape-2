@@ -20,7 +20,7 @@ public class ZeroLevelBase : BaseLevelScript {
 
     private IEnumerator BootCoroutine() {
 		//TODO Hier müsste dann die GameStateMachine aktuallisiert werden
-		//LoadNextLevel();
+		LoadNextLevel();
         yield return null;
     }
 

@@ -5,7 +5,7 @@
     },
     "_width": 19,
     "_height": 19,
-    "_timeStamp": 636516536974690294,
+    "_timeStamp": 636667780793732300,
     "_startX": 2,
     "_startY": 2,
     "defaultGridTile": {
@@ -60,9 +60,9 @@
         {
             "x": 5,
             "y": 0,
-            "tileID": 15,
+            "tileID": 0,
             "tileRotation": 0,
-            "itemID": -1,
+            "itemID": 3,
             "itemRotation": 0
         },
         {
@@ -204,7 +204,7 @@
         {
             "x": 4,
             "y": 1,
-            "tileID": 15,
+            "tileID": 0,
             "tileRotation": 0,
             "itemID": -1,
             "itemRotation": 0
@@ -212,9 +212,9 @@
         {
             "x": 5,
             "y": 1,
-            "tileID": 15,
+            "tileID": 0,
             "tileRotation": 0,
-            "itemID": -1,
+            "itemID": 3,
             "itemRotation": 0
         },
         {
@@ -366,7 +366,7 @@
             "y": 2,
             "tileID": 0,
             "tileRotation": 0,
-            "itemID": -1,
+            "itemID": 3,
             "itemRotation": 0
         },
         {
@@ -510,15 +510,15 @@
             "y": 3,
             "tileID": 0,
             "tileRotation": 0,
-            "itemID": -1,
-            "itemRotation": 0
+            "itemID": 6,
+            "itemRotation": 2
         },
         {
             "x": 5,
             "y": 3,
             "tileID": 0,
             "tileRotation": 0,
-            "itemID": -1,
+            "itemID": 4,
             "itemRotation": 0
         },
         {
@@ -646,24 +646,24 @@
             "y": 4,
             "tileID": 0,
             "tileRotation": 0,
-            "itemID": -1,
-            "itemRotation": 0
+            "itemID": 3,
+            "itemRotation": 2
         },
         {
             "x": 3,
             "y": 4,
             "tileID": 0,
             "tileRotation": 0,
-            "itemID": -1,
-            "itemRotation": 0
+            "itemID": 4,
+            "itemRotation": 1
         },
         {
             "x": 4,
             "y": 4,
             "tileID": 0,
             "tileRotation": 0,
-            "itemID": -1,
-            "itemRotation": 0
+            "itemID": 5,
+            "itemRotation": 1
         },
         {
             "x": 5,

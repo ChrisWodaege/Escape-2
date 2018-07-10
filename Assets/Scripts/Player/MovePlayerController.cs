@@ -2,8 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class MovePlayerController : MonoBehaviour, IMovePlayerController, IMoveController
-{
+public class MovePlayerController : MonoBehaviour, IMovePlayerController {
     //IMoveController moveController;
 	CommandReceiver moveController;
 	IPlayerPosition playerPosition;
@@ -29,24 +28,25 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController, IMoveC
     private Animator _playerAnimator;
 
     public bool KeyMovement { get; set; }
-
     private bool moving = false;
     private bool _allowGeneralMoving = false;
 
     private bool rotating = false;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         Init(Vector3.zero); //usually overwriten by HexGridController
         KeyMovement = true;
     }
 
-    public void Init(Vector3 startPosition)
-    {
+    public void Init(Vector3 startPosition) {
         _start = startPosition;
         playerPosition = new PlayerPosition(_start);
-        moveController = new MoveController(_gridController, playerPosition, this);
+		//moveController = GameObject.Instantiate ();
+//		moveController = gameObject.AddComponent(new MoveController(_gridController, playerPosition, this));
+		moveController = gameObject.AddComponent<MoveController>() as MoveController;
+		((MoveController)moveController).Init(_gridController, playerPosition, this);
+//        moveController = new MoveController(_gridController, playerPosition, this);
         transform.position = _start;
 
     }
@@ -100,71 +100,10 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController, IMoveC
 		_walkingFinished.AddListener(listener);
     }
 
-	public void sendCommand(Command c){
+	public void sendCommand(Command c) {
+		Debug.Log ("SendCommand MovePlayController");
 		moveController.execute (c);
 	}
-
-//	public void Move() {
-//		Command c = new Command (CommandType.Move);
-//		moveController.execute (c);
-//	}
-//
-//	public void TurnLeft() {
-//		Command c = new Command (CommandType.TurnLeft);
-//		moveController.execute (c);
-//	}
-//
-//	public void TurnRight() {
-//		Command c = new Command (CommandType.TurnRight);
-//		moveController.execute (c);
-//	}
-
-    public void MoveUp() {
-		Command c = new Command (CommandType.Move);
-		moveController.execute (c);
-    }
-
-    public void MoveUpRight() {
-		Command c = new Command (CommandType.TurnRight);
-		moveController.execute (c);
-		c = new Command (CommandType.Move);
-		moveController.execute (c);
-    }
-
-    public void MoveDownRight() {
-		Command c = new Command (CommandType.TurnLeft);
-		moveController.execute (c);
-		c = new Command (CommandType.Move);
-		moveController.execute (c);
-    }
-
-    public void MoveDown() {
-		Debug.Log("Move South Step 2");
-		Command c = new Command (CommandType.TurnLeft);
-		moveController.execute (c);
-		c = new Command (CommandType.TurnLeft);
-		moveController.execute (c);
-		c = new Command (CommandType.Move);
-		moveController.execute (c);
-    }
-
-    public void MoveDownLeft() {
-		Command c = new Command (CommandType.TurnRight);
-		moveController.execute (c);
-		c = new Command (CommandType.TurnRight);
-		moveController.execute (c);
-		c = new Command (CommandType.Move);
-		moveController.execute (c);
-    }
-
-    public void MoveUpLeft() {
-		Command c = new Command (CommandType.TurnRight);
-		moveController.execute (c);
-		c = new Command (CommandType.TurnRight);
-		moveController.execute (c);
-		c = new Command (CommandType.Move);
-		moveController.execute (c);
-    }
 
     public IEnumerator BootCharacter() {
         _playerAnimator.SetBool("StartUp", true);

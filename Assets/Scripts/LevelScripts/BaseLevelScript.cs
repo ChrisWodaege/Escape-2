@@ -5,6 +5,7 @@ public class BaseLevelScript : MonoBehaviour
 {
     private CodingBoxMethodController _methodController = null;
 
+
     private LevelScriptController LevelController
     {
         get
@@ -37,10 +38,8 @@ public class BaseLevelScript : MonoBehaviour
         }
     }
 
-    protected virtual void LoadNextLevel()
-    {
+    protected virtual void LoadNextLevel() {
         AllowRunndingCode();
-
         LevelController.LoadNextLevel();
     }
 
