@@ -1,0 +1,22 @@
+{
+    "_worldName": "escape2MainLevel",
+    "_worldJSON": {
+        "instanceID": 0
+    },
+    "_width": 37,
+    "_height": 36,
+    "_timeStamp": 636516536974690294,
+    "_startX": 0,
+    "_startY": 0,
+    "defaultGridTile": {
+        "x": 0,
+        "y": 0,
+        "tileID": 0,
+        "tileRotation": 0,
+        "itemID": -1,
+        "itemRotation": 0
+    },
+    "_tiles": [
+    
+    ]
+}

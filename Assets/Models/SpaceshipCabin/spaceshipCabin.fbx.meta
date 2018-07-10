@@ -1,0 +1,281 @@
+fileFormatVersion: 2
+guid: 667b10b0014e9a54fa7e52fd25b01591
+timeCreated: 1528880119
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: "b\xFCro"
+    100002: cabin
+    100004: cabin 1
+    100006: camera1
+    100008: camera1_aim
+    100010: erde
+    100012: human
+    100014: jalousie
+    100016: jalusieCtrl
+    100018: kabine
+    100020: ladestation
+    100022: lampe
+    100024: lampe 1
+    100026: mond
+    100028: plant
+    100030: polySurface17
+    100032: projektor
+    100034: pSphere1
+    100036: PyBot3
+    100038: PyBot4
+    100040: PyBot5
+    100042: scene
+    100044: schrift
+    100046: screen
+    100048: screen1
+    100050: screen2
+    100052: shadowmesh
+    100054: //RootNode
+    100056: stuhl
+    100058: tasse
+    100060: tastatur
+    100062: tisch1
+    100064: universum
+    100066: plant 1
+    100068: topf
+    100070: camera1_group
+    100072: beleuchtung
+    100074: env1
+    100076: rumpf
+    100078: wolkeschicht
+    100080: leuchten
+    100082: left1
+    100084: beleuchtung1
+    100086: left
+    100088: scheibe
+    400000: "b\xFCro"
+    400002: cabin
+    400004: cabin 1
+    400006: camera1
+    400008: camera1_aim
+    400010: erde
+    400012: human
+    400014: jalousie
+    400016: jalusieCtrl
+    400018: kabine
+    400020: ladestation
+    400022: lampe
+    400024: lampe 1
+    400026: mond
+    400028: plant
+    400030: polySurface17
+    400032: projektor
+    400034: pSphere1
+    400036: PyBot3
+    400038: PyBot4
+    400040: PyBot5
+    400042: scene
+    400044: schrift
+    400046: screen
+    400048: screen1
+    400050: screen2
+    400052: shadowmesh
+    400054: //RootNode
+    400056: stuhl
+    400058: tasse
+    400060: tastatur
+    400062: tisch1
+    400064: universum
+    400066: plant 1
+    400068: topf
+    400070: camera1_group
+    400072: beleuchtung
+    400074: env1
+    400076: rumpf
+    400078: wolkeschicht
+    400080: leuchten
+    400082: left1
+    400084: beleuchtung1
+    400086: left
+    400088: scheibe
+    2000000: camera1
+    2000002: left1
+    2000004: left
+    2100000: lambert2
+    2100002: lambert1
+    2100004: blinn6
+    2100006: lambert4
+    2100008: blinn2
+    2100010: universe
+    2100012: blinn1
+    2100014: lambert3
+    2300000: erde
+    2300002: human
+    2300004: jalousie
+    2300006: kabine
+    2300008: lampe
+    2300010: lampe 1
+    2300012: mond
+    2300014: plant
+    2300016: polySurface17
+    2300018: projektor
+    2300020: pSphere1
+    2300022: PyBot3
+    2300024: PyBot4
+    2300026: PyBot5
+    2300028: schrift
+    2300030: screen
+    2300032: screen1
+    2300034: screen2
+    2300036: shadowmesh
+    2300038: stuhl
+    2300040: tasse
+    2300042: tastatur
+    2300044: tisch1
+    2300046: universum
+    2300048: plant 1
+    2300050: topf
+    2300052: beleuchtung
+    2300054: wolkeschicht
+    2300056: leuchten
+    2300058: beleuchtung1
+    2300060: scheibe
+    3300000: erde
+    3300002: human
+    3300004: jalousie
+    3300006: kabine
+    3300008: lampe
+    3300010: lampe 1
+    3300012: mond
+    3300014: plant
+    3300016: polySurface17
+    3300018: projektor
+    3300020: pSphere1
+    3300022: PyBot3
+    3300024: PyBot4
+    3300026: PyBot5
+    3300028: schrift
+    3300030: screen
+    3300032: screen1
+    3300034: screen2
+    3300036: shadowmesh
+    3300038: stuhl
+    3300040: tasse
+    3300042: tastatur
+    3300044: tisch1
+    3300046: universum
+    3300048: plant 1
+    3300050: topf
+    3300052: beleuchtung
+    3300054: wolkeschicht
+    3300056: leuchten
+    3300058: beleuchtung1
+    3300060: scheibe
+    4300000: lampe
+    4300002: jalousie
+    4300004: schrift
+    4300006: kabine
+    4300008: human
+    4300010: tisch1
+    4300012: screen1
+    4300014: screen
+    4300016: screen2
+    4300018: stuhl
+    4300020: plant
+    4300022: tasse
+    4300024: tastatur
+    4300026: lampe
+    4300028: PyBot5
+    4300030: projektor
+    4300032: shadowmesh
+    4300034: PyBot4
+    4300036: polySurface17
+    4300038: PyBot3
+    4300040: universum
+    4300042: mond
+    4300044: erde
+    4300046: pSphere1
+    4300048: topf
+    4300050: beleuchtung
+    4300052: wolkeschicht
+    4300054: leuchten
+    4300056: beleuchtung1
+    4300058: scheibe
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

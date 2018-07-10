@@ -7,14 +7,27 @@ ModelImporter:
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
+    2100000: lambert6
+    2100002: lambert3
     2300000: //RootNode
     3300000: //RootNode
     4300000: envMountainMiddle
+    4300002: envMountainMid
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: lambert3
+    second: {fileID: 2100000, guid: 5b80d56cf6281414c9db498f426c38e9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: lambert5
+    second: {fileID: 2100000, guid: 742f05d252804254a8d1e9a476d5ef7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert6
     second: {fileID: 2100000, guid: 742f05d252804254a8d1e9a476d5ef7c, type: 2}
   materials:
     importMaterials: 1

@@ -7,10 +7,16 @@ ModelImporter:
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
+    2100000: lambert3
     2300000: //RootNode
     3300000: //RootNode
     4300000: envMountainLow
   externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert3
+    second: {fileID: 2100000, guid: bf020e2fdc9b0764aa1a693cc5960972, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
