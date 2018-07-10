@@ -337,7 +337,7 @@ Prefab:
         type: 2}
       propertyPath: _tiles.Array.data[3].tilePrefab
       value: 
-      objectReference: {fileID: 1124333613787404, guid: 6315ad6b9e32c074aa4d27c2c68ab8a8,
+      objectReference: {fileID: 1840457756596688, guid: a6b9e21a3127db942b478b3067b1d72b,
         type: 2}
     - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
         type: 2}
@@ -368,6 +368,35 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[0].tilePrefab
+      value: 
+      objectReference: {fileID: 100000, guid: f00e902656b7f1e46b9cda560a6243f7, type: 3}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[4].tilePrefab
+      value: 
+      objectReference: {fileID: 1493571485459290, guid: 406d07c83e075694c82e2850fc4dd44b,
+        type: 2}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[5].tilePrefab
+      value: 
+      objectReference: {fileID: 1594177424680332, guid: bb246bb1fe182394cb49b52a79bcc5aa,
+        type: 2}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[6].tilePrefab
+      value: 
+      objectReference: {fileID: 1656939572915736, guid: 689c90979298acd42a52ad4f1bdfcecf,
+        type: 2}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[2].tilePrefab
+      value: 
+      objectReference: {fileID: 1415708249208620, guid: 7836c4e56d2fa8e4fb6ad9effc2948d8,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f37006dca0f254d3da52c49dd5f48f1b, type: 2}
   m_IsPrefabParent: 0
