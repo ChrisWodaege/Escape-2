@@ -65,7 +65,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: mia_material_x_passes1
-    second: {fileID: 2100000, guid: 21785e3caade5884f99f96a06bdca615, type: 2}
+    second: {fileID: 2100000, guid: a3a9bd733106a4d45a4cb60eb183b286, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
