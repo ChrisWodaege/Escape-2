@@ -443,12 +443,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 				WriteToCodingBox(gcOutput);
 			}
 		}
-
-		if(Input.GetKeyDown(KeyCode.F5)){
-			this.Run ();
-		}
-
-
+			
         if (_codingBoxInputField.isFocused && Input.GetKey(KeyCode.LeftControl)
             && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))) {
             //Run();
