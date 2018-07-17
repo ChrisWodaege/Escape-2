@@ -45,8 +45,6 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		_mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		_cameraAnimator = _mainCamera.GetComponent<Animator>();
 		_methodController = gameObject.AddComponent<CodingBoxMethodController>() as CodingBoxMethodController;
-
-
 	}
 
 	public void commandFinished(){

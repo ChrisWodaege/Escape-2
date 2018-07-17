@@ -295,12 +295,10 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     }
 
 	public void WriteToCodingBox(char character) {
-		Debug.Log ("WriteToCodingBox1");
 		_codingBoxInputField.text += character;
 	}
 
     public Coroutine WriteToCodingBox(string text, float timeBetweenCharacters = -1) {
-		Debug.Log ("WriteToCodingBox2");
 		if (timeBetweenCharacters < 0) {
             timeBetweenCharacters = _autometedWritingTimeBetweenCharacters;
         }
@@ -312,7 +310,6 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     }
 
     private IEnumerator WriteToCodingBoxCoroutine(float timeBetweenCharacters) {
-		Debug.Log ("WriteToCodingBox3");
         _codingBoxInputField.readOnly = true;
 
         ForbitRunningCode();
@@ -399,10 +396,10 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     }
 
     private void Update() {
-//		_codingBoxInputField.ActivateInputField ();
-//		if(	_codingBoxInputField.caretPosition < gc.contentLength){
-//			_codingBoxInputField.caretPosition = gc.contentLength;
-//		}
+		_codingBoxInputField.ActivateInputField ();
+		if(	_codingBoxInputField.caretPosition < gc.contentLength){
+			_codingBoxInputField.caretPosition = gc.contentLength;
+		}
 //
 //		if (Input.GetKeyDown (KeyCode.Backspace) || Input.GetKey(KeyCode.Backspace)) {
 //			Debug.Log ("Backspace");
@@ -417,7 +414,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
 
 		if (Input.GetKeyDown (KeyCode.Delete)) {
-			Debug.Log ("Delete");
+			//Debug.Log ("Delete");
 		}
 
 		if(Input.GetKeyDown(KeyCode.Return)) {
@@ -489,8 +486,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
 
 
-		Debug.Log ("OnValueChanged");
-		Debug.Log (content);
+
 		String rawContent = _unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text);
 	
 //		MyTestSubmit (rawContent);
