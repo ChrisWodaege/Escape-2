@@ -399,7 +399,6 @@ GameObject:
   - component: {fileID: 84482684}
   - component: {fileID: 84482689}
   - component: {fileID: 84482688}
-  - component: {fileID: 84482687}
   - component: {fileID: 84482686}
   - component: {fileID: 84482685}
   m_Layer: 0
@@ -452,14 +451,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 11400000, guid: 258513f1ebb8ebd42993a6137e2f7d4c, type: 2}
---- !u!81 &84482687
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 81015370037902092, guid: bc1cb48c6246dba4792ba017d8a1a6a3,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 84482683}
-  m_Enabled: 1
 --- !u!124 &84482688
 Behaviour:
   m_ObjectHideFlags: 0
@@ -1812,7 +1803,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 701093313}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1478.0737, y: -448, z: 0}
+  m_LocalPosition: {x: 936.6919, y: -448, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1031311887}
@@ -2006,7 +1997,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 401468770}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1496.0737, y: 622, z: 0}
+  m_LocalPosition: {x: 954.6919, y: 622, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 668197595}
@@ -3390,12 +3381,12 @@ Prefab:
     - target: {fileID: 224364716314079540, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 518
+      value: 459
       objectReference: {fileID: 0}
     - target: {fileID: 224364716314079540, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 163
+      value: 211
       objectReference: {fileID: 0}
     - target: {fileID: 224364716314079540, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
@@ -3575,7 +3566,7 @@ Prefab:
     - target: {fileID: 224152470465564646, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -300
+      value: 20.020264
       objectReference: {fileID: 0}
     - target: {fileID: 224192685316729706, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
@@ -3595,7 +3586,7 @@ Prefab:
     - target: {fileID: 224427810073178746, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -300
+      value: 285
       objectReference: {fileID: 0}
     - target: {fileID: 224512666154674130, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
@@ -3635,7 +3626,7 @@ Prefab:
     - target: {fileID: 224587328396665794, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -300
+      value: -264.97974
       objectReference: {fileID: 0}
     - target: {fileID: 224653386331752244, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
@@ -4280,8 +4271,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 876437466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 518, y: 163, z: 0}
-  m_LocalScale: {x: 0.30185184, y: 0.30185184, z: 0.30185184}
+  m_LocalPosition: {x: 459, y: 211, z: 0}
+  m_LocalScale: {x: 0.39074075, y: 0.39074075, z: 0.39074075}
   m_Children:
   - {fileID: 401468771}
   - {fileID: 1593860896}
@@ -6538,7 +6529,6 @@ GameObject:
   - component: {fileID: 1563869461}
   - component: {fileID: 1563869460}
   - component: {fileID: 1563869459}
-  - component: {fileID: 1563869458}
   m_Layer: 0
   m_Name: uicam
   m_TagString: Untagged
@@ -6546,13 +6536,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1563869458
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1563869457}
-  m_Enabled: 1
 --- !u!124 &1563869459
 Behaviour:
   m_ObjectHideFlags: 0
@@ -7806,7 +7789,9 @@ Prefab:
       propertyPath: orthographic size
       value: 11.11
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 81171335542957014, guid: 420e36a9919dba5468d59ce1b64b2447, type: 2}
+    - {fileID: 81135847374013194, guid: 420e36a9919dba5468d59ce1b64b2447, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 420e36a9919dba5468d59ce1b64b2447, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1757719428
