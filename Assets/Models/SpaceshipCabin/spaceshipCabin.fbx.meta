@@ -50,6 +50,7 @@ ModelImporter:
     100084: beleuchtung1
     100086: left
     100088: scheibe
+    100090: screens
     400000: "b\xFCro"
     400002: cabin
     400004: cabin 1
@@ -95,6 +96,7 @@ ModelImporter:
     400084: beleuchtung1
     400086: left
     400088: scheibe
+    400090: screens
     2000000: camera1
     2000002: left1
     2000004: left
@@ -242,8 +244,6 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
-    preserveHierarchy: 0
-    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88

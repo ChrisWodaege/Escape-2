@@ -2,12 +2,15 @@ using UnityEngine;
 using System.Collections;
 
 public class CameraMovement : MonoBehaviour {
-	public float moveSpeed = 1.0f;
+	private float moveSpeed = 0f;
 	public float turnSpeed = 1.0f;
-	public float zoomSpeed = 1.0f;
+	public float zoomSpeed = 10.0f;
 	public Camera cam;
 	private float originalFOV;
 	private float x,y,z,v,h,u;
+	public float zoomMax = 66f;
+	public float zoomMin = 34f;
+	private float currentZoom = 45f;
 	
 	// Use this for initialization
 	void Start () {
@@ -25,9 +28,18 @@ public class CameraMovement : MonoBehaviour {
 		u = 0;
 		if (Input.GetKey(KeyCode.Space)) u = 1;
 		if (Input.GetKey(KeyCode.LeftControl)) u = -1;
-		
-		cam.fieldOfView -= z * zoomSpeed;
-		
+
+		currentZoom -= z * zoomSpeed;
+		Debug.Log (currentZoom);
+		if (currentZoom >= zoomMax) {
+			currentZoom = zoomMax;
+		}
+		if (currentZoom <= zoomMin) {
+			currentZoom = zoomMin;
+		} 
+			cam.fieldOfView = currentZoom;
+
+
 		transform.Translate(new Vector3(h,u,v) * moveSpeed);
 		transform.eulerAngles = new Vector3(transform.eulerAngles.x-y*turnSpeed,transform.eulerAngles.y+x*turnSpeed,0);
 	}
