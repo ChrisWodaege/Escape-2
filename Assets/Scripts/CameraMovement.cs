@@ -19,15 +19,17 @@ public class CameraMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		h = Input.GetAxis("Horizontal");
-		v = Input.GetAxis("Vertical");
-		x = Input.GetAxis("Mouse X");
-		y = Input.GetAxis("Mouse Y");
-		z = Input.GetAxis("Mouse ScrollWheel");
+		h = Input.GetAxis ("Horizontal");
+		v = Input.GetAxis ("Vertical");
+		x = Input.GetAxis ("Mouse X");
+		y = Input.GetAxis ("Mouse Y");
+		z = Input.GetAxis ("Mouse ScrollWheel");
 		
 		u = 0;
-		if (Input.GetKey(KeyCode.Space)) u = 1;
-		if (Input.GetKey(KeyCode.LeftControl)) u = -1;
+		if (Input.GetKey (KeyCode.Space))
+			u = 1;
+		if (Input.GetKey (KeyCode.LeftControl))
+			u = -1;
 
 		currentZoom -= z * zoomSpeed;
 
@@ -37,10 +39,14 @@ public class CameraMovement : MonoBehaviour {
 		if (currentZoom <= zoomMin) {
 			currentZoom = zoomMin;
 		} 
-			cam.fieldOfView = currentZoom;
+		cam.fieldOfView = currentZoom;
 
 
-		transform.Translate(new Vector3(h,u,v) * moveSpeed);
-		transform.eulerAngles = new Vector3(transform.eulerAngles.x-y*turnSpeed,transform.eulerAngles.y+x*turnSpeed,0);
+		if (Input.GetMouseButton(0)) {
+
+
+			transform.Translate (new Vector3 (h, u, v) * moveSpeed);
+			transform.eulerAngles = new Vector3 (transform.eulerAngles.x - y * turnSpeed, transform.eulerAngles.y + x * turnSpeed, 0);
+		}
 	}
 }
