@@ -128,9 +128,6 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         _linesOfCodeOnTop = fileContent.Substring(0, topSplitIndex);
         _codeToShow = fileContent.Substring(topSplitIndex, bottomSplitIndex - topSplitIndex);
         _linesOfCodeOnBottom = fileContent.Substring(bottomSplitIndex, fileContent.Length - bottomSplitIndex);
-		//Debug.Log (_linesOfCodeOnTop);
-		//Debug.Log (_linesOfCodeOnBottom);
-
 
 			//Console.Clear ();
 		//Console.WriteLine (gc.output());	
@@ -164,18 +161,9 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 	bool booted = false;
 
     public void Run() {
-		//TODO: StandbyStatus-> Es sollte auch möglich sein gleich boot einzugeben ohne erst den Zwischenstatus zu bekommen
-		//TODO: Umbrüche im Script erlauben
-//		ParserExecutor pe = new ParserExecutor();
-//		pe.Start ();
-//		return;
-		Debug.Log("Run");
+		_codingBoxInputField.ActivateInputField ();
 		String code = _unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text);
-		Debug.Log (code.Length);
-		code = code.Substring (353); //TODO: Hier die Länge vom Header ermitteln
-		Debug.Log (code);
-		Debug.Log (code.Length);
-
+		code = code.Substring (gc.contentLength);
 		List<String> validCommands = new List<String> (new String[]{ "boot", "move", "turnleft", "turnright" });
 		List<Command> commands = stringToCommandMapper(Parser.parse (code,validCommands));
 		Debug.Log (commands.Count);
@@ -311,7 +299,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 	}
 
     public Coroutine WriteToCodingBox(string text, float timeBetweenCharacters = -1) {
-        if (timeBetweenCharacters < 0) {
+		if (timeBetweenCharacters < 0) {
             timeBetweenCharacters = _autometedWritingTimeBetweenCharacters;
         }
         _currentAutomatedTextWriting += text;
@@ -408,20 +396,44 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     }
 
     private void Update() {
+		_codingBoxInputField.ActivateInputField ();
+		if(	_codingBoxInputField.caretPosition < gc.contentLength){
+			_codingBoxInputField.caretPosition = gc.contentLength;
+		}
+//
+//		if (Input.GetKeyDown (KeyCode.Backspace) || Input.GetKey(KeyCode.Backspace)) {
+//			Debug.Log ("Backspace");
+//			if (_codingBoxInputField.caretPosition < gc.contentLength + 1) {
+//				_codingBoxInputField.text = gc.output ();
+//				_codingBoxInputField.caretPosition = gc.contentLength+1;
+//			} else if(_codingBoxInputField.text.Length<gc.contentLength) {
+//				_codingBoxInputField.text = gc.output ();
+//				_codingBoxInputField.caretPosition = gc.contentLength;
+//			}
+//		}
+
+
+		if (Input.GetKeyDown (KeyCode.Delete)) {
+			//Debug.Log ("Delete");
+		}
 
 		if(Input.GetKeyDown(KeyCode.Return)) {
-			if(!scriptingEnabled)MyTestSubmit ();
+			if(!scriptingEnabled && _allowRunningCode)MyTestSubmit ();
 			//Eingabe bestätigen //Nur Console
 			//Nicht wenn in Script
+		}
+
+		if (Input.GetKeyDown (KeyCode.F5) && scriptingEnabled) {
+			this.Run ();
 		}
 
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			//Script schließen
 			
-			if (!scriptingEnabled) {
+			if (scriptingEnabled) {
 
 				this.ClearCodingBox ();
-				gc.input ("");
+				gc.runCommand ("");
 				Debug.Log (gc.getStateType ().ToString());
 				scriptingEnabled = false;
 
@@ -431,12 +443,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 				WriteToCodingBox(gcOutput);
 			}
 		}
-
-		if(Input.GetKeyDown(KeyCode.F5)){
-			this.Run ();
-		}
-
-
+			
         if (_codingBoxInputField.isFocused && Input.GetKey(KeyCode.LeftControl)
             && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))) {
             //Run();
@@ -448,6 +455,33 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     }
 
     public void ResetCodeHighlighting(string content) {
+
+
+
+		if(	_codingBoxInputField.caretPosition < gc.contentLength){
+			if (Input.GetKeyDown (KeyCode.Backspace) || Input.GetKey (KeyCode.Backspace)) {
+				//TODO Entfernen abfragen
+				_codingBoxInputField.text = gc.output ();
+			}
+			_codingBoxInputField.caretPosition = gc.contentLength;
+		}
+
+//		if (Input.GetKeyDown (KeyCode.Backspace) || Input.GetKey(KeyCode.Backspace)) {
+//			Debug.Log ("Backspace");
+//			if (_codingBoxInputField.caretPosition < gc.contentLength + 1) {
+//				_codingBoxInputField.text = gc.output ();
+//				_codingBoxInputField.caretPosition = gc.contentLength+1;
+//			} else if(_codingBoxInputField.text.Length<gc.contentLength) {
+//				_codingBoxInputField.text = gc.output ();
+//				_codingBoxInputField.caretPosition = gc.contentLength;
+//			}
+//		}
+
+
+
+
+
+
 		String rawContent = _unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text);
 	
 //		MyTestSubmit (rawContent);
@@ -461,34 +495,19 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 	bool scriptingEnabled = false;
 	public void MyTestSubmit() {
 		String text = _unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text);
-		//if (userCanSubmit) {
-			Debug.Log ((int)text[text.Length - 1]);
-//			if (text[text.Length - 1] == 10) {
-				String input = text;
-//				input = input.Substring (0, input.Length - 1);
+		String input = text;
 
-				this.ClearCodingBox ();
-				Debug.Log ("Enter wurde gedrückt");
-				Debug.Log ("Input:"+input+"#");
-				gc.input (input);
-				
-				Debug.Log (gc.getStateType ().ToString());
-				if (gc.getStateType () == typeof(GameConsole.Script)) {
-					scriptingEnabled = true;
-				} else {
-					scriptingEnabled = false;
-				}
+		this.ClearCodingBox ();
+		gc.input (input);
+		if (gc.getStateType () == typeof(GameConsole.Script)) {
+			scriptingEnabled = true;
+		} else {
+			scriptingEnabled = false;
+		}
 
-				String gcOutput = gc.output();
-				Debug.Log (gcOutput);
-				outputLength = gcOutput.Length;
-				WriteToCodingBox(gcOutput);
-//			}
-		//} else {
-		//	if (text.Length == outputLength) {
-		//		userCanSubmit = true;
-		//	}
-		//}
+		String gcOutput = gc.output();
+		outputLength = gcOutput.Length;
+		WriteToCodingBox(gcOutput);
 	}
 
     private void OnCodingTextHighlighted(string content) {

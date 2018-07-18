@@ -24,27 +24,30 @@ class GameConsole {
 		return this.gcs.GetType();
 	}
 
+	public void runCommand(string command){
+		gcs = gcs.input(command.ToLower().Split(new char[]{' '}));
+		if (!gcs.initialised)gcs.init ();
+	}
+
 	public void input(string input){
 		input = input.Substring (this.contentLength);
-		Debug.Log(input.Length);
-		Debug.Log("#"+input+"#");
-
 		input = input.Substring (0,input.Length-1);	//Enter entfernen
-
-
 		gcs = gcs.input(input.ToLower().Split(new char[]{' '}));
-
-		Debug.Log(input.Length);
-		Debug.Log("#"+input+"#");
 		if (!gcs.initialised)gcs.init ();
 	}
 
 	public string output()	{
 
 		String[] entrys = gcs.getMenuEntrys();
-		String text = gcs.title+"\n"+gcs.text+"\n";
-		for (int i = 0; i < entrys.Length; i++) {
-			if(entrys [i].Length>0)text += entrys [i] + " >\n";
+		String text = gcs.title+"\n";
+		if(gcs.text.Length>0)text += gcs.text +"\n";
+		if(gcs.showHelp) {
+			text += "Valid commands: ";
+			for (int i = 0; i < entrys.Length; i++) {
+				if(entrys [i].Length>0)text += entrys [i];
+				if(i<entrys.Length-1)text += " | ";
+			}
+			text += "\n";
 		}
 		this.contentLength = text.Length;
 		return text;
@@ -54,9 +57,12 @@ class GameConsole {
 		public int ContentLength;
 		public string title,text;
 		public bool initialised;
+		public bool showHelp;
 		public Dictionary<String, GameConsoleState> menuEntrys;
 
 		public GameConsoleState() {
+			title = "";
+			text = "";
 			initialised = false;
 			this.menuEntrys = new Dictionary<String, GameConsoleState>();
 		}
@@ -74,8 +80,10 @@ class GameConsole {
 		public GameConsoleState input(String[] args) {
 			if (this.menuEntrys.ContainsKey (args [0])) {
 				return this.menuEntrys [args [0]];
+			} else {
+				showHelp = true;
+				return this;
 			}
-			return this;
 		}
 	}
 
@@ -95,18 +103,18 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "STANDBY ...";
-			this.menuEntrys.Add("",new Boot());
-		}
-	}
-
-	public class Boot : GameConsoleState {
-		public override void init() {
-			initialised = true;
-			this.title = "STANDBY ...";
-			this.text = "Ungültige Eingabe. Boot eingeben um das System zu starten";
 			this.menuEntrys.Add("boot",new MainMenu());
 		}
 	}
+
+//	public class Boot : GameConsoleState {
+//		public override void init() {
+//			initialised = true;
+//			this.title = "STANDBY ...";
+//			this.text = "Ungültige Eingabe. Boot eingeben um das System zu starten";
+//			this.menuEntrys.Add("boot",new MainMenu());
+//		}
+//	}
 
 	public class Log : GameConsoleState {
 		public override void init() {
@@ -143,7 +151,7 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "#####HELP - Move()####";
-			this.text = "\nDer Befehl Move lässt deinen Roboter in die Richtung laufen, in welche er gerade schaut.\nMove wird nicht ausgeführt, wenn der Roboter vor einem Hindernis steht.";
+			this.text = "Der Befehl Move lässt deinen Roboter in die Richtung laufen, in welche er gerade schaut.\nMove wird nicht ausgeführt, wenn der Roboter vor einem Hindernis steht.";
 			this.menuEntrys.Add("",new HelpMenu());
 		}
 	}
