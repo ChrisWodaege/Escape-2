@@ -164,6 +164,14 @@ public class HexGridController : MonoBehaviour, IGridController
         return _tileManager.GetIsWalkable(tile.tileID, tile.itemID);
     }
 
+	public GridTile getTileAtPosition(GridPosition gridPosition){
+		if (!IsInsideWorld(gridPosition))
+		{
+			return null; //TODO hotfix better use an default GridTile
+		}
+		return _hexWorld.GetTile(gridPosition);
+	}
+
     private bool IsInsideWorld(GridPosition gridPosition)
     {
         return (gridPosition.X >= 0 && gridPosition.X < _width && gridPosition.Y >= 0 && gridPosition.Y < _height);

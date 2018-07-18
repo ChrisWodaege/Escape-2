@@ -30,7 +30,7 @@ public class CameraMovement : MonoBehaviour {
 		if (Input.GetKey(KeyCode.LeftControl)) u = -1;
 
 		currentZoom -= z * zoomSpeed;
-		Debug.Log (currentZoom);
+
 		if (currentZoom >= zoomMax) {
 			currentZoom = zoomMax;
 		}

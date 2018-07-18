@@ -18,7 +18,9 @@ public enum CommandType {
 	Boot,
 	Move,
 	TurnRight,
-	TurnLeft
+	TurnLeft,
+	Put,
+	Drop
 }
 
 public class MoveController : MonoBehaviour, CommandReceiver {
@@ -93,6 +95,14 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 				rotateRight();
 				break;			
 			}
+		case CommandType.Put: {
+				rotateRight();
+				break;			
+			}
+		case CommandType.Drop: {
+				rotateRight();
+				break;			
+			}
 		}
 		if (commandQueue.Count == 0) {
 			active = false;
@@ -106,12 +116,13 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		yield return null;
 	}
 	private Animator _cameraAnimator;
+	private CodingBoxMethodController _methodController = null;
+
 	private IEnumerator ControllCamera() {
 		_cameraAnimator.SetBool("Zoom", false);
 		yield return new WaitForSeconds(1);
 	}
-
-	private CodingBoxMethodController _methodController = null;
+		
 	protected void AddMethod(IEnumerator method)
 	{
 		if (_methodController == null)
@@ -132,6 +143,21 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		//LevelController.AllowRunningCode();
 	}
 
+	private void putItem() {
+		Debug.Log ("PutItem");
+		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
+		Vector3 newPosition = currentPosition;
+		newPosition = _gridController.GetNeighborTileVector(currentPosition, (GridDirection)direction);
+	}
+
+	private void dropItem() {
+		Debug.Log ("DropItem");
+		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
+		Vector3 newPosition = currentPosition;
+		newPosition = _gridController.GetNeighborTileVector(currentPosition, (GridDirection)direction);
+
+	}
+
 	private void rotateLeft(){
 		direction--;
 		if (direction < 0)
@@ -147,7 +173,6 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	}
 
 	private void MoveTo(GridDirection direction) {
-		Debug.Log ("Move");
 		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
 		Vector3 newPosition = currentPosition;
 	    try {
