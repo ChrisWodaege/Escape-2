@@ -32,7 +32,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	private Camera _mainCamera;
 
     public MoveController(IGridController gridController, IPlayerPosition playerPosition, IMovePlayerController movePlayerController) {
-
+		direction = 1;
     }
 
 	public void Init(IGridController gridController, IPlayerPosition playerPosition, IMovePlayerController movePlayerController){
@@ -163,16 +163,31 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 
 		//tile.SetActive (false);
 		Debug.Log (tile.transform.GetChild(0).name);
-		GameObject stone = tile.transform.GetChild(0).gameObject;
-		stone.transform.parent = this.transform;
+		objectInRobotsHand = tile.transform.GetChild(0).gameObject;
+		objectInRobotsHand.transform.parent = this.transform;
+		objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
+		((HexGridController)_gridController).setBlockStateOfTile (currentPosition, (GridDirection)direction,true);
+//		stone.transform.position = new Vector3 (0, 0, 0);
 	}
+
+	GameObject objectInRobotsHand;
 
 	private void dropItem() {
 		Debug.Log ("DropItem");
 		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
 		Vector3 newPosition = currentPosition;
-		newPosition = _gridController.GetNeighborTileVector(currentPosition, (GridDirection)direction);
+		//newPosition = _gridController.GetNeighborTileVector(currentPosition, (GridDirection)direction);
+		GameObject tile = ((HexGridController)_gridController).getTileAtPosition (currentPosition, (GridDirection)direction);
+		Debug.Log (tile.name);
+		Debug.Log (tile.transform.childCount);
 
+		//tile.SetActive (false);
+
+
+		objectInRobotsHand.transform.parent = tile.transform;
+		objectInRobotsHand.transform.localPosition = new Vector3 (0, 0, 0);
+		((HexGridController)_gridController).setBlockStateOfTile (currentPosition, (GridDirection)direction,true);
+		Debug.Log (tile.transform.childCount);
 	}
 
 	private void rotateLeft(){

@@ -48,6 +48,12 @@ public class TileManager : MonoBehaviour
         }
         return true;
     }
+
+	public void blockTile(GridTile tile, bool state){
+		if (_tiles[tile.tileID].walkable) {
+			_items [tile.itemID].blockingTile = state;
+		}
+	}
 }
 
 [System.Serializable]

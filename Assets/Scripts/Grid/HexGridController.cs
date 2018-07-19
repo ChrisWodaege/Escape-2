@@ -154,6 +154,13 @@ public class HexGridController : MonoBehaviour, IGridController
         return sqrDistance;
     }
 
+	public void setBlockStateOfTile(Vector3 fromTile, GridDirection direction, bool state) {
+		GridPosition nearestGridPosition = GetNearestGridPosition(fromTile);
+		GridPosition gridPosition = nearestGridPosition.GetNeighborGridPosition(direction);
+		GridTile tile = _hexWorld.GetTile(gridPosition);
+		_tileManager.blockTile (tile, state);
+	}
+
     public bool IsTileWalkable(GridPosition gridPosition)
     {
         if (!IsInsideWorld(gridPosition))
