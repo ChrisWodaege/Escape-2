@@ -32,7 +32,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	private Camera _mainCamera;
 
     public MoveController(IGridController gridController, IPlayerPosition playerPosition, IMovePlayerController movePlayerController) {
-		direction = 1;
+
     }
 
 	public void Init(IGridController gridController, IPlayerPosition playerPosition, IMovePlayerController movePlayerController){
@@ -41,6 +41,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		this._movePlayerController = movePlayerController;
 		_movePlayerController.AddWalkingFinishedListener(commandFinished);
 		commandQueue = new Queue<Command> ();
+		direction = 3;
 	}
 
 	private void Awake(){
