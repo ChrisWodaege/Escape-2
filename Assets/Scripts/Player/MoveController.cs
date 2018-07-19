@@ -96,11 +96,11 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 				break;			
 			}
 		case CommandType.Put: {
-				rotateRight();
+				putItem ();
 				break;			
 			}
 		case CommandType.Drop: {
-				rotateRight();
+				dropItem ();
 				break;			
 			}
 		}
@@ -144,10 +144,27 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	}
 
 	private void putItem() {
+//		GameObject stone = GameObject.("envStone");
+//		Debug.Log (stone.transform.position.ToString());
+//		stone.transform.position = new Vector3 (0, 0, 0);
+		//transform.localPosition = new VectorAA3 (1, 0, 0);
+//		stone.transform.Translate(new Vector3 (1, 0, 0));
+		//stone.transform.position = new Vector3 (1, 0, 0);
+//		stone.transform.localPosition = new Vector3 (1, 0, 0);
+	
+
 		Debug.Log ("PutItem");
 		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
 		Vector3 newPosition = currentPosition;
-		newPosition = _gridController.GetNeighborTileVector(currentPosition, (GridDirection)direction);
+		//newPosition = _gridController.GetNeighborTileVector(currentPosition, (GridDirection)direction);
+		GameObject tile = ((HexGridController)_gridController).getTileAtPosition (currentPosition, (GridDirection)direction);
+		Debug.Log (tile.name);
+		Debug.Log (tile.transform.childCount);
+
+		//tile.SetActive (false);
+		Debug.Log (tile.transform.GetChild(0).name);
+		GameObject stone = tile.transform.GetChild(0).gameObject;
+		stone.transform.parent = this.transform;
 	}
 
 	private void dropItem() {

@@ -82,19 +82,20 @@ public class HexGridController : MonoBehaviour, IGridController
     }
 
     //from IGridController - used by movecontroller
+
     public Vector3 GetNeighborTileVector(Vector3 fromTile, GridDirection direction)
     {
         GridPosition nearestGridPosition = GetNearestGridPosition(fromTile);
         return GetGridPositionFrom(nearestGridPosition, direction);
     }
 
-    private Vector3 GetGridPositionFrom(GridPosition fromPosition, GridDirection direction)
-    {
+    private Vector3 GetGridPositionFrom(GridPosition fromPosition, GridDirection direction) {
         if (!IsInsideWorld(fromPosition))
         {
             //invalid fromTile
             throw new ArgumentOutOfRangeException("FromTile is not within range");
         }
+
 
         GridPosition neighborPosition = fromPosition.GetNeighborGridPosition(direction);
         if (!IsInsideWorld(neighborPosition))
@@ -164,12 +165,16 @@ public class HexGridController : MonoBehaviour, IGridController
         return _tileManager.GetIsWalkable(tile.tileID, tile.itemID);
     }
 
-	public GridTile getTileAtPosition(GridPosition gridPosition){
+
+	public GameObject getTileAtPosition(Vector3 fromTile, GridDirection direction){
+		GridPosition nearestGridPosition = GetNearestGridPosition(fromTile);
+		GridPosition gridPosition = nearestGridPosition.GetNeighborGridPosition(direction);
+
 		if (!IsInsideWorld(gridPosition))
 		{
 			return null; //TODO hotfix better use an default GridTile
 		}
-		return _hexWorld.GetTile(gridPosition);
+		return _tiles [gridPosition.X, gridPosition.Y];
 	}
 
     private bool IsInsideWorld(GridPosition gridPosition)
@@ -212,7 +217,7 @@ public class HexGridController : MonoBehaviour, IGridController
                     int randomRotation = UnityEngine.Random.Range(0, 6);
                     Quaternion borderTileRotation = Quaternion.LookRotation(GetDirectionVector((GridDirection)randomRotation));
                     int borderTileIndex = UnityEngine.Random.Range(0, _borderTileIDs.Length);
-                    Instantiate(_tileManager.GetTilePrefab(_borderTileIDs[borderTileIndex]), borderTilePosition, borderTileRotation, _tileParent.transform);
+                    //Instantiate(_tileManager.GetTilePrefab(_borderTileIDs[borderTileIndex]), borderTilePosition, borderTileRotation, _tileParent.transform);
                     continue;
                 }
 

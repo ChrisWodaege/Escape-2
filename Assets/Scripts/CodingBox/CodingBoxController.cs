@@ -16,7 +16,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     private SyntaxColors _syntaxColors;
 
     [SerializeField]
-    private float _autometedWritingTimeBetweenCharacters = 0.05f;
+    private float _autometedWritingTimeBetweenCharacters = 0.005f;
 
     [SerializeField]
     private TMP_InputField _codingBoxInputField;
@@ -164,7 +164,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 		_codingBoxInputField.ActivateInputField ();
 		String code = _unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text);
 		code = code.Substring (gc.contentLength);
-		List<String> validCommands = new List<String> (new String[]{ "boot", "move", "turnleft", "turnright" });
+		List<String> validCommands = new List<String> (new String[]{ "boot", "move", "turnleft", "turnright", "put", "drop" });
 		List<Command> commands = stringToCommandMapper(Parser.parse (code,validCommands));
 		Debug.Log (commands.Count);
 		foreach (Command c in commands)	_movePlayerController.sendCommand (c);
@@ -186,6 +186,8 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 				case "move":{ cl.Add(new Command(CommandType.Move)); break;}
 				case "turnleft":{ cl.Add(new Command(CommandType.TurnLeft)); break;}
 				case "turnright":{ cl.Add(new Command(CommandType.TurnRight)); break;}
+				case "put":{ cl.Add(new Command(CommandType.Put)); break;}
+				case "drop":{ cl.Add(new Command(CommandType.Drop)); break;}
 			}
 		}
 		return cl;
