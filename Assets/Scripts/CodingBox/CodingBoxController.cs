@@ -164,8 +164,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 		code = code.Substring (gc.contentLength);
 		List<String> validCommands = new List<String> (new String[]{ "boot", "move", "turnleft", "turnright", "put", "drop" });
 		List<Command> commands = stringToCommandMapper(Parser.parse (code,validCommands));
-		Debug.Log (commands.Count);
-		foreach (Command c in commands)	_movePlayerController.sendCommand (c);
+		_movePlayerController.sendCommand (commands);
     }
 
 	private List<Command> stringToCommandMapper(List<String> source) {

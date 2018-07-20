@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -44,7 +45,7 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
 		playerPosition = new Vector3(startPosition.x,startPosition.y,startPosition.z);
 		//moveController = GameObject.Instantiate ();
 //		moveController = gameObject.AddComponent(new MoveController(_gridController, playerPosition, this));
-		moveController = gameObject.AddComponent<MoveController>() as MoveController;
+		if(moveController==null)moveController = gameObject.AddComponent<MoveController>() as MoveController;
 		((MoveController)moveController).Init(_gridController, playerPosition, this);
 //        moveController = new MoveController(_gridController, playerPosition, this);
         transform.position = _start;
@@ -78,7 +79,7 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
         _playerAnimator.transform.rotation = Quaternion.Lerp(_fromRotation, _toRotation, percentage);
 
         if (rotating && _rotateTimeRemaining < 0f) {
-			//_walkingFinished.Invoke();
+			_walkingFinished.Invoke();
             rotating = false;
         }
     }
@@ -105,9 +106,8 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
 		}
     }
 
-	public void sendCommand(Command c) {
-		Debug.Log ("SendCommand MovePlayController");
-		moveController.execute (c);
+	public void sendCommand(List<Command> commands) {
+		moveController.execute (commands);
 	}
 
     public IEnumerator BootCharacter() {

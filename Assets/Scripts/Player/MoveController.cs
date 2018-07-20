@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 
 public interface CommandReceiver{
-	void execute(Command command);
+	void execute(List<Command> command);
 }
 
 public class Command {
@@ -24,18 +24,23 @@ public enum CommandType {
 }
 
 public class MoveController : MonoBehaviour, CommandReceiver {
+	public static int counter = 0; 
     private IGridController _gridController;
     private Vector3 _playerPosition;
     private IMovePlayerController _movePlayerController;
 	private int direction;
 	private Queue<Command> commandQueue;
 	private Camera _mainCamera;
+	private int randomName;
 
     public MoveController(IGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController) {
 		Debug.Log ("MoveController created");
     }
 
 	public void Init(IGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController){
+
+		randomName = MoveController.counter;
+		MoveController.counter++;
 		Debug.Log ("MoveController init");
 		this._gridController = gridController;
 		this._playerPosition = playerPosition;
@@ -56,10 +61,16 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		executeCommand();
 	}
 
-	public void execute(Command command) {
-		Debug.Log ("Excecute:"+command.type.ToString());
+	public void execute(List<Command> commands) {
+
+		foreach(Command c in commands){
+			Debug.Log ("Excecute:"+c.type.ToString());
+			commandQueue.Enqueue (c);
+			Debug.Log ("commandQueue.Count:"+commandQueue.Count);
+		}
+		Debug.Log ("commandQueue.Count:"+commandQueue.Count);
 		Debug.Log ("Status:"+active);
-		commandQueue.Enqueue (command);
+
 		if (active == false) {
 			active = true;
 			executeCommand ();
@@ -67,13 +78,16 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	}
 
 	public bool active = false;
-	public void executeCommand(){
+	private void executeCommand(){
+		Debug.Log (commandQueue.Count);
+		Debug.Log ("Name"+this.randomName+"commandQueue.Count:"+commandQueue.Count);
 		if (commandQueue.Count == 0) {
 			active = false;
 			return;
 		}
 
 		Command command = commandQueue.Dequeue ();
+		Debug.Log ("Name"+this.randomName+"commandQueue.Count:"+commandQueue.Count);
 		Debug.Log ("Command Received:"+command.type.ToString());
 		switch (command.type) {
 		case CommandType.Boot:
@@ -213,6 +227,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	    try {
 	        newPosition = _gridController.GetNeighborTileVector(currentPosition, direction);
 			_playerPosition = newPosition;
+			Debug.Log(currentPosition.ToString()+":::::"+newPosition.ToString());
 			_movePlayerController.MovePlayer(currentPosition, newPosition);
 	    }
 	    catch (Exception e) {
