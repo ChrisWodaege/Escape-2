@@ -54,7 +54,6 @@ class GameConsole {
 	}
 
 	public class GameConsoleState {
-		public int ContentLength;
 		public string title,text;
 		public bool initialised;
 		public bool showHelp;

@@ -224,7 +224,7 @@ public class HexGridController : MonoBehaviour, IGridController
                     int randomRotation = UnityEngine.Random.Range(0, 6);
                     Quaternion borderTileRotation = Quaternion.LookRotation(GetDirectionVector((GridDirection)randomRotation));
                     int borderTileIndex = UnityEngine.Random.Range(0, _borderTileIDs.Length);
-                    //Instantiate(_tileManager.GetTilePrefab(_borderTileIDs[borderTileIndex]), borderTilePosition, borderTileRotation, _tileParent.transform);
+                    Instantiate(_tileManager.GetTilePrefab(_borderTileIDs[borderTileIndex]), borderTilePosition, borderTileRotation, _tileParent.transform);
                     continue;
                 }
 

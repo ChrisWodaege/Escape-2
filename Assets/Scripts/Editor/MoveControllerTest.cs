@@ -6,18 +6,18 @@ using UnityEngine;
 [TestFixture]
 public class MoveControllerTest 
 {
-    private MoveController _moveController;
+    //private MoveController _moveController;
     private Vector3 _playerPosition;
-    private IGridController _gridController;
+    //private IGridController _gridController;
     private IMovePlayerController _playerMoveController;
 
     [SetUp]
     public void setup()
     {
-        _gridController = new MockGridController();
+        //_gridController = new MockGridController();
 		_playerPosition = new Vector3(0,0,0);
         _playerMoveController = new MovePlayerController();
-        _moveController = new MoveController(_gridController, _playerPosition, _playerMoveController);
+        //_moveController = new MoveController(_gridController, _playerPosition, _playerMoveController);
     }
 
     //[Test]
