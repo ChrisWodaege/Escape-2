@@ -32,10 +32,11 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	private Camera _mainCamera;
 
     public MoveController(IGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController) {
-
+		Debug.Log ("MoveController created");
     }
 
 	public void Init(IGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController){
+		Debug.Log ("MoveController init");
 		this._gridController = gridController;
 		this._playerPosition = playerPosition;
 		this._movePlayerController = movePlayerController;

@@ -97,9 +97,12 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
         rotating = true;
     }
 
-    public void AddWalkingFinishedListener(UnityAction listener) {
-		if(_walkingFinished==null)_walkingFinished = new UnityEvent();
-		_walkingFinished.AddListener(listener);
+    public void AddWalkingFinishedListener(UnityAction listener) {		
+		if (_walkingFinished == null) {
+			//This function gets called multiple times, we need only one listener
+			_walkingFinished = new UnityEvent ();
+			_walkingFinished.AddListener (listener);
+		}
     }
 
 	public void sendCommand(Command c) {
