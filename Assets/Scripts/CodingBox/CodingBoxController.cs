@@ -162,7 +162,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 		_codingBoxInputField.ActivateInputField ();
 		String code = _unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text);
 		code = code.Substring (gc.contentLength);
-		List<String> validCommands = new List<String> (new String[]{ "boot", "move", "turnleft", "turnright", "put", "drop" });
+		List<String> validCommands = new List<String> (new String[]{ "boot", "move", "turnleft", "turnright", "take", "drop" });
 		List<Command> commands = stringToCommandMapper(Parser.parse (code,validCommands));
 		_movePlayerController.sendCommand (commands);
     }
@@ -178,7 +178,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 				case "move":{ cl.Add(new Command(CommandType.Move)); break;}
 				case "turnleft":{ cl.Add(new Command(CommandType.TurnLeft)); break;}
 				case "turnright":{ cl.Add(new Command(CommandType.TurnRight)); break;}
-				case "put":{ cl.Add(new Command(CommandType.Put)); break;}
+				case "take":{ cl.Add(new Command(CommandType.Take)); break;}
 				case "drop":{ cl.Add(new Command(CommandType.Drop)); break;}
 			}
 		}

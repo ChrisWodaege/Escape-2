@@ -43,13 +43,9 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
     public void Init(Vector3 startPosition) {
         _start = startPosition;
 		playerPosition = new Vector3(startPosition.x,startPosition.y,startPosition.z);
-		//moveController = GameObject.Instantiate ();
-//		moveController = gameObject.AddComponent(new MoveController(_gridController, playerPosition, this));
 		if(moveController==null)moveController = gameObject.AddComponent<MoveController>() as MoveController;
 		((MoveController)moveController).Init(_gridController, playerPosition, this);
-//        moveController = new MoveController(_gridController, playerPosition, this);
         transform.position = _start;
-
     }
 
     // Update is called once per frame
@@ -77,10 +73,7 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
         _rotateTimeRemaining -= Time.deltaTime;
         float percentage = 1 - (_rotateTimeRemaining / _timeToRotate);
         _playerAnimator.transform.rotation = Quaternion.Lerp(_fromRotation, _toRotation, percentage);
-
-		Debug.Log ("rotating:"+rotating+":::"+_rotateTimeRemaining);
         if (rotating && _rotateTimeRemaining < 0f) {
-			Debug.Log ("rotating:finished");
 			rotating = false;
 			_walkingFinished.Invoke();
         }

@@ -27,7 +27,7 @@ public class MoveControllerTest
 	//    Assert.AreEqual(new Vector3(1,1,1), _playerPosition.GetCurrentPosition());
 	//}
 
-    public class MockGridController : IGridController
+    public class MockGridController
     {
         public Vector3 GetNeighborTileVector(Vector3 fromTile, GridDirection direction)
         {

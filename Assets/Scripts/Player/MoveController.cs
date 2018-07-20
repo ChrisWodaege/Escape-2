@@ -19,22 +19,22 @@ public enum CommandType {
 	Move,
 	TurnRight,
 	TurnLeft,
-	Put,
+	Take,
 	Drop
 }
 
 public class MoveController : MonoBehaviour, CommandReceiver {
-    private IGridController _gridController;
+	private HexGridController _gridController;
     private Vector3 _playerPosition;
     private IMovePlayerController _movePlayerController;
 	private int direction;
 	private Queue<Command> commandQueue;
 	private Camera _mainCamera;
 
-    public MoveController(IGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController) {
+	public MoveController(HexGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController) {
     }
 
-	public void Init(IGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController){
+	public void Init(HexGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController){
 		this._gridController = gridController;
 		this._playerPosition = playerPosition;
 		this._movePlayerController = movePlayerController;
@@ -54,13 +54,10 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	}
 
 	public void execute(List<Command> commands) {
-		foreach(Command c in commands){
-			Debug.Log ("Excecute:"+c.type.ToString());
+		foreach(Command c in commands) {
 			commandQueue.Enqueue (c);
-
 		}
-		Debug.Log ("commandQueue.Count:"+commandQueue.Count);
-		Debug.Log ("active:"+active);
+
 		if (active == false) {
 			active = true;
 			executeCommand ();
@@ -69,13 +66,13 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 
 	public bool active = false;
 	private void executeCommand(){
-		Debug.Log ("commandQueue.Count:"+commandQueue.Count);
 		if (commandQueue.Count == 0) {
 			active = false;
 			return;
 		}
 
-		Command command = commandQueue.Dequeue ();	
+		Command command = commandQueue.Dequeue ();
+		Debug.Log ("Excecute:"+command.type.ToString());
 		switch (command.type) {
 		case CommandType.Boot:
 			{
@@ -99,8 +96,8 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 				rotateRight();
 				break;			
 			}
-		case CommandType.Put: {
-				putItem ();
+		case CommandType.Take: {
+				takeItem ();
 				break;			
 			}
 		case CommandType.Drop: {
@@ -129,13 +126,8 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		
 	protected void AddMethod(IEnumerator method)
 	{
-		if (_methodController == null)
-		{
-			
-
-			Debug.Log ("Line 107"+			gameObject.name);
+		if (_methodController == null) {
 			//_methodController = GameObject.Find("CodingBox/CodingBox").GetComponent<CodingBoxMethodController>();
-			Debug.Log ("Line 109");
 			_methodController.SetOnCompleteAction(AllowRunndingCode);
 		}
 
@@ -147,48 +139,33 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		//LevelController.AllowRunningCode();
 	}
 
-	private void putItem() {
-//		GameObject stone = GameObject.("envStone");
-//		Debug.Log (stone.transform.position.ToString());
-//		stone.transform.position = new Vector3 (0, 0, 0);
-		//transform.localPosition = new VectorAA3 (1, 0, 0);
-//		stone.transform.Translate(new Vector3 (1, 0, 0));
-		//stone.transform.position = new Vector3 (1, 0, 0);
-//		stone.transform.localPosition = new Vector3 (1, 0, 0);
-	
-
-		Debug.Log ("PutItem");
+	private void takeItem() {
+		Debug.Log ("TakeItem");
 		Vector3 currentPosition = _playerPosition;
 		Vector3 newPosition = currentPosition;
-		//newPosition = _gridController.GetNeighborTileVector(currentPosition, (GridDirection)direction);
 		GameObject tile = ((HexGridController)_gridController).getTileAtPosition (currentPosition, (GridDirection)direction);
-		Debug.Log (tile.name);
-		Debug.Log (tile.transform.childCount);
 
-		//tile.SetActive (false);
-		Debug.Log (tile.transform.GetChild(0).name);
-		objectInRobotsHand = tile.transform.GetChild(0).gameObject;
-		objectInRobotsHand.transform.parent = this.transform;
-		objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
-		((HexGridController)_gridController).setBlockStateOfTile (currentPosition, (GridDirection)direction,true);
-//		stone.transform.position = new Vector3 (0, 0, 0);
-		((MovePlayerController)_movePlayerController).TakeObject();
+		if(tile.transform.childCount>0) {
+			if(tile.transform.GetChild(0).name == "envStone") {
+				objectInRobotsHand = tile.transform.GetChild(0).gameObject;
+				objectInRobotsHand.transform.parent = this.transform;
+				objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
+				((HexGridController)_gridController).setBlockStateOfTile (currentPosition, (GridDirection)direction,true);
+				((MovePlayerController)_movePlayerController).TakeObject();
+			}
+		}
 	}
 
 	GameObject objectInRobotsHand;
 
 	private void dropItem() {
+		if(objectInRobotsHand)
 		Debug.Log ("DropItem");
 		Vector3 currentPosition = _playerPosition;
 		Vector3 newPosition = currentPosition;
-		//newPosition = _gridController.GetNeighborTileVector(currentPosition, (GridDirection)direction);
 		GameObject tile = ((HexGridController)_gridController).getTileAtPosition (currentPosition, (GridDirection)direction);
 		Debug.Log (tile.name);
 		Debug.Log (tile.transform.childCount);
-
-		//tile.SetActive (false);
-
-
 		objectInRobotsHand.transform.parent = tile.transform;
 		objectInRobotsHand.transform.localPosition = new Vector3 (0, 0, 0);
 		((HexGridController)_gridController).setBlockStateOfTile (currentPosition, (GridDirection)direction,true);

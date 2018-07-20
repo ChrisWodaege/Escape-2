@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class HexGridController : MonoBehaviour, IGridController
+public class HexGridController : MonoBehaviour
 {
     [Header("Grid properties")]
     [SerializeField]
