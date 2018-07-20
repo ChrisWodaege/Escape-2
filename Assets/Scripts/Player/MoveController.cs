@@ -25,17 +25,17 @@ public enum CommandType {
 
 public class MoveController : MonoBehaviour, CommandReceiver {
     private IGridController _gridController;
-    private IPlayerPosition _playerPosition;
+    private Vector3 _playerPosition;
     private IMovePlayerController _movePlayerController;
 	private int direction;
 	private Queue<Command> commandQueue;
 	private Camera _mainCamera;
 
-    public MoveController(IGridController gridController, IPlayerPosition playerPosition, IMovePlayerController movePlayerController) {
+    public MoveController(IGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController) {
 
     }
 
-	public void Init(IGridController gridController, IPlayerPosition playerPosition, IMovePlayerController movePlayerController){
+	public void Init(IGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController){
 		this._gridController = gridController;
 		this._playerPosition = playerPosition;
 		this._movePlayerController = movePlayerController;
@@ -156,7 +156,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	
 
 		Debug.Log ("PutItem");
-		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
+		Vector3 currentPosition = _playerPosition;
 		Vector3 newPosition = currentPosition;
 		//newPosition = _gridController.GetNeighborTileVector(currentPosition, (GridDirection)direction);
 		GameObject tile = ((HexGridController)_gridController).getTileAtPosition (currentPosition, (GridDirection)direction);
@@ -176,7 +176,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 
 	private void dropItem() {
 		Debug.Log ("DropItem");
-		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
+		Vector3 currentPosition = _playerPosition;
 		Vector3 newPosition = currentPosition;
 		//newPosition = _gridController.GetNeighborTileVector(currentPosition, (GridDirection)direction);
 		GameObject tile = ((HexGridController)_gridController).getTileAtPosition (currentPosition, (GridDirection)direction);
@@ -207,11 +207,11 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	}
 
 	private void MoveTo(GridDirection direction) {
-		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
+		Vector3 currentPosition = _playerPosition;
 		Vector3 newPosition = currentPosition;
 	    try {
 	        newPosition = _gridController.GetNeighborTileVector(currentPosition, direction);
-			_playerPosition.ChangePosition(newPosition);
+			_playerPosition = newPosition;
 			_movePlayerController.MovePlayer(currentPosition, newPosition);
 	    }
 	    catch (Exception e) {

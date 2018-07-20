@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class MovePlayerController : MonoBehaviour, IMovePlayerController {
     //IMoveController moveController;
 	CommandReceiver moveController;
-	IPlayerPosition playerPosition;
+	Vector3 playerPosition;
 
     [SerializeField]
     private Vector3 _start;
@@ -41,7 +41,7 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
 
     public void Init(Vector3 startPosition) {
         _start = startPosition;
-        playerPosition = new PlayerPosition(_start);
+		playerPosition = new Vector3(startPosition.x,startPosition.y,startPosition.z);
 		//moveController = GameObject.Instantiate ();
 //		moveController = gameObject.AddComponent(new MoveController(_gridController, playerPosition, this));
 		moveController = gameObject.AddComponent<MoveController>() as MoveController;
