@@ -24,24 +24,17 @@ public enum CommandType {
 }
 
 public class MoveController : MonoBehaviour, CommandReceiver {
-	public static int counter = 0; 
     private IGridController _gridController;
     private Vector3 _playerPosition;
     private IMovePlayerController _movePlayerController;
 	private int direction;
 	private Queue<Command> commandQueue;
 	private Camera _mainCamera;
-	private int randomName;
 
     public MoveController(IGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController) {
-		Debug.Log ("MoveController created");
     }
 
 	public void Init(IGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController){
-
-		randomName = MoveController.counter;
-		MoveController.counter++;
-		Debug.Log ("MoveController init");
 		this._gridController = gridController;
 		this._playerPosition = playerPosition;
 		this._movePlayerController = movePlayerController;
@@ -57,20 +50,16 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	}
 
 	public void commandFinished(){
-		Debug.Log ("Command Finished");
 		executeCommand();
 	}
 
 	public void execute(List<Command> commands) {
-
 		foreach(Command c in commands){
 			Debug.Log ("Excecute:"+c.type.ToString());
 			commandQueue.Enqueue (c);
-			Debug.Log ("commandQueue.Count:"+commandQueue.Count);
+
 		}
 		Debug.Log ("commandQueue.Count:"+commandQueue.Count);
-		Debug.Log ("Status:"+active);
-
 		if (active == false) {
 			active = true;
 			executeCommand ();
@@ -79,16 +68,12 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 
 	public bool active = false;
 	private void executeCommand(){
-		Debug.Log (commandQueue.Count);
-		Debug.Log ("Name"+this.randomName+"commandQueue.Count:"+commandQueue.Count);
 		if (commandQueue.Count == 0) {
 			active = false;
 			return;
 		}
 
-		Command command = commandQueue.Dequeue ();
-		Debug.Log ("Name"+this.randomName+"commandQueue.Count:"+commandQueue.Count);
-		Debug.Log ("Command Received:"+command.type.ToString());
+		Command command = commandQueue.Dequeue ();	
 		switch (command.type) {
 		case CommandType.Boot:
 			{
