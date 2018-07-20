@@ -60,6 +60,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 
 		}
 		Debug.Log ("commandQueue.Count:"+commandQueue.Count);
+		Debug.Log ("active:"+active);
 		if (active == false) {
 			active = true;
 			executeCommand ();
@@ -68,6 +69,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 
 	public bool active = false;
 	private void executeCommand(){
+		Debug.Log ("commandQueue.Count:"+commandQueue.Count);
 		if (commandQueue.Count == 0) {
 			active = false;
 			return;

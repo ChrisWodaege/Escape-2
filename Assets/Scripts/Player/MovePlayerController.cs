@@ -78,9 +78,11 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
         float percentage = 1 - (_rotateTimeRemaining / _timeToRotate);
         _playerAnimator.transform.rotation = Quaternion.Lerp(_fromRotation, _toRotation, percentage);
 
+		Debug.Log ("rotating:"+rotating+":::"+_rotateTimeRemaining);
         if (rotating && _rotateTimeRemaining < 0f) {
+			Debug.Log ("rotating:finished");
+			rotating = false;
 			_walkingFinished.Invoke();
-            rotating = false;
         }
     }
 
