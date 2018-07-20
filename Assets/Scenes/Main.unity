@@ -756,7 +756,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 67a1e9ee24ea11a4fb1c78f22f05496a, type: 2}
+  - {fileID: 2100000, guid: e930fcfc7d2adff45a540051633430e8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3354,7 +3354,7 @@ Prefab:
     - target: {fileID: 224152470465564646, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -368.09814
+      value: 26.404877
       objectReference: {fileID: 0}
     - target: {fileID: 224192685316729706, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
@@ -3374,7 +3374,7 @@ Prefab:
     - target: {fileID: 224427810073178746, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -368.09814
+      value: 353.09814
       objectReference: {fileID: 0}
     - target: {fileID: 224512666154674130, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
@@ -3414,7 +3414,7 @@ Prefab:
     - target: {fileID: 224587328396665794, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -368.09814
+      value: -326.69324
       objectReference: {fileID: 0}
     - target: {fileID: 224653386331752244, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
@@ -5424,6 +5424,11 @@ Prefab:
       propertyPath: _worldJSON
       value: 
       objectReference: {fileID: 4900000, guid: d241ff64200087d4b9970a1822ce79b5, type: 3}
+    - target: {fileID: 114394933980401302, guid: f37006dca0f254d3da52c49dd5f48f1b,
+        type: 2}
+      propertyPath: _tiles.Array.data[3].walkable
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f37006dca0f254d3da52c49dd5f48f1b, type: 2}
   m_IsPrefabParent: 0
