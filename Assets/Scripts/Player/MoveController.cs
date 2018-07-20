@@ -170,6 +170,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
 		((HexGridController)_gridController).setBlockStateOfTile (currentPosition, (GridDirection)direction,true);
 //		stone.transform.position = new Vector3 (0, 0, 0);
+		((MovePlayerController)_movePlayerController).TakeObject();
 	}
 
 	GameObject objectInRobotsHand;
@@ -190,6 +191,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		objectInRobotsHand.transform.localPosition = new Vector3 (0, 0, 0);
 		((HexGridController)_gridController).setBlockStateOfTile (currentPosition, (GridDirection)direction,true);
 		Debug.Log (tile.transform.childCount);
+		((MovePlayerController)_movePlayerController).DropObject();
 	}
 
 	private void rotateLeft(){

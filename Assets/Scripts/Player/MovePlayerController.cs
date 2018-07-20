@@ -91,6 +91,18 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
         moving = true;
     }
 
+	public void BootPlayer() {
+		_walkingFinished.Invoke();
+	}
+
+	public void TakeObject() {
+		_walkingFinished.Invoke();
+	}
+
+	public void DropObject() {
+		_walkingFinished.Invoke();
+	}
+
     public void RotatePlayer(GridDirection to) {
         _rotateTimeRemaining = _timeToRotate;
         _fromRotation = _playerAnimator.transform.rotation;
@@ -113,6 +125,7 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
     public IEnumerator BootCharacter() {
         _playerAnimator.SetBool("StartUp", true);
         yield return new WaitForSeconds(5);
+		_walkingFinished.Invoke();
     }
 
     public void ChangeHandUp(bool up) {
