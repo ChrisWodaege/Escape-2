@@ -12,12 +12,12 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
     [SerializeField]
     private Vector3 _end;
     [SerializeField]
-    private float _timeToMove = 1f;
+    private float _timeToMove = 2f;
     private float _moveTimeRemaining = 0f;
     private UnityEvent _walkingFinished;
 
     [SerializeField]
-    private float _timeToRotate = 1f;
+    private float _timeToRotate = 2f;
     private float _rotateTimeRemaining = 0f;
     private Quaternion _fromRotation;
     private Quaternion _toRotation;
@@ -64,7 +64,9 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
         float percentage = 1 - (_moveTimeRemaining / _timeToMove);
         transform.position = Vector3.Lerp(_start, _end, percentage);
 
-        if (_moveTimeRemaining < 0f) {
+		Debug.Log (_moveTimeRemaining);
+
+        if (moving && _moveTimeRemaining < 0f) {
             moving = false;
             _walkingFinished.Invoke();
         }
@@ -75,8 +77,8 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
         float percentage = 1 - (_rotateTimeRemaining / _timeToRotate);
         _playerAnimator.transform.rotation = Quaternion.Lerp(_fromRotation, _toRotation, percentage);
 
-        if (_rotateTimeRemaining < 0f) {
-			_walkingFinished.Invoke();
+        if (rotating && _rotateTimeRemaining < 0f) {
+			//_walkingFinished.Invoke();
             rotating = false;
         }
     }

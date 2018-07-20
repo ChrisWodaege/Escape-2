@@ -51,6 +51,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	}
 
 	public void commandFinished(){
+		Debug.Log ("Command Finished");
 		executeCommand();
 	}
 
