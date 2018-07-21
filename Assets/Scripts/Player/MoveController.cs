@@ -143,33 +143,34 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		Debug.Log ("TakeItem");
 		Vector3 currentPosition = _playerPosition;
 		Vector3 newPosition = currentPosition;
-		GameObject tile = ((HexGridController)_gridController).getTileAtPosition (currentPosition, (GridDirection)direction);
 
-		if(tile.transform.childCount>0) {
-			if(tile.transform.GetChild(0).name == "envStone") {
-				objectInRobotsHand = tile.transform.GetChild(0).gameObject;
-				objectInRobotsHand.transform.parent = this.transform;
-				objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
-				((HexGridController)_gridController).setBlockStateOfTile (currentPosition, (GridDirection)direction,true);
-				((MovePlayerController)_movePlayerController).TakeObject();
-			}
+		GameObject stone = _gridController.getStoneFromTile (_playerPosition,(GridDirection)direction);
+		if(stone!=null){
+			objectInRobotsHand = stone;
+			objectInRobotsHand.transform.parent = this.transform;
+			objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
 		}
+
+		((MovePlayerController)_movePlayerController).TakeObject();
 	}
 
 	GameObject objectInRobotsHand;
 
 	private void dropItem() {
-		if(objectInRobotsHand)
-		Debug.Log ("DropItem");
-		Vector3 currentPosition = _playerPosition;
-		Vector3 newPosition = currentPosition;
-		GameObject tile = ((HexGridController)_gridController).getTileAtPosition (currentPosition, (GridDirection)direction);
-		Debug.Log (tile.name);
-		Debug.Log (tile.transform.childCount);
-		objectInRobotsHand.transform.parent = tile.transform;
-		objectInRobotsHand.transform.localPosition = new Vector3 (0, 0, 0);
-		((HexGridController)_gridController).setBlockStateOfTile (currentPosition, (GridDirection)direction,true);
-		Debug.Log (tile.transform.childCount);
+		if (objectInRobotsHand) {
+			Debug.Log ("DropItem");
+			Vector3 currentPosition = _playerPosition;
+			Vector3 newPosition = currentPosition;
+			if (_gridController.putStoneAtTile (objectInRobotsHand, _playerPosition, (GridDirection)direction)) {
+				objectInRobotsHand = null;
+			}
+		}
+
+		//GameObject tile = _gridController.getTileAtPosition (currentPosition, (GridDirection)direction);
+		//objectInRobotsHand.transform.parent = tile.transform;
+		//objectInRobotsHand.transform.localPosition = new Vector3 (0, 0, 0);
+		//_gridController.setBlockStateOfTile (currentPosition, (GridDirection)direction,true);
+		//Debug.Log (tile.transform.childCount);
 		((MovePlayerController)_movePlayerController).DropObject();
 	}
 
