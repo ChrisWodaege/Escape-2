@@ -175,16 +175,21 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	}
 
 	private void rotateLeft(){
+
 		direction--;
 		if (direction < 0)
 			direction = 5;
+		GridTile tile = _gridController.GetGridTile (_playerPosition,(GridDirection)direction);
+		Debug.Log ("TileID:"+tile.tileID);
 		_movePlayerController.RotatePlayer((GridDirection)direction);
 	}
 
-	private void rotateRight(){
+	private void rotateRight(){		
 		direction++;
 		if (direction > 5)
 			direction = 0;
+		GridTile tile = _gridController.GetGridTile (_playerPosition,(GridDirection)direction);
+		Debug.Log ("TileID:"+tile.tileID);
 		_movePlayerController.RotatePlayer((GridDirection)direction);
 	}
 
@@ -195,6 +200,8 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	        newPosition = _gridController.GetNeighborTileVector(currentPosition, direction);
 			_playerPosition = newPosition;
 			Debug.Log(currentPosition.ToString()+":::::"+newPosition.ToString());
+			GridTile tile = _gridController.GetGridTile (_playerPosition,(GridDirection)direction);
+			Debug.Log ("TileID:"+tile.tileID);
 			_movePlayerController.MovePlayer(currentPosition, newPosition);
 	    }
 	    catch (Exception e) {
