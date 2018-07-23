@@ -177,9 +177,8 @@ public class HexGridController : MonoBehaviour
 
         GridTile tile = _hexWorld.GetTile(gridPosition);
 		if (tile.tileID == 3) { //Water is blocked
-			return false;
+			return tile.containsStone;
 		}
-
 
         return _tileManager.GetIsWalkable(tile.tileID, tile.itemID);
     }
@@ -270,9 +269,9 @@ public class HexGridController : MonoBehaviour
         return tile;
     }
 
-	public bool TileIsOfType(Vector3 fromTile, GridDirection direction,int type){
-		return GetGridTile(fromTile,direction).tileID == type;
-	}
+//	public bool TileIsOfType(Vector3 fromTile, GridDirection direction,int type){
+//		return GetGridTile(fromTile,direction).tileID == type;
+//	}
 
 	public bool TileContainsItem(){
 		return false;
@@ -293,7 +292,9 @@ public class HexGridController : MonoBehaviour
 	public bool putStoneAtTile(GameObject stone,Vector3 currentPosition,GridDirection direction) {
 
 		if (!TileContainsStone (currentPosition, direction)) {
-			if(!TileIsOfType(currentPosition,direction,4)) { //Test if contains obstacle
+			GridTile gridtile = GetGridTile (currentPosition, direction);
+			if(gridtile.tileID!=4) { //Test if contains obstacle
+				gridtile.containsStone = true;
 				GameObject tile = getTileAtPosition (currentPosition, direction);
 				stone.transform.parent = tile.transform;
 				stone.transform.localPosition = new Vector3 (0, 0, 0);
@@ -309,6 +310,8 @@ public class HexGridController : MonoBehaviour
 
 	public GameObject getStoneFromTile(Vector3 currentPosition,GridDirection direction) {
 		if (TileContainsStone (currentPosition, direction)) {
+			GridTile gridtile = GetGridTile (currentPosition, direction);
+			gridtile.containsStone = false;
 			GameObject tile = getTileAtPosition (currentPosition, direction);
 			setBlockStateOfTile (currentPosition, direction,true);
 			return tile.transform.GetChild(0).gameObject;
