@@ -141,14 +141,15 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 
 	private void takeItem() {
 		Debug.Log ("TakeItem");
-		Vector3 currentPosition = _playerPosition;
-		Vector3 newPosition = currentPosition;
-
-		GameObject stone = _gridController.getStoneFromTile (_playerPosition,(GridDirection)direction);
-		if(stone!=null){
-			objectInRobotsHand = stone;
-			objectInRobotsHand.transform.parent = this.transform;
-			objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
+		if (objectInRobotsHand == null) { //Only take if robot has no object taken
+			Vector3 currentPosition = _playerPosition;
+			Vector3 newPosition = currentPosition;
+			GameObject stone = _gridController.getStoneFromTile (_playerPosition, (GridDirection)direction);
+			if (stone != null) {
+				objectInRobotsHand = stone;
+				objectInRobotsHand.transform.parent = this.transform;
+				objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
+			}
 		}
 
 		((MovePlayerController)_movePlayerController).TakeObject();
