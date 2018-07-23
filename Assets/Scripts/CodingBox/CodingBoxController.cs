@@ -469,7 +469,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 	public void MyTestSubmit() {
 		String text = _unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text);
 		String input = text;
-
+		Debug.Log (text);
 		this.ClearCodingBox ();
 		gc.input (input);
 		if (gc.getStateType () == typeof(GameConsole.Script)) {

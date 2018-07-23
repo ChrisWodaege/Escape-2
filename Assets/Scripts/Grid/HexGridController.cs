@@ -174,7 +174,13 @@ public class HexGridController : MonoBehaviour
 			Debug.Log ("NotInsideWorld");
             return false;
         }
+
+
         GridTile tile = _hexWorld.GetTile(gridPosition);
+		if (tile.tileID == 3) {
+			return false;
+		}
+
 
         return _tileManager.GetIsWalkable(tile.tileID, tile.itemID);
     }
