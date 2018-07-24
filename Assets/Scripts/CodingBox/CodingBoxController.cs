@@ -174,12 +174,12 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 		foreach(String s in source){
 			Debug.Log ("CommandMapper:" + s);
 			switch (s) {
-				case "boot":{ cl.Add(new Command(CommandType.Boot)); break;}
-				case "move":{ cl.Add(new Command(CommandType.Move)); break;}
-				case "turnleft":{ cl.Add(new Command(CommandType.TurnLeft)); break;}
-				case "turnright":{ cl.Add(new Command(CommandType.TurnRight)); break;}
-				case "take":{ cl.Add(new Command(CommandType.Take)); break;}
-				case "drop":{ cl.Add(new Command(CommandType.Drop)); break;}
+				case "boot()":{ cl.Add(new Command(CommandType.Boot)); break;}
+				case "move()":{ cl.Add(new Command(CommandType.Move)); break;}
+				case "turnleft()":{ cl.Add(new Command(CommandType.TurnLeft)); break;}
+				case "turnright()":{ cl.Add(new Command(CommandType.TurnRight)); break;}
+				case "take()":{ cl.Add(new Command(CommandType.Take)); break;}
+				case "drop()":{ cl.Add(new Command(CommandType.Drop)); break;}
 			}
 		}
 		return cl;
@@ -426,6 +426,8 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 			
 			if (scriptingEnabled) {
 
+				userCodeContent = this._codingBoxInputField.text.Substring (gc.contentLength);
+
 				this.ClearCodingBox ();
 				gc.runCommand ("");
 				Debug.Log (gc.getStateType ().ToString());
@@ -443,6 +445,8 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
             //Run();
         }
     }
+
+	string userCodeContent = "";
 
     private void HighlightCode(string content) {
         _highlightCoroutine = StartCoroutine(_unitySyntaxHighlighter.HighlightSourceCoroutine(content, OnCodingTextHighlighted));
@@ -480,7 +484,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
 		String gcOutput = gc.output();
 		outputLength = gcOutput.Length;
-		WriteToCodingBox(gcOutput);
+		WriteToCodingBox(gcOutput+userCodeContent);
 	}
 
     private void OnCodingTextHighlighted(string content) {

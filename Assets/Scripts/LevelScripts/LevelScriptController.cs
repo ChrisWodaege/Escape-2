@@ -103,7 +103,6 @@ public class LevelScriptController : MonoBehaviour {
 		var settings = GetLevelScriptSettings (level);
 		Debug.Log ("Boot");
 		_codingBoxController.LoadWithCoroutine (settings.FileName, settings.HiddenLinesOfCodeOnTop, settings.HiddenLinesOfCodeOnBottom);
-
 		_currentLevel = level;
 	}
 
@@ -145,9 +144,9 @@ public class LevelScriptController : MonoBehaviour {
 		LoadLevelScript (0);
 
 		//set camera to zoomed mode only during zeroth level
-		Animator _cameraController = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Animator> ();
-		_cameraController.SetBool ("Zoom", true);
-		_cameraController.Play ("FadeInZoom");
+//		Animator _cameraController = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Animator> ();
+//		_cameraController.SetBool ("Zoom", true);
+//		_cameraController.Play ("FadeInZoom");
 
 		/*
         //if you don't want the boot procedure

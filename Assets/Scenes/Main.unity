@@ -3260,7 +3260,7 @@ Prefab:
         type: 2}
       propertyPath: _cameraAnimator
       value: 
-      objectReference: {fileID: 1704246496}
+      objectReference: {fileID: 0}
     - target: {fileID: 114047447880025922, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_Controller
@@ -3354,7 +3354,7 @@ Prefab:
     - target: {fileID: 224152470465564646, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -368.09814
+      value: -255.31914
       objectReference: {fileID: 0}
     - target: {fileID: 224192685316729706, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
@@ -3374,7 +3374,7 @@ Prefab:
     - target: {fileID: 224427810073178746, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -368.09814
+      value: -255.31914
       objectReference: {fileID: 0}
     - target: {fileID: 224512666154674130, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
@@ -3414,7 +3414,7 @@ Prefab:
     - target: {fileID: 224587328396665794, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -368.09814
+      value: -255.31914
       objectReference: {fileID: 0}
     - target: {fileID: 224653386331752244, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
@@ -3424,7 +3424,7 @@ Prefab:
     - target: {fileID: 224653386331752244, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: -0.49998474
       objectReference: {fileID: 0}
     - target: {fileID: 224816590908366026, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
@@ -3465,7 +3465,7 @@ Prefab:
         type: 2}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 1704246496}
+      objectReference: {fileID: 0}
     - target: {fileID: 224404775393875696, guid: f5827590ef2305c4c8dc6499d7000db2,
         type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -7176,28 +7176,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1666477030}
---- !u!1 &1704246494 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1020613163269344, guid: 420e36a9919dba5468d59ce1b64b2447,
-    type: 2}
-  m_PrefabInternal: {fileID: 1749312884}
---- !u!95 &1704246496
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1704246494}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dcebb3d2c67002a45b833eb3e317d8e6, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1001 &1714400917
 Prefab:
   m_ObjectHideFlags: 0
