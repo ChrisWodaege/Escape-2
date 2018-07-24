@@ -208,7 +208,7 @@ public static class Parser {
         return str;
     }
 
-    public static string regexReplace(string regex, string text, string rpl)
+    public static string regexReplace(string text, string regex, string rpl)
     {
         Regex rgx = new Regex(regex);
         return rgx.Replace(text, rpl);
@@ -423,12 +423,19 @@ public static class Parser {
         string find = results[0];
         string rest = results[1];
         string memo = results[2];
+        memo = memo.Trim();
+        memo = memo.Replace("\r","");
+        memo = regexReplace(memo, @"[ ]+", " ");
+        memo = regexReplace(memo, @"\t[ ]", "\t");
+        memo = regexReplace(memo, @"\t+", "\t");
+        memo = regexReplace(memo, @"\n[ \t]", "\n");
+        memo = regexReplace(memo, @"\n+", "\n");
 
         string cmds = "";
         obj.commands.Sort((x,y) => x.index.CompareTo(y.index));
         foreach(var cmd in obj.commands){
           cmds += cmd.code+"\n";
-          list.Add(cmd.Replace("(","").Replace(")","").ToLower());
+          list.Add(cmd.code); //.ToLower().Replace("(","").Replace(")","")
         }
 
         int row = 0;
@@ -460,7 +467,7 @@ public static class Parser {
         result += rest;
         result += "[MEMORY]\n";
         result += "==========================\n";
-        result += memo;
+        result += memo + "\n";
         result += "____________________________________________________\n";
         result += "[ERRORS]\n";
         result += errors + "\n";
@@ -892,7 +899,7 @@ public static class Parser {
         var chars = matchAll(@"[^ \t\n]", code);
         if (chars.Count==0) { code = ""; }
 
-        return new string[]{found,code,memo.Trim()};
+        return new string[]{found,code,memo};
     }
 
 

@@ -24,21 +24,23 @@ public class ParserExecutor : MonoBehaviour {
 					"turnLeft()\n"+
 					"print(\"root\")\n"+
 					"function abc(a, b, c)\n" +
-					"var z = 0\n" +
-					"var a = 0\n" +
+					"print(\"custom abc ->\")\n"+
+					"z = 0\n" +
+					"a = 0\n" +
 					"moveVorward()\n" +
-					"print(\"custom abc\")\n"+
+					"print(\"<- custom abc\")\n"+
 					"endFunction\n" +
 					"function cde(c, d, e)\n" +
-					"/* var testA = 1 + 2\n"+
-					"var testB = testA / testA */\n" +
+					"print(\"custom cde ->\")\n"+
+					"/* testA = 1 + 2\n"+
+					"testB = testA / testA */\n" +
 					"moveVorward()\n" +
-					"//var testA = testA / testA\n" +
+					"//testA = testA / testA\n" +
 					"turnLeft()\n" +
 					"turnLeft()\n" +
 					"turnRight()\n" +
 					"moveVorward()\n" +
-					"print(\"custom cde\")\n"+
+					"print(\"<- custom cde\")\n"+
 					"endFunction\n" +
 					"abc()\n" +
 					//"moveVorward()\n turnLeft(1,2)\n inspect(\"\")\n interact(\"sdsd\",\"aa\")\n abc(1,2,3)\n cde(1,2,3)\n" +
@@ -71,7 +73,7 @@ public class ParserExecutor : MonoBehaviour {
           " turnLeft()\n"+
           " moveVorward()\n"+
 					"endif\n"+
-
+					"                        fur                   \n"+
 					"if(testC + 2)\n"+
 					" print(\"3. IF\")\n"+
           " moveVorward()\n"+
