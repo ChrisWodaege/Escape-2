@@ -391,7 +391,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
     private void Update() {
 		_codingBoxInputField.ActivateInputField ();
-		if(	_codingBoxInputField.caretPosition < gc.contentLength){
+		if(	_codingBoxInputField.caretPosition < gc.contentLength) { //TODO Nullreference
 			_codingBoxInputField.caretPosition = gc.contentLength;
 		}
 //
@@ -448,24 +448,28 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         _highlightCoroutine = StartCoroutine(_unitySyntaxHighlighter.HighlightSourceCoroutine(content, OnCodingTextHighlighted));
     }
 
+
+
     public void ResetCodeHighlighting(string content) {
-
-
-
 		if(	_codingBoxInputField.caretPosition < gc.contentLength){
 			if (Input.GetKeyDown (KeyCode.Backspace) || Input.GetKey (KeyCode.Backspace)) {
 				//TODO Entfernen abfragen
-				_codingBoxInputField.text = gc.output ();
+				string oldtext = _codingBoxInputField.text.Substring (_codingBoxInputField.caretPosition);
+				//oldtext="root";
+				_codingBoxInputField.onValueChanged.RemoveListener(ResetCodeHighlighting);
+				_codingBoxInputField.text = gc.output () + oldtext;
+				_codingBoxInputField.onValueChanged.AddListener(ResetCodeHighlighting);
 			}
 			_codingBoxInputField.caretPosition = gc.contentLength;
 		}
+
     }
 
 	bool scriptingEnabled = false;
 	public void MyTestSubmit() {
 		String text = _unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text);
 		String input = text;
-
+		Debug.Log (text);
 		this.ClearCodingBox ();
 		gc.input (input);
 		if (gc.getStateType () == typeof(GameConsole.Script)) {
@@ -480,6 +484,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 	}
 
     private void OnCodingTextHighlighted(string content) {
+		Debug.Log("OnCodingTextHighlighted");	
         if (!_codingBoxInputField.text.Equals(content)) {
             _codingBoxInputField.onValueChanged.RemoveListener(ResetCodeHighlighting);
             bool isReadonly = _codingBoxInputField.readOnly;
@@ -496,6 +501,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     }
 
     private IEnumerator SetCaret(int offset, bool isReadonly) {
+		Debug.Log("SetCaret");
         yield return new WaitForEndOfFrame();
         _codingBoxInputField.caretPosition = _caretPositionOnHighlighting + offset;
         _codingBoxInputField.caretColor = _caretColorOnHighlighting;

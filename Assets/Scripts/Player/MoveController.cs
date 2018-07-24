@@ -141,14 +141,15 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 
 	private void takeItem() {
 		Debug.Log ("TakeItem");
-		Vector3 currentPosition = _playerPosition;
-		Vector3 newPosition = currentPosition;
-
-		GameObject stone = _gridController.getStoneFromTile (_playerPosition,(GridDirection)direction);
-		if(stone!=null){
-			objectInRobotsHand = stone;
-			objectInRobotsHand.transform.parent = this.transform;
-			objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
+		if (objectInRobotsHand == null) { //Only take if robot has no object taken
+			Vector3 currentPosition = _playerPosition;
+			Vector3 newPosition = currentPosition;
+			GameObject stone = _gridController.getStoneFromTile (_playerPosition, (GridDirection)direction);
+			if (stone != null) {
+				objectInRobotsHand = stone;
+				objectInRobotsHand.transform.parent = this.transform;
+				objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
+			}
 		}
 
 		((MovePlayerController)_movePlayerController).TakeObject();
@@ -175,16 +176,21 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	}
 
 	private void rotateLeft(){
+
 		direction--;
 		if (direction < 0)
 			direction = 5;
+		GridTile tile = _gridController.GetGridTile (_playerPosition,(GridDirection)direction);
+		Debug.Log ("TileID:"+tile.tileID);
 		_movePlayerController.RotatePlayer((GridDirection)direction);
 	}
 
-	private void rotateRight(){
+	private void rotateRight(){		
 		direction++;
 		if (direction > 5)
 			direction = 0;
+		GridTile tile = _gridController.GetGridTile (_playerPosition,(GridDirection)direction);
+		Debug.Log ("TileID:"+tile.tileID);
 		_movePlayerController.RotatePlayer((GridDirection)direction);
 	}
 
@@ -195,6 +201,8 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	        newPosition = _gridController.GetNeighborTileVector(currentPosition, direction);
 			_playerPosition = newPosition;
 			Debug.Log(currentPosition.ToString()+":::::"+newPosition.ToString());
+			GridTile tile = _gridController.GetGridTile (_playerPosition,(GridDirection)direction);
+			Debug.Log ("TileID:"+tile.tileID);
 			_movePlayerController.MovePlayer(currentPosition, newPosition);
 	    }
 	    catch (Exception e) {
