@@ -83,8 +83,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 				_movePlayerController.BootCharacter ();
 				break;			
 			}
-		case CommandType.Move:
-			{
+		case CommandType.Move: {
 				MoveTo ((GridDirection)direction);
 				break;			
 			}
@@ -161,7 +160,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		if (objectInRobotsHand) {
 			Debug.Log ("DropItem");
 			Vector3 currentPosition = _playerPosition;
-			Vector3 newPosition = currentPosition;
+			//Vector3 newPosition = currentPosition;
 			if (_gridController.putStoneAtTile (objectInRobotsHand, _playerPosition, (GridDirection)direction)) {
 				objectInRobotsHand = null;
 			}

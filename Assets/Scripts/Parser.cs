@@ -350,7 +350,7 @@ public static class Parser {
           string s_right = body[3].Value;
 
           bool isLeftNumeric = parseVar(ref obj, ref node, index, s_left, out s_left, isVar, depth);
-          bool isRightNumeric = parseVar(ref obj, ref node, index, s_right, out s_right, isVar, depth);
+//          bool isRightNumeric = parseVar(ref obj, ref node, index, s_right, out s_right, isVar, depth);
 
           if (isLeftNumeric && isLeftNumeric)
           {
@@ -418,7 +418,7 @@ public static class Parser {
         List<string> list = new List<string>();
         string result = "";
         string[] results = parsePart(ref obj, ref obj.root, code, 0, 0);
-        string parsedCode = obj.getParsedCode();
+//        string parsedCode = obj.getParsedCode();
 
         string find = results[0];
         string rest = results[1];
@@ -597,7 +597,7 @@ public static class Parser {
         var node = new ParseNode(ref parent);
 
         string found = "";
-        string errors = "";
+        //string errors = "";
         string memo = "";
 
         // FIND FUNCTIONS

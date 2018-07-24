@@ -21,8 +21,8 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     [SerializeField]
     private TMP_InputField _codingBoxInputField;
 
-    [SerializeField]
-    private TMP_InputField _fileNameInputField;
+    //[SerializeField]
+    //private TMP_InputField _fileNameInputField;
 
     [SerializeField]
     private TMP_InputField _componentParentName;
