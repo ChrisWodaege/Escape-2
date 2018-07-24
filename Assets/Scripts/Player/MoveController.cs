@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 
 public interface CommandReceiver{
-	void execute(Command command);
+	void execute(List<Command> command);
 }
 
 public class Command {
@@ -19,28 +19,28 @@ public enum CommandType {
 	Move,
 	TurnRight,
 	TurnLeft,
-	Put,
+	Take,
 	Drop
 }
 
 public class MoveController : MonoBehaviour, CommandReceiver {
-    private IGridController _gridController;
-    private IPlayerPosition _playerPosition;
+	private HexGridController _gridController;
+    private Vector3 _playerPosition;
     private IMovePlayerController _movePlayerController;
 	private int direction;
 	private Queue<Command> commandQueue;
 	private Camera _mainCamera;
 
-    public MoveController(IGridController gridController, IPlayerPosition playerPosition, IMovePlayerController movePlayerController) {
-
+	public MoveController(HexGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController) {
     }
 
-	public void Init(IGridController gridController, IPlayerPosition playerPosition, IMovePlayerController movePlayerController){
+	public void Init(HexGridController gridController, Vector3 playerPosition, IMovePlayerController movePlayerController){
 		this._gridController = gridController;
 		this._playerPosition = playerPosition;
 		this._movePlayerController = movePlayerController;
 		_movePlayerController.AddWalkingFinishedListener(commandFinished);
 		commandQueue = new Queue<Command> ();
+		direction = 3;
 	}
 
 	private void Awake(){
@@ -53,10 +53,11 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		executeCommand();
 	}
 
-	public void execute(Command command) {
-		Debug.Log ("Excecute:"+command.type.ToString());
-		Debug.Log ("Status:"+active);
-		commandQueue.Enqueue (command);
+	public void execute(List<Command> commands) {
+		foreach(Command c in commands) {
+			commandQueue.Enqueue (c);
+		}
+
 		if (active == false) {
 			active = true;
 			executeCommand ();
@@ -64,14 +65,14 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	}
 
 	public bool active = false;
-	public void executeCommand(){
+	private void executeCommand(){
 		if (commandQueue.Count == 0) {
 			active = false;
 			return;
 		}
 
 		Command command = commandQueue.Dequeue ();
-		Debug.Log ("Command Received:"+command.type.ToString());
+		Debug.Log ("Excecute:"+command.type.ToString());
 		switch (command.type) {
 		case CommandType.Boot:
 			{
@@ -95,12 +96,12 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 				rotateRight();
 				break;			
 			}
-		case CommandType.Put: {
-				rotateRight();
+		case CommandType.Take: {
+				takeItem ();
 				break;			
 			}
 		case CommandType.Drop: {
-				rotateRight();
+				dropItem ();
 				break;			
 			}
 		}
@@ -125,13 +126,8 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		
 	protected void AddMethod(IEnumerator method)
 	{
-		if (_methodController == null)
-		{
-			
-
-			Debug.Log ("Line 107"+			gameObject.name);
+		if (_methodController == null) {
 			//_methodController = GameObject.Find("CodingBox/CodingBox").GetComponent<CodingBoxMethodController>();
-			Debug.Log ("Line 109");
 			_methodController.SetOnCompleteAction(AllowRunndingCode);
 		}
 
@@ -143,19 +139,39 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		//LevelController.AllowRunningCode();
 	}
 
-	private void putItem() {
-		Debug.Log ("PutItem");
-		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
+	private void takeItem() {
+		Debug.Log ("TakeItem");
+		Vector3 currentPosition = _playerPosition;
 		Vector3 newPosition = currentPosition;
-		newPosition = _gridController.GetNeighborTileVector(currentPosition, (GridDirection)direction);
+
+		GameObject stone = _gridController.getStoneFromTile (_playerPosition,(GridDirection)direction);
+		if(stone!=null){
+			objectInRobotsHand = stone;
+			objectInRobotsHand.transform.parent = this.transform;
+			objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
+		}
+
+		((MovePlayerController)_movePlayerController).TakeObject();
 	}
 
-	private void dropItem() {
-		Debug.Log ("DropItem");
-		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
-		Vector3 newPosition = currentPosition;
-		newPosition = _gridController.GetNeighborTileVector(currentPosition, (GridDirection)direction);
+	GameObject objectInRobotsHand;
 
+	private void dropItem() {
+		if (objectInRobotsHand) {
+			Debug.Log ("DropItem");
+			Vector3 currentPosition = _playerPosition;
+			Vector3 newPosition = currentPosition;
+			if (_gridController.putStoneAtTile (objectInRobotsHand, _playerPosition, (GridDirection)direction)) {
+				objectInRobotsHand = null;
+			}
+		}
+
+		//GameObject tile = _gridController.getTileAtPosition (currentPosition, (GridDirection)direction);
+		//objectInRobotsHand.transform.parent = tile.transform;
+		//objectInRobotsHand.transform.localPosition = new Vector3 (0, 0, 0);
+		//_gridController.setBlockStateOfTile (currentPosition, (GridDirection)direction,true);
+		//Debug.Log (tile.transform.childCount);
+		((MovePlayerController)_movePlayerController).DropObject();
 	}
 
 	private void rotateLeft(){
@@ -173,11 +189,12 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	}
 
 	private void MoveTo(GridDirection direction) {
-		Vector3 currentPosition = _playerPosition.GetCurrentPosition();
+		Vector3 currentPosition = _playerPosition;
 		Vector3 newPosition = currentPosition;
 	    try {
 	        newPosition = _gridController.GetNeighborTileVector(currentPosition, direction);
-			_playerPosition.ChangePosition(newPosition);
+			_playerPosition = newPosition;
+			Debug.Log(currentPosition.ToString()+":::::"+newPosition.ToString());
 			_movePlayerController.MovePlayer(currentPosition, newPosition);
 	    }
 	    catch (Exception e) {

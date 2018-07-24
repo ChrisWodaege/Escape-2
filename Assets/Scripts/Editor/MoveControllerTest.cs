@@ -6,18 +6,18 @@ using UnityEngine;
 [TestFixture]
 public class MoveControllerTest 
 {
-    private MoveController _moveController;
-    private IPlayerPosition _playerPosition;
-    private IGridController _gridController;
+    //private MoveController _moveController;
+    private Vector3 _playerPosition;
+    //private IGridController _gridController;
     private IMovePlayerController _playerMoveController;
 
     [SetUp]
     public void setup()
     {
-        _gridController = new MockGridController();
-        _playerPosition = new PlayerPosition(new Vector3(0,0,0));
+        //_gridController = new MockGridController();
+		_playerPosition = new Vector3(0,0,0);
         _playerMoveController = new MovePlayerController();
-        _moveController = new MoveController(_gridController, _playerPosition, _playerMoveController);
+        //_moveController = new MoveController(_gridController, _playerPosition, _playerMoveController);
     }
 
     //[Test]
@@ -27,7 +27,7 @@ public class MoveControllerTest
 	//    Assert.AreEqual(new Vector3(1,1,1), _playerPosition.GetCurrentPosition());
 	//}
 
-    public class MockGridController : IGridController
+    public class MockGridController
     {
         public Vector3 GetNeighborTileVector(Vector3 fromTile, GridDirection direction)
         {

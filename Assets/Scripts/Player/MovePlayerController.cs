@@ -1,23 +1,24 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class MovePlayerController : MonoBehaviour, IMovePlayerController {
     //IMoveController moveController;
 	CommandReceiver moveController;
-	IPlayerPosition playerPosition;
+	Vector3 playerPosition;
 
     [SerializeField]
     private Vector3 _start;
     [SerializeField]
     private Vector3 _end;
     [SerializeField]
-    private float _timeToMove = 1f;
+    private float _timeToMove = 2f;
     private float _moveTimeRemaining = 0f;
     private UnityEvent _walkingFinished;
 
     [SerializeField]
-    private float _timeToRotate = 1f;
+    private float _timeToRotate = 2f;
     private float _rotateTimeRemaining = 0f;
     private Quaternion _fromRotation;
     private Quaternion _toRotation;
@@ -41,14 +42,10 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
 
     public void Init(Vector3 startPosition) {
         _start = startPosition;
-        playerPosition = new PlayerPosition(_start);
-		//moveController = GameObject.Instantiate ();
-//		moveController = gameObject.AddComponent(new MoveController(_gridController, playerPosition, this));
-		moveController = gameObject.AddComponent<MoveController>() as MoveController;
+		playerPosition = new Vector3(startPosition.x,startPosition.y,startPosition.z);
+		if(moveController==null)moveController = gameObject.AddComponent<MoveController>() as MoveController;
 		((MoveController)moveController).Init(_gridController, playerPosition, this);
-//        moveController = new MoveController(_gridController, playerPosition, this);
         transform.position = _start;
-
     }
 
     // Update is called once per frame
@@ -64,7 +61,9 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
         float percentage = 1 - (_moveTimeRemaining / _timeToMove);
         transform.position = Vector3.Lerp(_start, _end, percentage);
 
-        if (_moveTimeRemaining < 0f) {
+		Debug.Log (_moveTimeRemaining);
+
+        if (moving && _moveTimeRemaining < 0f) {
             moving = false;
             _walkingFinished.Invoke();
         }
@@ -74,10 +73,9 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
         _rotateTimeRemaining -= Time.deltaTime;
         float percentage = 1 - (_rotateTimeRemaining / _timeToRotate);
         _playerAnimator.transform.rotation = Quaternion.Lerp(_fromRotation, _toRotation, percentage);
-
-        if (_rotateTimeRemaining < 0f) {
+        if (rotating && _rotateTimeRemaining < 0f) {
+			rotating = false;
 			_walkingFinished.Invoke();
-            rotating = false;
         }
     }
 
@@ -88,6 +86,18 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
         moving = true;
     }
 
+	public void BootPlayer() {
+		_walkingFinished.Invoke();
+	}
+
+	public void TakeObject() {
+		_walkingFinished.Invoke();
+	}
+
+	public void DropObject() {
+		_walkingFinished.Invoke();
+	}
+
     public void RotatePlayer(GridDirection to) {
         _rotateTimeRemaining = _timeToRotate;
         _fromRotation = _playerAnimator.transform.rotation;
@@ -95,19 +105,22 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
         rotating = true;
     }
 
-    public void AddWalkingFinishedListener(UnityAction listener) {
-		if(_walkingFinished==null)_walkingFinished = new UnityEvent();
-		_walkingFinished.AddListener(listener);
+    public void AddWalkingFinishedListener(UnityAction listener) {		
+		if (_walkingFinished == null) {
+			//This function gets called multiple times, we need only one listener
+			_walkingFinished = new UnityEvent ();
+			_walkingFinished.AddListener (listener);
+		}
     }
 
-	public void sendCommand(Command c) {
-		Debug.Log ("SendCommand MovePlayController");
-		moveController.execute (c);
+	public void sendCommand(List<Command> commands) {
+		moveController.execute (commands);
 	}
 
     public IEnumerator BootCharacter() {
         _playerAnimator.SetBool("StartUp", true);
         yield return new WaitForSeconds(5);
+		_walkingFinished.Invoke();
     }
 
     public void ChangeHandUp(bool up) {

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class HexGridController : MonoBehaviour, IGridController
+public class HexGridController : MonoBehaviour
 {
     [Header("Grid properties")]
     [SerializeField]
@@ -82,19 +82,20 @@ public class HexGridController : MonoBehaviour, IGridController
     }
 
     //from IGridController - used by movecontroller
+
     public Vector3 GetNeighborTileVector(Vector3 fromTile, GridDirection direction)
     {
         GridPosition nearestGridPosition = GetNearestGridPosition(fromTile);
         return GetGridPositionFrom(nearestGridPosition, direction);
     }
 
-    private Vector3 GetGridPositionFrom(GridPosition fromPosition, GridDirection direction)
-    {
+    private Vector3 GetGridPositionFrom(GridPosition fromPosition, GridDirection direction) {
         if (!IsInsideWorld(fromPosition))
         {
             //invalid fromTile
             throw new ArgumentOutOfRangeException("FromTile is not within range");
         }
+
 
         GridPosition neighborPosition = fromPosition.GetNeighborGridPosition(direction);
         if (!IsInsideWorld(neighborPosition))
@@ -153,10 +154,18 @@ public class HexGridController : MonoBehaviour, IGridController
         return sqrDistance;
     }
 
+	public void setBlockStateOfTile(Vector3 fromTile, GridDirection direction, bool state) {
+		GridPosition nearestGridPosition = GetNearestGridPosition(fromTile);
+		GridPosition gridPosition = nearestGridPosition.GetNeighborGridPosition(direction);
+		GridTile tile = _hexWorld.GetTile(gridPosition);
+		//SetWalkable
+		_tileManager.blockTile (tile, state);
+	}
+
     public bool IsTileWalkable(GridPosition gridPosition)
     {
-        if (!IsInsideWorld(gridPosition))
-        {
+        if (!IsInsideWorld(gridPosition)) {
+			Debug.Log ("NotInsideWorld");
             return false;
         }
         GridTile tile = _hexWorld.GetTile(gridPosition);
@@ -164,12 +173,16 @@ public class HexGridController : MonoBehaviour, IGridController
         return _tileManager.GetIsWalkable(tile.tileID, tile.itemID);
     }
 
-	public GridTile getTileAtPosition(GridPosition gridPosition){
+
+	public GameObject getTileAtPosition(Vector3 fromTile, GridDirection direction){
+		GridPosition nearestGridPosition = GetNearestGridPosition(fromTile);
+		GridPosition gridPosition = nearestGridPosition.GetNeighborGridPosition(direction);
+
 		if (!IsInsideWorld(gridPosition))
 		{
 			return null; //TODO hotfix better use an default GridTile
 		}
-		return _hexWorld.GetTile(gridPosition);
+		return _tiles [gridPosition.X, gridPosition.Y];
 	}
 
     private bool IsInsideWorld(GridPosition gridPosition)
@@ -245,4 +258,62 @@ public class HexGridController : MonoBehaviour, IGridController
 
         return tile;
     }
+
+	public void makeTileWakable(){
+	
+	}
+
+	public bool TileIsWater(){
+		return false;
+	}
+
+	public bool TileContainsItem(){
+		return false;
+	}
+
+
+
+	public bool TileHasSpaceForObject(){
+		//TODO sagt aus ob ein Tile frei ist
+		//Nicht frei wenn ein Stein drauf liegt
+		return false;
+	}
+
+	public GameObject getItemFromTile(){
+		return null;
+	}
+
+	public bool putStoneAtTile(GameObject stone,Vector3 currentPosition,GridDirection direction) {
+
+		if (!TileContainsStone (currentPosition, direction)) {
+			GameObject tile = getTileAtPosition (currentPosition, direction);
+			stone.transform.parent = tile.transform;
+			stone.transform.localPosition = new Vector3 (0, 0, 0);
+
+			setBlockStateOfTile (currentPosition, direction,false);
+
+			return tile.transform.GetChild(0).gameObject;
+		}
+
+		return false;
+	}
+
+	public GameObject getStoneFromTile(Vector3 currentPosition,GridDirection direction) {
+		if (TileContainsStone (currentPosition, direction)) {
+			GameObject tile = getTileAtPosition (currentPosition, direction);
+			setBlockStateOfTile (currentPosition, direction,true);
+			return tile.transform.GetChild(0).gameObject;
+		}
+		return null;
+	}
+
+	private bool TileContainsStone(Vector3 currentPosition,GridDirection direction) {
+		GameObject tile = getTileAtPosition (currentPosition, direction);
+		if (tile.transform.childCount > 0) {
+			if (tile.transform.GetChild (0).name == "envStone") {
+				return true;
+			}
+		}
+		return false;
+	}
 }

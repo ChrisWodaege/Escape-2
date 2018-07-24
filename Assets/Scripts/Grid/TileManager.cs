@@ -36,18 +36,32 @@ public class TileManager : MonoBehaviour
         return _items[itemID].itemPrefab;
     }
 
-    public bool GetIsWalkable(int tileID, int itemID)
-    {
+	public void SetWalkable(int tileID, int itemID,bool state) {
+		_tiles [tileID].walkable = state;
+	}
+
+    public bool GetIsWalkable(int tileID, int itemID) {
+
+		Debug.Log ("walkable:"+(!_tiles[tileID].walkable));
+		Debug.Log ("itemID:"+itemID);
+		//Debug.Log ("blockingTile:"+_items[itemID].blockingTile);
         if (!_tiles[tileID].walkable)
         {
             return false;
         }
+
         if (itemID != -1 && _items[itemID].blockingTile)
         {
             return false;
         }
         return true;
     }
+
+	public void blockTile(GridTile tile, bool state){
+		//if (_tiles[tile.tileID].walkable) {
+		_tiles[tile.tileID].walkable = state;
+		//}
+	}
 }
 
 [System.Serializable]
