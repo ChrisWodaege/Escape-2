@@ -426,7 +426,10 @@ public static class Parser {
 
         string cmds = "";
         obj.commands.Sort((x,y) => x.index.CompareTo(y.index));
-        foreach(var cmd in obj.commands){ cmds += cmd.code+"\n"; }
+        foreach(var cmd in obj.commands){
+          cmds += cmd.code+"\n";
+          list.Add(cmd.Replace("(","").Replace(")","").ToLower());
+        }
 
         int row = 0;
         int col = 0;
@@ -467,9 +470,6 @@ public static class Parser {
 
         //File.WriteAllText("parsed.txt", toString(commands));
         File.WriteAllText("parsed.txt", result);
-
-        //TODO Klammern entfernen,trimmen, tolower
-        //foreach (string s in cmds.Split('\n')) { list.Add(s.Replace("(","").Replace(")","").ToLower()); }
 
         // syntax for valid commands, regular expression replace
         /*
