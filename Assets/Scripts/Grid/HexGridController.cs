@@ -314,15 +314,18 @@ public class HexGridController : MonoBehaviour
 			gridtile.containsStone = false;
 			GameObject tile = getTileAtPosition (currentPosition, direction);
 			setBlockStateOfTile (currentPosition, direction,true);
-			return tile.transform.GetChild(0).gameObject;
+			return tile.transform.GetChild(tile.transform.childCount-1).gameObject;
 		}
 		return null;
 	}
 
 	private bool TileContainsStone(Vector3 currentPosition,GridDirection direction) {
 		GameObject tile = getTileAtPosition (currentPosition, direction);
-		if (tile.transform.childCount > 0) {
-			if (tile.transform.GetChild (0).name == "envStone") {
+		Debug.Log ("tile.transform.childCount:"+tile.transform.childCount);
+		if (tile.transform.childCount > 0) {	
+			string name = tile.transform.GetChild (tile.transform.childCount-1).name;
+			Debug.Log ("name:"+name);
+			if (name == "envStone" || name == "itemEnergyCell" || name == "itemJawSpawner" || name == "Model") {
 				return true;
 			}
 		}

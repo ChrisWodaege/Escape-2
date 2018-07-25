@@ -25,7 +25,7 @@ public class CameraMovement : MonoBehaviour {
 		y = Input.GetAxis ("Mouse Y");
 		z = Input.GetAxis ("Mouse ScrollWheel");
 
-		Debug.Log (x);
+		//Debug.Log (x);
 		if (x < 0) {
 		 Mathf.Abs(x);
 		}
