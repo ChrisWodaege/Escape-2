@@ -18,10 +18,10 @@ public static class Parser {
 
     public class Command
     {
-        public int index = -1;
+        public float index = -1;
         public string code = "";
 
-        public Command(int index, string code){ this.index=index; this.code = code; }
+        public Command(float index, string code){ this.index=index; this.code = code; }
     }
 
     public class Function
@@ -159,15 +159,21 @@ public static class Parser {
           this.parsedCode = this.getParsedCode().Replace(find,rpl).ToCharArray();
         }
 
-        public void AddCommand(string code, int index) { commands.Add(new Command(index,code)); }
+        public void AddCommand(string code, float index) { commands.Add(new Command(index,code)); }
 
-        public void AddError(string msg, string code, int index) {
+        public int[] getRowCol(int index) {
             var r = (sourceCode.Substring(0,index)).Split('\n');
             var row = r.Length;
             var col = r[row-1].Length;
             if(row<1) row = 1;
             if(col<1) col = 1;
+            return new int[]{row,col};
+        }
 
+        public void AddError(string msg, string code, int index) {
+            var rowcol = getRowCol(index);
+            var row = rowcol[0];
+            var col = rowcol[1];
             AddError(msg, code, row, col);
         }
 
@@ -185,7 +191,7 @@ public static class Parser {
 
     public static string regexReplace(string text, string regex, string rpl)
     {
-        Regex rgx = new Regex(regex);
+        Regex rgx = new Regex(regex, RegexOptions.Singleline);
         return rgx.Replace(text, rpl);
     }
 
@@ -298,7 +304,7 @@ public static class Parser {
     }
 
     public static bool parseOPS(ref ParserObject obj, ref ParseNode node, int index, string content, out string result, bool isVar=true, int depth=4)  {
-      var list = matchAll(@"(\w+)[ \t]*([*/+-])[ \t]*(\w+)", content);
+      var list = matchAll(@"(\w+)[ \t]*([*/+-=!<>][=]?)[ \t]*(\w+)", content);
 
       result = "(not found)";
 
@@ -325,16 +331,28 @@ public static class Parser {
               if (s_op == "+") { result += left + right; }
               else if (s_op == "-") { result += left - right; }
               else if (s_op == "*") { result += left * right; }
-              else if (s_op == "==") { result += left == right; }
+              else if (s_op == ">") { result += left > right ? 1 : 0; }
+              else if (s_op == "<") { result += left < right ? 1 : 0; }
+              else if (s_op == ">=") { result += left >= right ? 1 : 0; }
+              else if (s_op == "<=") { result += left <= right ? 1 : 0; }
+              else if (s_op == "==") { result += left == right ? 1 : 0; }
+              else if (s_op == "!=") { result += left != right ? 1 : 0; }
               else if (s_op == "/") {
+                if(left == 0) {
+                  result = "(divide through zero)";
+                  obj.AddError( "Error: Cannot divide through zero", "'" + s_op + "' for (" + s_left + "," + s_right + ")", index);
+                  return false;
+                }
                 result += left / right;
-                if(right == 0) obj.AddError( "Error: Cannot divide through zero", "'" + s_op + "' for (" + s_left + "," + s_right + ")", index);
               }
               else {
-                  result = "(unknown " + s_op + ")";
-                  obj.AddError( "Error: Invalid Operator", "'" + s_op + "' for (" + s_left + "," + s_right + ")", index);
+                  result = "(Unsupported " + s_op + ")";
+                  obj.AddError( "Error: Unsupported Operator", "'" + s_op + "' for (" + s_left + "," + s_right + ")", index);
                   return false;
               }
+
+              //debug
+              //obj.AddError( "Error: Test", "'" + s_op + "' for (" + s_left + "," + s_right + ") = "+result, index);
           } else
           {
               result = "(invalid Value)";
@@ -385,6 +403,8 @@ public static class Parser {
         string find = results[0];
         string rest = results[1];
         string memo = results[2];
+        string commands = results[3].Trim();
+
         memo = memo.Trim();
         memo = memo.Replace("\r","");
         memo = regexReplace(memo, @"[ ]+", " ");
@@ -393,28 +413,11 @@ public static class Parser {
         memo = regexReplace(memo, @"\n[ \t]", "\n");
         memo = regexReplace(memo, @"\n+", "\n");
 
-        string cmds = "";
+        string cmds = commands;
         obj.commands.Sort((x,y) => x.index.CompareTo(y.index));
-        foreach(var cmd in obj.commands){
-          cmds += cmd.code+"\n";
-          list.Add(cmd.code); //.ToLower().Replace("(","").Replace(")","")
-        }
-
-        int row = 0;
-        int col = 0;
-        bool skipUntilBreak = false;
-
-        foreach (string line in rest.Split('\n')) {
-          row+=1;
-          col = 0;
-          skipUntilBreak = false;
-          foreach (char c in line.ToCharArray()) {
-            col+=1;
-            if(!skipUntilBreak && c != ' ' && c != '\n') {
-              obj.AddError("Invalid Code", line, row, col);
-              skipUntilBreak = true;
-            }
-          }
+        foreach(var cmd in cmds.Split('\n')){ //obj.commands
+          //cmds += cmd.code+"\n";
+          list.Add(cmd); //.ToLower().Replace("(","").Replace(")","")
         }
 
         string errors = string.Join("\n", obj.errors.ToArray());
@@ -554,20 +557,20 @@ public static class Parser {
         return findCustomFunction(ref node.parent, name);
     }
 
-    // FEHLER: LEERZEICHEN, KOMMENTARE, ZEILE, LOOP OHNE BREAK FEHLER
     public static string[] parsePart(ref ParserObject obj, ref ParseNode parent, string code, int parent_index, int depth)
     {
         var node = new ParseNode(ref parent);
 
         string found = "";
         string memo = "";
+        string commands = "";
 
         // FIND FUNCTIONS
         if (depth == 0)
         {
             //@"function[ \t]+(\w+)\((([^(],)?([^)]+))*\)[ \t]*[\n;](?s)(.*)endFunction[ \t]*[\n;]"
             //functions = matchAll(@"(?<function>function[ \t]+(\w+)\(([^)]*)\)[ \t]*[\n;](?s)((.*)?)endFunction[ \t]*([\n;]|$))", code);
-            var list = matchAll(@"(?<function>function[ \t]+(\w+)\(([^)]*)\)[ \t]*(?s)((?:(?!endFunction).)*)endFunction( |\t|\n|$))", code);
+            var list = matchAll(@"(?<function>function[ \t]+(\w+)\(([^)]*)\)[ \t]*(?s)((?:(?!endfunction).)*)endfunction( |\t|\n|$))", code);
 
             if (list.Count > 0) found += "Functions(" + list.Count + ")\n";
             foreach (var m in list)
@@ -648,7 +651,7 @@ public static class Parser {
 
         // FIND LOOPS
         {
-            var list = matchAll(@"(?<loop>loop[ \t]*\(([^)]*)\)[ \t]*\n(?s)((?:(?!endLoop).)*)endLoop( |\t|\n|$))", code);
+            var list = matchAll(@"(?<loop>loop[ \t]*\(([^)]*)\)[ \t]*\n(?s)((?:(?!endloop).)*)endloop( |\t|\n|$))", code);
 
             if(list.Count>0) found += "Loops(" + list.Count + ")\n";
             int i = -1;
@@ -703,6 +706,28 @@ public static class Parser {
             }
         }
 
+        // FIND REST
+        {
+          var rowcol = obj.getRowCol(parent_index);
+
+          int row = rowcol[0];
+          int col = rowcol[1];
+          bool skipUntilBreak = false;
+
+          foreach (string line in code.Split('\n')) {
+            col = 0;
+            skipUntilBreak = false;
+            foreach (char c in line.ToCharArray()) {
+              col+=1;
+              if(!skipUntilBreak && c != ' ' && c != '\n') {
+                obj.AddError("Invalid Code", line, row, col);
+                skipUntilBreak = true;
+              }
+            }
+            row+=1;
+          }
+        }
+
         // READ heads and bodies
         {
             // parse all vars
@@ -738,17 +763,20 @@ public static class Parser {
                         foundline += parsedParts[0];
                         foundline += "--------------------------\n";
                         foundline += parsedParts[1];
+                        foundline += "--------------------------\n";
+                        foundline += parsedParts[2];
                         foundline += "__________________________\n";
                         found = found.Replace(f.ToString(), foundline);
 
+                        commands += parsedParts[3];
                         //obj.AddCommand(f.index,f.line); // found and valid
                         memo = memo.Replace(f.line, parsedParts[2]);
                         valid = true;
-                        break;
                     }
 
-                    if(isValidCommand(ref obj, f.line)) {
-                      obj.AddCommand(f.line,f.index); // found and valid
+                    if(!valid && isValidCommand(ref obj, f.line)) {
+                      commands += f.line + "\n";
+                      //obj.AddCommand(f.line,f.index); // found and valid
                       valid = true;
                     }
 
@@ -784,16 +812,19 @@ public static class Parser {
                             bool p1 = parsedParts[0].Length > 0;
                             bool p2 = parsedParts[1].Length > 0;
                             bool p3 = parsedParts[2].Length > 0;
+                            bool p4 = parsedParts[3].Length > 0;
 
                             string repeat1 = "";
                             string repeat2 = "";
                             string repeat3 = "";
+                            string repeat4 = "";
 
                             if (start > 0 && end > 0) for (int index = start; index <= end; index++)
                             {
                                 if (p1) repeat1 += parsedParts[0] + "\n";
                                 if (p2) repeat2 += parsedParts[1] + "\n";
                                 if (p3) repeat3 += parsedParts[2] + "\n";
+                                if (p4) repeat4 += parsedParts[3];
                             }
 
                             string foundline = "(LOOP " + start + " -> " + end + "):\n";
@@ -808,6 +839,7 @@ public static class Parser {
                             updateBody(ref node, findex, result);
                             found = found.Replace(f.ToString(), foundline);
 
+                            commands += repeat4;
                             //obj.AddCommand(f.index,result); // found and valid
                             memo = memo.Replace(f.line, repeat3);
                         }
@@ -838,13 +870,16 @@ public static class Parser {
 
                       if(skipIF) {
                         string[] parsedParts = parsePart(ref obj, ref node, f.body, parent_index + f.bodyIndex, depth + 1);
-                        string foundline = f.name + "(" + f.head + " == true):\n";
+                        string foundline = f.name + "(" + f.head + "):\n";
                         foundline += parsedParts[0];
                         foundline += "--------------------------\n";
                         foundline += parsedParts[1];
+                        foundline += "--------------------------\n";
+                        foundline += parsedParts[2];
                         foundline += "__________________________\n";
                         found = found.Replace(f.ToString(), foundline);
 
+                        commands += parsedParts[3];
                         //obj.AddCommand(f.index,parsedParts[2]); // found and valid
                         memo = memo.Replace(f.line, parsedParts[2]);
                       }
@@ -857,6 +892,6 @@ public static class Parser {
         var chars = matchAll(@"[^ \t\n]", code);
         if (chars.Count==0) { code = ""; }
 
-        return new string[]{found,code,memo};
+        return new string[]{found,code,memo,commands};
     }
 }
