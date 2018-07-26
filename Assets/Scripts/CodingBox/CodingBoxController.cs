@@ -172,7 +172,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 			
 		} catch(Parser.ParserException ex) {
 			//Debug.log(ex.ToString());
-			_errorBoxField.text = ex.ToString();
+			_errorBoxField.text = ex.Message;
 		}
     }
 
@@ -427,7 +427,6 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 		}
 
 		if (Input.GetKeyDown (KeyCode.F5) && scriptingEnabled) {
-			_errorBoxField.text = "Mein kleiner Fehler";
 			this.Run();
 		}
 
