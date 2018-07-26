@@ -11556,6 +11556,16 @@ Prefab:
       propertyPath: m_BackGroundColor.a
       value: 0.78431374
       objectReference: {fileID: 0}
+    - target: {fileID: 114881945126296500, guid: 420e36a9919dba5468d59ce1b64b2447,
+        type: 2}
+      propertyPath: _timeToRotate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114881945126296500, guid: 420e36a9919dba5468d59ce1b64b2447,
+        type: 2}
+      propertyPath: _timeToMove
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 420e36a9919dba5468d59ce1b64b2447, type: 2}
   m_IsPrefabParent: 0

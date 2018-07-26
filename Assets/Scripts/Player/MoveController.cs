@@ -54,7 +54,22 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	}
 
 	public void execute(List<Command> commands) {
+		Debug.Log (commandQueue.Count + ":active:" + active);
+		if(commandQueue.Count > 0 || active){
+			Debug.Log("Running");
+			return;
+		}
+
 		foreach(Command c in commands) {
+			if (!androidBooted) {
+				if (c.type == CommandType.Boot) {
+					androidBooted = true;
+				} else {
+					continue;
+				}
+			} else if (c.type == CommandType.Boot) {
+				continue;
+			}
 			commandQueue.Enqueue (c);
 		}
 
@@ -63,7 +78,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 			executeCommand ();
 		}
 	}
-
+	private bool androidBooted = false;
 	public bool active = false;
 	private void executeCommand(){
 		if (commandQueue.Count == 0) {
@@ -104,10 +119,10 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 				break;			
 			}
 		}
-		if (commandQueue.Count == 0) {
-			active = false;
-			return;
-		}
+//		if (commandQueue.Count == 0) {
+//			active = false;
+//			return;
+//		}
 	}
 
 	private IEnumerator BootCoroutine() {
