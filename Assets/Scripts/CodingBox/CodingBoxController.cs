@@ -20,7 +20,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
     [SerializeField]
     private TMP_InputField _codingBoxInputField;
-	
+
     [SerializeField]
     private TextMeshProUGUI _errorBoxField;
 
@@ -133,7 +133,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         _linesOfCodeOnBottom = fileContent.Substring(bottomSplitIndex, fileContent.Length - bottomSplitIndex);
 
 			//Console.Clear ();
-		//Console.WriteLine (gc.output());	
+		//Console.WriteLine (gc.output());
 		//gc.input(Console.ReadLine ());
 		String gcOutput = gc.output();
 		outputLength = gcOutput.Length;
@@ -169,7 +169,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 		try {
 			List<Command> commands = stringToCommandMapper(Parser.parse (code,validCommands));
 			_movePlayerController.sendCommand (commands);
-			
+
 		} catch(Parser.ParserException ex) {
 			//Debug.log(ex.ToString());
 			_errorBoxField.text = ex.Message;
@@ -179,7 +179,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 	private List<Command> stringToCommandMapper(List<String> source) {
 		List<Command> cl = new List<Command> ();
 		//cl.Add(new Command(CommandType.Boot)); //TODO raus nehmen
-	
+
 		foreach(String s in source){
 			Debug.Log ("CommandMapper:" + s);
 			switch (s) {
@@ -331,7 +331,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         while (_currentAutomatedTextWriting.Length > 0) {
             WriteToCodingBox(_currentAutomatedTextWriting[0]);
             _currentAutomatedTextWriting = _currentAutomatedTextWriting.Remove(0, 1);
-            yield return new WaitForSeconds(timeBetweenCharacters);
+            //yield return new WaitForSeconds(timeBetweenCharacters);
         }
 
         _codingBoxInputField.Select();
@@ -432,7 +432,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			//Script schließen
-			
+
 			if (scriptingEnabled) {
 
 				userCodeContent = this._codingBoxInputField.text.Substring (gc.contentLength);
@@ -448,7 +448,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 				WriteToCodingBox(gcOutput);
 			}
 		}
-			
+
         if (_codingBoxInputField.isFocused && Input.GetKey(KeyCode.LeftControl)
             && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))) {
             //Run();
@@ -495,7 +495,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 	}
 
     private void OnCodingTextHighlighted(string content) {
-		Debug.Log("OnCodingTextHighlighted");	
+		Debug.Log("OnCodingTextHighlighted");
         if (!_codingBoxInputField.text.Equals(content)) {
             _codingBoxInputField.onValueChanged.RemoveListener(ResetCodeHighlighting);
             bool isReadonly = _codingBoxInputField.readOnly;
