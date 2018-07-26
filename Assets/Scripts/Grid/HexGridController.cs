@@ -154,13 +154,13 @@ public class HexGridController : MonoBehaviour
         return sqrDistance;
     }
 
-	public void setBlockStateOfTile(Vector3 fromTile, GridDirection direction, bool state) {
-//		GridPosition nearestGridPosition = GetNearestGridPosition(fromTile);
-//		GridPosition gridPosition = nearestGridPosition.GetNeighborGridPosition(direction);
-//		GridTile tile = _hexWorld.GetTile(gridPosition);
-		//SetWalkable
-		_tileManager.blockTile (GetGridTile(fromTile,direction), state);
-	}
+//	public void setBlockStateOfTile(Vector3 fromTile, GridDirection direction, bool state) {
+////		GridPosition nearestGridPosition = GetNearestGridPosition(fromTile);
+////		GridPosition gridPosition = nearestGridPosition.GetNeighborGridPosition(direction);
+////		GridTile tile = _hexWorld.GetTile(gridPosition);
+//		//SetWalkable
+//		_tileManager.blockTile (GetGridTile(fromTile,direction), state);
+//	}
 
 	public GridTile GetGridTile(Vector3 fromTile, GridDirection direction) {
 		GridPosition nearestGridPosition = GetNearestGridPosition(fromTile);
@@ -175,7 +175,9 @@ public class HexGridController : MonoBehaviour
             return false;
         }
 
+
         GridTile tile = _hexWorld.GetTile(gridPosition);
+		if (tile.allowWalking)	return true;
 		if (tile.tileID == 3) { //Water is blocked
 			return tile.containsStone;
 		}
@@ -293,16 +295,21 @@ public class HexGridController : MonoBehaviour
 
 		if (!TileContainsStone (currentPosition, direction)) {
 			GridTile gridtile = GetGridTile (currentPosition, direction);
-			if(gridtile.tileID!=4) { //Test if contains obstacle
-				gridtile.containsStone = true;
-				GameObject tile = getTileAtPosition (currentPosition, direction);
-				stone.transform.parent = tile.transform;
-				stone.transform.localPosition = new Vector3 (0, 0, 0);
-
-				setBlockStateOfTile (currentPosition, direction,false);
-
-				return tile.transform.GetChild(0).gameObject;
+			if (gridtile.tileID == 4) return false; //Test if contains obstacle
+			if(stone.name == "itemEnergyCell" || stone.name == "itemJawSpawner" || stone.name == "Model"){
+				if (gridtile.tileID == 3)
+					return false; //Ablage auf Wasser verhindern
 			}
+
+			gridtile.containsStone = true;
+			GameObject tile = getTileAtPosition (currentPosition, direction);
+			stone.transform.parent = tile.transform;
+			stone.transform.localPosition = new Vector3 (0, 0, 0);
+			gridtile.allowWalking = false;
+			//setBlockStateOfTile (currentPosition, direction,false);
+
+			return tile.transform.GetChild(0).gameObject;
+
 		}
 
 		return false;
@@ -313,8 +320,9 @@ public class HexGridController : MonoBehaviour
 			GridTile gridtile = GetGridTile (currentPosition, direction);
 			gridtile.containsStone = false;
 			GameObject tile = getTileAtPosition (currentPosition, direction);
-			setBlockStateOfTile (currentPosition, direction,true);
-			return tile.transform.GetChild(tile.transform.childCount-1).gameObject;
+			gridtile.allowWalking = true;
+			//setBlockStateOfTile (currentPosition, direction,true);
+			return tile.transform.GetChild(0).gameObject;
 		}
 		return null;
 	}
@@ -322,8 +330,8 @@ public class HexGridController : MonoBehaviour
 	private bool TileContainsStone(Vector3 currentPosition,GridDirection direction) {
 		GameObject tile = getTileAtPosition (currentPosition, direction);
 		Debug.Log ("tile.transform.childCount:"+tile.transform.childCount);
-		if (tile.transform.childCount > 0) {	
-			string name = tile.transform.GetChild (tile.transform.childCount-1).name;
+		if (tile.transform.childCount > 0) {
+			string name = tile.transform.GetChild (0).name;
 			Debug.Log ("name:"+name);
 			if (name == "envStone" || name == "itemEnergyCell" || name == "itemJawSpawner" || name == "Model") {
 				return true;
