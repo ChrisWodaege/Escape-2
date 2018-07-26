@@ -6,31 +6,6 @@ using System.IO;
 using UnityEngine;
 
 public static class Parser {
-  /*
-    public class Command
-    {
-        string name = "";
-        string args = "";
-
-        public Command(string name, string args = "") { this.name = name; this.args = args; }
-
-        public string ToString() { return name+"("+ args + ")"; }
-    };
-
-    List<Command> commands = null;
-
-    public static string Obj2string(Command obj)
-    {
-        return obj.ToString();
-    }
-
-    public static string toString(List<Command> list)
-    {
-        //string str = "";
-        //foreach(var obj in list) str += "," + obj.ToString();
-        //return str;
-        return string.Join("\n", list.ConvertAll<string>(new Converter<Command, string>(Obj2string)).ToArray());
-    }*/
 
     public class ParserException : Exception
     {
@@ -221,28 +196,15 @@ public static class Parser {
     public static List<Match> matchAll(string regex, string text)
     {
         List<Match> matchlist = new List<Match>();
-        //string text = "One car red car blue car";
-        //string pat = @"(\w+)\s+(car)";
 
         // Instantiate the regular expression object.
         Regex r = new Regex(regex, RegexOptions.IgnoreCase);
 
         // Match the regular expression pattern against a text string.
         Match m = r.Match(text);
-        //int matchCount = m.Length;
 
         while (m.Success)
         {
-          /*
-            List<Group> list = new List<Group>();
-            for (int i = 0; i < m.Groups.Count; i++)
-            {
-                Group g = m.Groups[i];
-                list.Add(g.Value);
-
-                //CaptureCollection cc = g.Captures;
-                //for (int j = 0; j < cc.Count; j++) { Capture c = cc[j]; }
-            }*/
             matchlist.Add(m);
             m = m.NextMatch();
         }
@@ -350,9 +312,9 @@ public static class Parser {
           string s_right = body[3].Value;
 
           bool isLeftNumeric = parseVar(ref obj, ref node, index, s_left, out s_left, isVar, depth);
-//          bool isRightNumeric = parseVar(ref obj, ref node, index, s_right, out s_right, isVar, depth);
+          bool isRightNumeric = parseVar(ref obj, ref node, index, s_right, out s_right, isVar, depth);
 
-          if (isLeftNumeric && isLeftNumeric)
+          if (isLeftNumeric && isRightNumeric)
           {
               float left = 0;
               float right = 0;
@@ -445,12 +407,13 @@ public static class Parser {
         foreach (string line in rest.Split('\n')) {
           row+=1;
           col = 0;
+          skipUntilBreak = false;
           foreach (char c in line.ToCharArray()) {
             col+=1;
             if(!skipUntilBreak && c != ' ' && c != '\n') {
               obj.AddError("Invalid Code", line, row, col);
               skipUntilBreak = true;
-            } else if(c == '\n' && skipUntilBreak) skipUntilBreak = false;
+            }
           }
         }
 
@@ -597,7 +560,6 @@ public static class Parser {
         var node = new ParseNode(ref parent);
 
         string found = "";
-        //string errors = "";
         string memo = "";
 
         // FIND FUNCTIONS
@@ -791,7 +753,6 @@ public static class Parser {
                     }
 
                     if(!valid) obj.AddError("Invalid Call"+count, f.line, f.index);
-                    //errors += f.type + " : cannot parse loop on index " + f.index;
                 }
             }
 
@@ -799,7 +760,7 @@ public static class Parser {
             {
                 if (f.type == "LOOP")
                 {
-                    var list = matchAll(@"i[ \t]*=[ \t]*(\w+)\:(\w+)", f.head);
+                    var list = matchAll(@"[ \t]*(\w+)\:(\w+)", f.head);
 
                     if (list.Count>0 && list[0].Groups.Count>2) {
                         var head = list[0].Groups;
@@ -853,9 +814,6 @@ public static class Parser {
                         else
                         {
                             obj.AddError("Invalid Loop", "i = "+s_start+" : "+s_end, f.index);
-                            //errors += f.type + " : cannot parse loop on Index " + head.match.Index;
-
-                            // error cant parse line ...
                             // var cannot be found or is invalid
                         }
                     }
@@ -901,26 +859,4 @@ public static class Parser {
 
         return new string[]{found,code,memo};
     }
-
-
-    /*
-    int pos = 0;
-    int len = 0;
-    string str = "";
-    string cmd = "";
-    List<string> find = null;
-    int index = 0;
-
-    while (notfound) {
-        ++len;
-        str = code.Substring(pos, len);
-        index = str.IndexOfAny(" \n\r\t".ToCharArray());
-        if(index != -1) { ++pos; len=0; }
-        find = new List<string>(new string[] { "var", "function" });
-        index = find.IndexOf(str);
-        if(index != -1) { cmd=find[index]; ++pos; len=0; }
-        if (str == "var") ;
-        //var match = str.IndexOfAny("abcedfghijklmnopqrstuvxyz".ToCharArray()) != -1
-        if (cmd == "function") ;
-    }*/
 }
