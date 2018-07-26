@@ -25,7 +25,6 @@ public class CameraMovement : MonoBehaviour {
 		y = Input.GetAxis ("Mouse Y");
 		z = Input.GetAxis ("Mouse ScrollWheel");
 
-		//Debug.Log (x);
 		if (x < 0) {
 		 Mathf.Abs(x);
 		}
@@ -48,8 +47,6 @@ public class CameraMovement : MonoBehaviour {
 
 
 		if (Input.GetMouseButton(0)) {
-
-
 			transform.Translate (new Vector3 (h, u, v) * moveSpeed);
 			transform.eulerAngles = new Vector3 (transform.eulerAngles.x - y * turnSpeed, transform.eulerAngles.y + x * turnSpeed, 0);
 		}

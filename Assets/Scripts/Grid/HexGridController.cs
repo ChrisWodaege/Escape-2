@@ -148,19 +148,9 @@ public class HexGridController : MonoBehaviour
         Vector3 tilePosition = _tiles[currentGridPosition.X, currentGridPosition.Y].transform.position;
         float dx = position.x - tilePosition.x;
         float dy = position.z - tilePosition.z;
-        float sqrDistance = dx * dx + dy * dy;
-        //Debug.Log("Position: " + position + " | grid: [" + currentGridPosition.X + "|" + currentGridPosition.Y + " | sqrDistance: " + sqrDistance);
-        
+        float sqrDistance = dx * dx + dy * dy;        
         return sqrDistance;
     }
-
-//	public void setBlockStateOfTile(Vector3 fromTile, GridDirection direction, bool state) {
-////		GridPosition nearestGridPosition = GetNearestGridPosition(fromTile);
-////		GridPosition gridPosition = nearestGridPosition.GetNeighborGridPosition(direction);
-////		GridTile tile = _hexWorld.GetTile(gridPosition);
-//		//SetWalkable
-//		_tileManager.blockTile (GetGridTile(fromTile,direction), state);
-//	}
 
 	public GridTile GetGridTile(Vector3 fromTile, GridDirection direction) {
 		GridPosition nearestGridPosition = GetNearestGridPosition(fromTile);
@@ -230,9 +220,7 @@ public class HexGridController : MonoBehaviour
             {
                 GridPosition currentGridPosition = new GridPosition(x, y);
                 //border
-                if (!IsInsideWorld(currentGridPosition))
-                {
-                    //TODO: use CreateTile();? (Jonas)
+                if (!IsInsideWorld(currentGridPosition)) {
                     Vector3 borderTilePosition = GetTileVector(currentGridPosition);
                     int randomRotation = UnityEngine.Random.Range(0, 6);
                     Quaternion borderTileRotation = Quaternion.LookRotation(GetDirectionVector((GridDirection)randomRotation));
@@ -251,8 +239,7 @@ public class HexGridController : MonoBehaviour
         _player.Init(GetTileVector(new GridPosition(startX, startY)));
     }
 
-    private GameObject CreateTile(GridPosition gridPosition, GridTile gridTile)
-    {
+    private GameObject CreateTile(GridPosition gridPosition, GridTile gridTile) {
         //save position (only for better readability of the generated json file)
         gridTile.x = gridPosition.X;
         gridTile.y = gridPosition.Y;
@@ -262,34 +249,13 @@ public class HexGridController : MonoBehaviour
         GameObject tile = Instantiate(_tileManager.GetTilePrefab(gridTile.tileID), position, tileRotation, _tileParent.transform);
         _tiles[gridPosition.X, gridPosition.Y] = tile;
 
-        if (gridTile.itemID != -1)
-        {
+        if (gridTile.itemID != -1) {
             Quaternion objectRotation = Quaternion.LookRotation(GetDirectionVector(gridTile.itemRotation));
             Instantiate(_tileManager.GetItemPrefab(gridTile.itemID), position, objectRotation, tile.transform);
         }
 
         return tile;
     }
-
-//	public bool TileIsOfType(Vector3 fromTile, GridDirection direction,int type){
-//		return GetGridTile(fromTile,direction).tileID == type;
-//	}
-
-	public bool TileContainsItem(){
-		return false;
-	}
-
-
-
-	public bool TileHasSpaceForObject(){
-		//TODO sagt aus ob ein Tile frei ist
-		//Nicht frei wenn ein Stein drauf liegt
-		return false;
-	}
-
-	public GameObject getItemFromTile(){
-		return null;
-	}
 
 	public bool putStoneAtTile(GameObject stone,Vector3 currentPosition,GridDirection direction) {
 
@@ -305,10 +271,7 @@ public class HexGridController : MonoBehaviour
 			stone.transform.parent = tile.transform;
 			stone.transform.localPosition = new Vector3 (0, 0, 0);
 			gridtile.allowWalking = false;
-			//setBlockStateOfTile (currentPosition, direction,false);
-
 			return tile.transform.GetChild(0).gameObject;
-
 		}
 
 		return false;
@@ -320,7 +283,6 @@ public class HexGridController : MonoBehaviour
 			gridtile.containsStone = false;
 			GameObject tile = getTileAtPosition (currentPosition, direction);
 			gridtile.allowWalking = true;
-			//setBlockStateOfTile (currentPosition, direction,true);
 			return tile.transform.GetChild(0).gameObject;
 		}
 		return null;
