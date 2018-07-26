@@ -133,13 +133,9 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         _codeToShow = fileContent.Substring(topSplitIndex, bottomSplitIndex - topSplitIndex);
         _linesOfCodeOnBottom = fileContent.Substring(bottomSplitIndex, fileContent.Length - bottomSplitIndex);
 
-			//Console.Clear ();
-		//Console.WriteLine (gc.output());
-		//gc.input(Console.ReadLine ());
 		String gcOutput = gc.output();
 		outputLength = gcOutput.Length;
 		yield return WriteToCodingBox(gcOutput);
-        //yield return WriteToCodingBox(_codeToShow);
     }
 
 	int outputLength = -1;

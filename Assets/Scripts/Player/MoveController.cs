@@ -202,6 +202,7 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 			_movePlayerController.MovePlayer(currentPosition, newPosition);
 	    }
 	    catch (Exception e) {
+			this.executeCommand ();
 			Debug.Log(e.Message);
 	    }
     }
