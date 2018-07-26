@@ -32,7 +32,7 @@ class GameConsole {
 	public void input(string input){
 		Debug.Log ("Eingabe: " + input);
 		input = input.Substring (this.contentLength);
-		input = input.Substring (0,input.Length);	//Enter entfernen
+		input = input.Substring (0,input.Length-1);	//Enter entfernen
 		Debug.Log ("Gefiltert: " + input);
 		gcs = gcs.input(input.ToLower().Split(new char[]{' '}));
 		if (!gcs.initialised)gcs.init ();
@@ -132,6 +132,7 @@ class GameConsole {
 	public class HelpMenu : GameConsoleState {
 		public override void init() {
 			initialised = true;
+			showHelp = true;
 			this.title = "#####Manual####";
 			this.menuEntrys.Add("boot",new HelpMenu_BootAction());
 			this.menuEntrys.Add("move",new HelpMenu_MoveAction());
@@ -144,6 +145,24 @@ class GameConsole {
 		}
 	}
 
+
+	public class HelpMenu_LoopAction : GameConsoleState {
+		public override void init() {
+			initialised = true;
+			this.title = "#####Manual - Loop####";
+			this.text = "Mit loop kannst du dem Roboter die Anweisung geben Befehle in einer Schleife zu wiederholen.\nBsp: Den Roboter 5 mal laufen lassen\nloop(1:5)\nmove()\nendloop";
+			this.menuEntrys.Add("",new HelpMenu());
+		}
+	}
+
+	public class HelpMenu_BranchAction : GameConsoleState {
+		public override void init() {
+			initialised = true;
+			this.title = "#####Manual - Branches####";
+			this.text = "Branches ermöglichen es dir Aktionen deines Roboters anhand von Bedingungen zu verzeweigen.\nBsp: Wenn die Variable \"bedingung\" true wird move() ausgeführt,ansonstent turnleft().\n ist \nBedingung = true\n if(bedinung)\nmove()\nelse\nturnleft()\nendIf";
+			this.menuEntrys.Add("",new HelpMenu());
+		}
+	}
 
 	public class HelpMenu_TakeAction : GameConsoleState {
 		public override void init() {
