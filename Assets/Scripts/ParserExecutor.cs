@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class ParserExecutor : MonoBehaviour {
@@ -15,6 +16,9 @@ public class ParserExecutor : MonoBehaviour {
 	}
 
 	void testParser() {
+			var testString = "abc 123(xaf4 7iukz(788ztg?fd dwht)text(9hfe jrfs(76hgf fe54)))dfs4 4wr";
+			File.WriteAllText("regex.txt", Parser.regexReplace(testString, @"\((?>\((?<c>)|[^()]+|\)(?<-c>))*(?(c)(?!))\)","(found)"));
+
 			string sourceCode = //"moveVorward()\nturnLeft()\nturnRight()";
 					//"function a endFunction function b endFunction function c endFunction\n" +
 					"testA = 1 + 2\n"+
@@ -44,11 +48,11 @@ public class ParserExecutor : MonoBehaviour {
 					"endFunction\n" +
 					"abc()\n" +
 					//"moveVorward()\n turnLeft(1,2)\n inspect(\"\")\n interact(\"sdsd\",\"aa\")\n abc(1,2,3)\n cde(1,2,3)\n" +
-					"loop(i = 1:5)\n moveVorward()\n print(\"5x loop\")\n endLoop\n" +
-					"loop(i = testA:5)\n cde()\n print(\"testA:5 loop\")\n endLoop\n" +
-					"loop(i = 1:testB)\n moveVorward()\n print(\"1:testB loop\")\n endLoop\n" +
-					"loop(i = testA:testB)\n moveVorward()\n print(\"testA:testB loop\")\n endLoop\n" +
-					"loop(i = testA:testC)\n moveVorward()\n print(\"testA:testC loop\")\n endLoop\n" +
+					"loop(1:5)\n moveVorward()\n print(\"5x loop\")\n endLoop\n" +
+					"loop(testA:5)\n cde()\n print(\"testA:5 loop\")\n endLoop\n" +
+					"loop(1:testB)\n moveVorward()\n print(\"1:testB loop\")\n endLoop\n" +
+					"loop(testA:testB)\n moveVorward()\n print(\"testA:testB loop\")\n endLoop\n" +
+					"loop(testA:testC)\n moveVorward()\n print(\"testA:testC loop\")\n endLoop\n" +
 
           "if(true)\n"+
 					//" print(\"1. IF\")\n"+
