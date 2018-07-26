@@ -819,13 +819,14 @@ public static class Parser {
                             string repeat3 = "";
                             string repeat4 = "";
 
-                            if (start > 0 && end > 0) for (int index = start; index <= end; index++)
-                            {
-                                if (p1) repeat1 += parsedParts[0] + "\n";
-                                if (p2) repeat2 += parsedParts[1] + "\n";
-                                if (p3) repeat3 += parsedParts[2] + "\n";
-                                if (p4) repeat4 += parsedParts[3];
-                            }
+                            if (start > 0 && end > 0 && start <= end) {
+                              for (int index = start; index <= end; index++)
+                              {
+                                  if (p1) repeat1 += parsedParts[0] + "\n";
+                                  if (p2) repeat2 += parsedParts[1] + "\n";
+                                  if (p3) repeat3 += parsedParts[2] + "\n";
+                                  if (p4) repeat4 += parsedParts[3];
+                              }
 
                             string foundline = "(LOOP " + start + " -> " + end + "):\n";
                             foundline += repeat1;
@@ -842,12 +843,21 @@ public static class Parser {
                             commands += repeat4;
                             //obj.AddCommand(f.index,result); // found and valid
                             memo = memo.Replace(f.line, repeat3);
+                          }
+                          else {
+                            if(start <= 0) obj.AddError("Invalid Loop", "begin value ("+s_start+") ist not > 0", f.index);
+                            if(end <= 0) obj.AddError("Invalid Loop", "end value ("+s_end+") ist not > 0", f.index);
+                            if(start > end) obj.AddError("Invalid Loop", "begin value ("+s_start+") ist not <= end value (" + s_end+")", f.index);
+                          }
                         }
                         else
                         {
-                            obj.AddError("Invalid Loop", "i = "+s_start+" : "+s_end, f.index);
+                            obj.AddError("Invalid Loop", s_start+" : "+s_end, f.index);
                             // var cannot be found or is invalid
                         }
+                    }
+                    else {
+                      obj.AddError("Invalid Loop", "loop("+f.head+")", f.index);
                     }
                 }
             }

@@ -168,7 +168,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 			_movePlayerController.sendCommand (commands);
 
 		} catch(Parser.ParserException ex) {
-			_errorBoxField.text = ex.Message;
+			_errorBoxField.text = Parser.regexReplace(ex.Message,@"^([^\n]+\n[^\n]+).*$","$1");
 		}
     }
 
@@ -288,6 +288,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
             _automatedTextWritingCoroutine = null;
         }
         _codingBoxInputField.text = string.Empty;
+        _errorBoxField.text = string.Empty;
     }
 
 	public void WriteToCodingBox(char character) {
@@ -369,6 +370,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 		}
 
 		if (Input.GetKeyDown (KeyCode.F5) && scriptingEnabled) {
+      _errorBoxField.text = string.Empty;
 			this.Run();
 		}
 
