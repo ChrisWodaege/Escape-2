@@ -32,7 +32,7 @@ class GameConsole {
 	public void input(string input){
 		Debug.Log ("Eingabe: " + input);
 		input = input.Substring (this.contentLength);
-		input = input.Substring (0,input.Length);	//Enter entfernen
+		if((int)input[input.Length-1]==10) input = input.Substring (0,input.Length-1);	//Enter entfernen
 		Debug.Log ("Gefiltert: " + input);
 		gcs = gcs.input(input.ToLower().Split(new char[]{' '}));
 		if (!gcs.initialised)gcs.init ();
@@ -132,6 +132,7 @@ class GameConsole {
 	public class HelpMenu : GameConsoleState {
 		public override void init() {
 			initialised = true;
+			showHelp = true;
 			this.title = "#####Manual####";
 			this.menuEntrys.Add("boot",new HelpMenu_BootAction());
 			this.menuEntrys.Add("move",new HelpMenu_MoveAction());
@@ -145,11 +146,29 @@ class GameConsole {
 	}
 
 
+	public class HelpMenu_LoopAction : GameConsoleState {
+		public override void init() {
+			initialised = true;
+			this.title = "#####Manual - Loop####";
+			this.text = "Mit loop kannst du dem Roboter die Anweisung geben Befehle in einer Schleife zu wiederholen.\nBsp: Den Roboter 5 mal laufen lassen\nloop(1:5)\nmove()\nendloop";
+			this.menuEntrys.Add("",new HelpMenu());
+		}
+	}
+
+	public class HelpMenu_BranchAction : GameConsoleState {
+		public override void init() {
+			initialised = true;
+			this.title = "#####Manual - Branches####";
+			this.text = "Branches ermöglichen es dir Aktionen deines Roboters anhand von Bedingungen zu verzweigen.\nBsp: Wenn die Variable \"bedingung\" true ist, wird move() ausgeführt,ansonstent turnleft().\n\n bedingung = true\n if(bedingung)\nmove()\nelse\nturnleft()\nendIf";
+			this.menuEntrys.Add("",new HelpMenu());
+		}
+	}
+
 	public class HelpMenu_TakeAction : GameConsoleState {
 		public override void init() {
 			initialised = true;
 			this.title = "#####Manual - take()####";
-			this.text = "Der Befehl take() gib dem Roboter die Anweisung einen vor ihm befindlichen Gegenstand (Item/Stein) aufzunehmen.";
+			this.text = "Der Befehl take() gib dem Roboter die Anweisung einen vor ihm befindlichen Gegenstand (Item/Stein) aufzunehmen.\n Der Roboter kann immer nur einen Gegenstand halten.";
 			this.menuEntrys.Add("",new HelpMenu());
 		}
 	}
@@ -186,7 +205,7 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "#####Manual - TurnLeft()/TurnRight()####";
-			this.text = "Der Roboter kann neu ausgerichtet werden, indem er sich nach rechts oder links dreht. Dafür gibt es die Befehle turnLeft() und turnRight().";
+			this.text = "Der Roboter kann neu ausgerichtet werden, indem er sich nach rechts oder links dreht. Dafür gibt es die Befehle turnleft() und turnright().";
 			this.menuEntrys.Add("",new HelpMenu());
 		}
 	}
