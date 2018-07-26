@@ -296,8 +296,7 @@ public class HexGridController : MonoBehaviour
 		if (!TileContainsStone (currentPosition, direction)) {
 			GridTile gridtile = GetGridTile (currentPosition, direction);
 			if (gridtile.tileID == 4) return false; //Test if contains obstacle
-			if(stone.name == "itemEnergyCell" || stone.name == "itemJawSpawner" || stone.name == "Model"){
-				if (gridtile.tileID == 3)
+			if(gridtile.tileID == 3 && (stone.name == "itemEnergyCell" || stone.name == "itemJawSpawner" || stone.name == "Model")){
 					return false; //Ablage auf Wasser verhindern
 			}
 

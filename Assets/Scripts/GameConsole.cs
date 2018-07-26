@@ -43,7 +43,7 @@ class GameConsole {
 		String text = gcs.title+"\n";
 		if(gcs.text.Length>0)text += gcs.text +"\n";
 		if(gcs.showHelp) {
-			text += "Valid commands: ";
+			text += "Valide Kommandos: ";
 			for (int i = 0; i < entrys.Length; i++) {
 				if(entrys [i].Length>0)text += entrys [i];
 				if(i<entrys.Length-1)text += " | ";
@@ -107,20 +107,11 @@ class GameConsole {
 		}
 	}
 
-//	public class Boot : GameConsoleState {
-//		public override void init() {
-//			initialised = true;
-//			this.title = "STANDBY ...";
-//			this.text = "Ungültige Eingabe. Boot eingeben um das System zu starten";
-//			this.menuEntrys.Add("boot",new MainMenu());
-//		}
-//	}
-
 	public class Log : GameConsoleState {
 		public override void init() {
 			initialised = true;
 			this.title = "#####Log####";
-			this.text = "Du bist mit deinem Raumschiff auf einem Planeten gestrandet.\nAktiviere den Wartungsroboter um das Schiff zu reparieren.";
+			this.text = "Eines unserer Aufklärungsraumschiffe ist auf dem Planeten >>Erde<< beim Versuch einer Kontaktaufnahme, in einem schwer zugänglichen Gebiet, abgestürzt. Versuche den Wartungsroboter zu starten und das Schiff zu reparieren";
 			this.menuEntrys.Add("",new MainMenu());
 		}
 	}
@@ -129,8 +120,8 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "##### SCRIPT - CONSOLE ####";
-			this.text = "Mit dieser Konsole kannst du den Roboter steuern. Gib INSERT ein um in den Bearbeitungsmodus zu wechseln.\n" +
-						"Mit ESC kannst du den Modus verlassen. Gib RUN ein um das Script auszuführen.\n" +
+			this.text = "Valide Kommandos: boot() | move() | turnleft() | turnright() | take() | drop()\n" +
+						"F5 - RUN SCRIPT | ESC - EXIT.\n" +
 						"#########################################################################################################"+
 				"\n\n //Hier kommt dann dein Code rein";
 			this.menuEntrys.Add("",new MainMenu());
@@ -140,17 +131,51 @@ class GameConsole {
 	public class HelpMenu : GameConsoleState {
 		public override void init() {
 			initialised = true;
-			this.title = "#####HELP####";
+			this.title = "#####Manual####";
+			this.menuEntrys.Add("boot",new HelpMenu_BootAction());
 			this.menuEntrys.Add("move",new HelpMenu_MoveAction());
 			this.menuEntrys.Add("turn",new HelpMenu_TurnAction());
+			this.menuEntrys.Add("take",new HelpMenu_TakeAction());
+			this.menuEntrys.Add("drop",new HelpMenu_DropAction());
+			this.menuEntrys.Add("loop",new HelpMenu_LoopAction());
+			this.menuEntrys.Add("branch",new HelpMenu_BranchAction());
 			this.menuEntrys.Add("back",new MainMenu());
+		}
+	}
+
+
+	public class HelpMenu_TakeAction : GameConsoleState {
+		public override void init() {
+			initialised = true;
+			this.title = "#####Manual - take()####";
+			this.text = "Der Befehl take() gib dem Roboter die Anweisung einen vor ihm befindlichen Gegenstand (Item/Stein) aufzunehmen.";
+			this.menuEntrys.Add("",new HelpMenu());
+		}
+	}
+
+	public class HelpMenu_DropAction : GameConsoleState {
+		public override void init() {
+			initialised = true;
+			this.title = "#####Manual - drop()####";
+			this.text = "Der Befehl drop() gib dem Roboter die Anweisung einen vor ihm befindlichen Gegenstand (Item/Stein) abzulegen.\nSteine können im Wasser abgelegt werden, um so Wasser zu überqueren.";
+
+			this.menuEntrys.Add("",new HelpMenu());
+		}
+	}
+
+	public class HelpMenu_BootAction : GameConsoleState {
+		public override void init() {
+			initialised = true;
+			this.title = "#####Manual - boot()####";
+			this.text = "Der Befehl boot() aktiviert den Roboter.";
+			this.menuEntrys.Add("",new HelpMenu());
 		}
 	}
 
 	public class HelpMenu_MoveAction : GameConsoleState {
 		public override void init() {
 			initialised = true;
-			this.title = "#####HELP - Move()####";
+			this.title = "#####Manual - Move()####";
 			this.text = "Der Befehl Move lässt deinen Roboter in die Richtung laufen, in welche er gerade schaut.\nMove wird nicht ausgeführt, wenn der Roboter vor einem Hindernis steht.";
 			this.menuEntrys.Add("",new HelpMenu());
 		}
@@ -159,7 +184,7 @@ class GameConsole {
 	public class HelpMenu_TurnAction : GameConsoleState {
 		public override void init() {
 			initialised = true;
-			this.title = "#####HELP - TurnLeft()/TurnRight()####";
+			this.title = "#####Manual - TurnLeft()/TurnRight()####";
 			this.text = "Der Roboter kann neu ausgerichtet werden, indem er sich nach rechts oder links dreht. Dafür gibt es die Befehle turnLeft() und turnRight().";
 			this.menuEntrys.Add("",new HelpMenu());
 		}
