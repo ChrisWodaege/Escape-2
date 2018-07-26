@@ -115,7 +115,7 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "#####Log####";
-			this.text = "Eines unserer Aufklärungsraumschiffe ist auf dem Planeten >>Erde<< beim Versuch einer Kontaktaufnahme, in einem schwer zugänglichen Gebiet, abgestürzt. Versuche den Wartungsroboter zu starten und das Schiff zu reparieren";
+			this.text = "Eines unserer Aufklärungsraumschiffe ist auf dem Planeten >>Erde<< beim Versuch einer Kontaktaufnahme in einem schwer zugänglichen Gebiet abgestürzt. Versuche den Wartungsroboter zu starten und das Schiff zu reparieren.";
 			this.menuEntrys.Add("",new MainMenu());
 		}
 	}
@@ -151,7 +151,7 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "#####Manual - Loop####";
-			this.text = "Mit loop kannst du dem Roboter die Anweisung geben Befehle in einer Schleife zu wiederholen.\nBsp: Den Roboter 5 mal laufen lassen\nloop(1:5)\nmove()\nendloop";
+			this.text = "Mit loop kannst du dem Roboter die Anweisung geben Befehle in einer Schleife zu wiederholen.\nBsp: Den Roboter 5 mal laufen lassen.\nloop(1:5)\nmove()\nendloop";
 			this.menuEntrys.Add("",new HelpMenu());
 		}
 	}
@@ -160,7 +160,7 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "#####Manual - Branches####";
-			this.text = "Branches ermöglichen es dir Aktionen deines Roboters anhand von Bedingungen zu verzweigen.\nBsp: Wenn die Variable \"bedingung\" true ist, wird move() ausgeführt,ansonstent turnleft().\n\n bedingung = true\n if(bedingung)\nmove()\nelse\nturnleft()\nendIf";
+			this.text = "Branches ermöglichen es dir Aktionen deines Roboters anhand von Bedingungen zu verzweigen.\nBsp: Wenn die Variable \"bedingung\" true ist, wird move() ausgeführt,ansonstent turnleft().\n\nbedingung = true\nif(bedingung)\nmove()\nelse\nturnleft()\nendIf";
 			this.menuEntrys.Add("",new HelpMenu());
 		}
 	}
@@ -169,7 +169,7 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "#####Manual - take()####";
-			this.text = "Der Befehl take() gib dem Roboter die Anweisung einen vor ihm befindlichen Gegenstand (Item/Stein) aufzunehmen.\n Der Roboter kann immer nur einen Gegenstand halten.";
+			this.text = "Der Befehl take() gib dem Roboter die Anweisung einen vor ihm befindlichen Gegenstand (Item/Stein) aufzunehmen.\nDer Roboter kann immer nur einen Gegenstand halten.";
 			this.menuEntrys.Add("",new HelpMenu());
 		}
 	}
@@ -178,7 +178,7 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "#####Manual - drop()####";
-			this.text = "Der Befehl drop() gib dem Roboter die Anweisung einen vor ihm befindlichen Gegenstand (Item/Stein) abzulegen.\nSteine können im Wasser abgelegt werden, um so Wasser zu überqueren.";
+			this.text = "Der Befehl drop() gib dem Roboter die Anweisung einen vor ihm befindlichen Gegenstand (Item/Stein) abzulegen.\nSteine können im Wasser abgelegt werden, um so eine Brücke zu bauen.";
 
 			this.menuEntrys.Add("",new HelpMenu());
 		}
@@ -197,7 +197,7 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "#####Manual - Move()####";
-			this.text = "Der Befehl Move lässt deinen Roboter in die Richtung laufen, in welche er gerade schaut.\nMove wird nicht ausgeführt, wenn der Roboter vor einem Hindernis steht.";
+			this.text = "Der Befehl move() lässt deinen Roboter in die Richtung laufen, in welche er gerade schaut.\nmove() wird nicht ausgeführt, wenn der Roboter vor einem Hindernis steht.";
 			this.menuEntrys.Add("",new HelpMenu());
 		}
 	}
