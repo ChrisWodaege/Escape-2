@@ -32,7 +32,7 @@ class GameConsole {
 	public void input(string input){
 		Debug.Log ("Eingabe: " + input);
 		input = input.Substring (this.contentLength);
-		input = input.Substring (0,input.Length-1);	//Enter entfernen
+		if((int)input[input.Length-1]==10) input = input.Substring (0,input.Length-1);	//Enter entfernen
 		Debug.Log ("Gefiltert: " + input);
 		gcs = gcs.input(input.ToLower().Split(new char[]{' '}));
 		if (!gcs.initialised)gcs.init ();
@@ -159,7 +159,7 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "#####Manual - Branches####";
-			this.text = "Branches ermöglichen es dir Aktionen deines Roboters anhand von Bedingungen zu verzeweigen.\nBsp: Wenn die Variable \"bedingung\" true wird move() ausgeführt,ansonstent turnleft().\n ist \nBedingung = true\n if(bedinung)\nmove()\nelse\nturnleft()\nendIf";
+			this.text = "Branches ermöglichen es dir Aktionen deines Roboters anhand von Bedingungen zu verzweigen.\nBsp: Wenn die Variable \"bedingung\" true ist, wird move() ausgeführt,ansonstent turnleft().\n\n bedingung = true\n if(bedingung)\nmove()\nelse\nturnleft()\nendIf";
 			this.menuEntrys.Add("",new HelpMenu());
 		}
 	}
@@ -168,7 +168,7 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "#####Manual - take()####";
-			this.text = "Der Befehl take() gib dem Roboter die Anweisung einen vor ihm befindlichen Gegenstand (Item/Stein) aufzunehmen.";
+			this.text = "Der Befehl take() gib dem Roboter die Anweisung einen vor ihm befindlichen Gegenstand (Item/Stein) aufzunehmen.\n Der Roboter kann immer nur einen Gegenstand halten.";
 			this.menuEntrys.Add("",new HelpMenu());
 		}
 	}
@@ -205,7 +205,7 @@ class GameConsole {
 		public override void init() {
 			initialised = true;
 			this.title = "#####Manual - TurnLeft()/TurnRight()####";
-			this.text = "Der Roboter kann neu ausgerichtet werden, indem er sich nach rechts oder links dreht. Dafür gibt es die Befehle turnLeft() und turnRight().";
+			this.text = "Der Roboter kann neu ausgerichtet werden, indem er sich nach rechts oder links dreht. Dafür gibt es die Befehle turnleft() und turnright().";
 			this.menuEntrys.Add("",new HelpMenu());
 		}
 	}
