@@ -32,6 +32,9 @@ class GameConsole {
 	public void input(string input){
 		Debug.Log ("Eingabe: " + input);
 		input = input.Substring (this.contentLength);
+		Debug.Log ("Gefiltert1: " + input);
+		input = input.Replace("\n","");
+		Debug.Log ("Gefiltert1: " + input);
 		if((int)input[input.Length-1]==10) input = input.Substring (0,input.Length-1);	//Enter entfernen
 		Debug.Log ("Gefiltert: " + input);
 		gcs = gcs.input(input.ToLower().Split(new char[]{' '}));
