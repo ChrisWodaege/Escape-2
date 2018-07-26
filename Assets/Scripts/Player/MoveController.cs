@@ -146,31 +146,43 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 //	}
 
 	private void takeItem() {
-		Debug.Log ("TakeItem");
-		if (objectInRobotsHand == null) { //Only take if robot has no object taken
-			Vector3 currentPosition = _playerPosition;
-			Vector3 newPosition = currentPosition;
-			GameObject stone = _gridController.getStoneFromTile (_playerPosition, (GridDirection)direction);
-			if (stone != null) {
-				objectInRobotsHand = stone;
-				objectInRobotsHand.transform.parent = this.transform;
-				objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
+		try {
+			Debug.Log ("TakeItem");
+			if (objectInRobotsHand == null) { //Only take if robot has no object taken
+				Vector3 currentPosition = _playerPosition;
+				Vector3 newPosition = currentPosition;
+				GameObject stone = _gridController.getStoneFromTile (_playerPosition, (GridDirection)direction);
+				if (stone != null) {
+					objectInRobotsHand = stone;
+					objectInRobotsHand.transform.parent = this.transform;
+					objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
+				}
 			}
-		}
 
-		((MovePlayerController)_movePlayerController).TakeObject();
+			((MovePlayerController)_movePlayerController).TakeObject();
+		}
+		catch (Exception e) {
+			this.executeCommand ();
+			Debug.Log(e.Message);
+		}
 	}
 
 	GameObject objectInRobotsHand;
 
 	private void dropItem() {
-		if (objectInRobotsHand) {
-			Debug.Log ("DropItem");
-			if (_gridController.putStoneAtTile (objectInRobotsHand, _playerPosition, (GridDirection)direction)) {
-				objectInRobotsHand = null;
+		try {
+			if (objectInRobotsHand) {
+				Debug.Log ("DropItem");
+				if (_gridController.putStoneAtTile (objectInRobotsHand, _playerPosition, (GridDirection)direction)) {
+					objectInRobotsHand = null;
+				}
 			}
+			((MovePlayerController)_movePlayerController).DropObject();
 		}
-		((MovePlayerController)_movePlayerController).DropObject();
+		catch (Exception e) {
+			this.executeCommand ();
+			Debug.Log(e.Message);
+		}
 	}
 
 	private void rotateLeft(){
