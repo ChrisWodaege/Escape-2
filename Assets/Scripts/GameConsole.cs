@@ -122,8 +122,7 @@ class GameConsole {
 			initialised = true;
 			this.title = "##### SCRIPT - CONSOLE ####";
 			this.text = "Valide Kommandos: boot() | move() | turnleft() | turnright() | take() | drop()\n" +
-				"F5 - RUN SCRIPT | ESC - EXIT.\n\n" +
-				"\n\n //Hier kommt dann dein Code rein";
+				"F5 - RUN SCRIPT | ESC - EXIT.\n\n";
 			this.menuEntrys.Add("",new MainMenu());
 		}
 	}
