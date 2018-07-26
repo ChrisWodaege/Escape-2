@@ -1,4 +1,4 @@
-﻿using CSharpCompiler;
+﻿//using CSharpCompiler;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +20,9 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
     [SerializeField]
     private TMP_InputField _codingBoxInputField;
+	
+    [SerializeField]
+    private TextMeshProUGUI _errorBoxField;
 
     //[SerializeField]
     //private TMP_InputField _fileNameInputField;
@@ -36,8 +39,8 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     [SerializeField]
     private UnityEngine.UI.Button _runButton;
 
-    private DeferredSynchronizeInvoke _synchronizedInvoke;
-    private ScriptBundleLoader _loader;
+    //private DeferredSynchronizeInvoke _synchronizedInvoke;
+    //private ScriptBundleLoader _loader;
 
     private FileController _fileController;
     private UnitySyntaxHighlighter _unitySyntaxHighlighter;
@@ -163,8 +166,14 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 		String code = _unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text);
 		code = code.Substring (gc.contentLength);
 		List<String> validCommands = new List<String> (new String[]{ "boot", "move", "turnleft", "turnright", "take", "drop" });
-		List<Command> commands = stringToCommandMapper(Parser.parse (code,validCommands));
-		_movePlayerController.sendCommand (commands);
+		try {
+			List<Command> commands = stringToCommandMapper(Parser.parse (code,validCommands));
+			_movePlayerController.sendCommand (commands);
+			
+		} catch(Parser.ParserException ex) {
+			//Debug.log(ex.ToString());
+			_errorBoxField.text = ex.ToString();
+		}
     }
 
 	private List<Command> stringToCommandMapper(List<String> source) {
@@ -201,7 +210,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
         if (!string.IsNullOrEmpty(path)) {
             ForbitRunningCode();
-            _loader.LoadAndWatchScriptsBundle(new[] { path });
+           // _loader.LoadAndWatchScriptsBundle(new[] { path });
         }
         else {
             Debug.LogError("Can not run file " + ComponentName);
@@ -247,7 +256,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     }
 
     public void DestroyComponent(Component component) {
-        _loader.destroyInstance(component);
+        //_loader.destroyInstance(component);
     }
 
     public void DestroyComponent(string componentName) {
@@ -354,39 +363,39 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
         _codingBoxInputField.onValueChanged.AddListener(ResetCodeHighlighting);
 		//_codingBoxInputField.onSubmit.AddListener(MyTestSubmit);
-        _synchronizedInvoke = new DeferredSynchronizeInvoke();
-        _loader = new ScriptBundleLoader(_synchronizedInvoke) {
-            logWriter = new UnityLogTextWriter(),
-            createInstance = (Type type) => {
-                if (typeof(Component).IsAssignableFrom(type)) {
-                    var componentParent = ComponentParent;
-                    var components = _gameobjectComponents.GetOrAdd(componentParent, new Dictionary<string, Component>());
-                    string componentName = type.Name;// _fileNameInputField.text;
-                    Component component;
-                    if (components.TryGetValue(componentName, out component)) {
-                        Destroy(component);
-                    }
-                    component = componentParent.AddComponent(type);
-                    components.Update(componentName, component);
-                    return component;
-                }
-                else {
-                    return Activator.CreateInstance(type);
-                }
-            },
-            destroyInstance = (object instance) => {
-                if (instance != null && instance is Component) {
-                    if (instance is MonoBehaviour) {
-                        var component = (instance as MonoBehaviour);
-                        Dictionary<string, Component> components;
-                        if (_gameobjectComponents.TryGetValue(component.gameObject, out components)) {
-                            components.Remove(component.GetType().ToString());
-                        }
-                        Destroy(component);
-                    }
-                }
-            }
-        };
+        //_synchronizedInvoke = new DeferredSynchronizeInvoke();
+        // _loader = new ScriptBundleLoader(_synchronizedInvoke) {
+            // logWriter = new UnityLogTextWriter(),
+            // createInstance = (Type type) => {
+                // if (typeof(Component).IsAssignableFrom(type)) {
+                    // var componentParent = ComponentParent;
+                    // var components = _gameobjectComponents.GetOrAdd(componentParent, new Dictionary<string, Component>());
+                    // string componentName = type.Name;// _fileNameInputField.text;
+                    // Component component;
+                    // if (components.TryGetValue(componentName, out component)) {
+                        // Destroy(component);
+                    // }
+                    // component = componentParent.AddComponent(type);
+                    // components.Update(componentName, component);
+                    // return component;
+                // }
+                // else {
+                    // return Activator.CreateInstance(type);
+                // }
+            // },
+            // destroyInstance = (object instance) => {
+                // if (instance != null && instance is Component) {
+                    // if (instance is MonoBehaviour) {
+                        // var component = (instance as MonoBehaviour);
+                        // Dictionary<string, Component> components;
+                        // if (_gameobjectComponents.TryGetValue(component.gameObject, out components)) {
+                            // components.Remove(component.GetType().ToString());
+                        // }
+                        // Destroy(component);
+                    // }
+                // }
+            // }
+        // };
     }
 
     private void Update() {
@@ -418,7 +427,8 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 		}
 
 		if (Input.GetKeyDown (KeyCode.F5) && scriptingEnabled) {
-			this.Run ();
+			_errorBoxField.text = "Mein kleiner Fehler";
+			this.Run();
 		}
 
 		if(Input.GetKeyDown(KeyCode.Escape)){
@@ -451,8 +461,6 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
     private void HighlightCode(string content) {
         _highlightCoroutine = StartCoroutine(_unitySyntaxHighlighter.HighlightSourceCoroutine(content, OnCodingTextHighlighted));
     }
-
-
 
     public void ResetCodeHighlighting(string content) {
 		if(	_codingBoxInputField.caretPosition < gc.contentLength){
