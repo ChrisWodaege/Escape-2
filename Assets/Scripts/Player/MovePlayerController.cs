@@ -13,12 +13,12 @@ public class MovePlayerController : MonoBehaviour, IMovePlayerController {
     [SerializeField]
     private Vector3 _end;
     [SerializeField]
-    private float _timeToMove = 2f;
+    private float _timeToMove = 1f;
     private float _moveTimeRemaining = 0f;
     private UnityEvent _walkingFinished;
 
     [SerializeField]
-    private float _timeToRotate = 2f;
+    private float _timeToRotate = 1f;
     private float _rotateTimeRemaining = 0f;
     private Quaternion _fromRotation;
     private Quaternion _toRotation;
