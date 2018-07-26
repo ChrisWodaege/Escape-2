@@ -119,15 +119,10 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 				break;			
 			}
 		}
-//		if (commandQueue.Count == 0) {
-//			active = false;
-//			return;
-//		}
 	}
 
 	private IEnumerator BootCoroutine() {
 		//TODO Hier müsste dann die GameStateMachine aktuallisiert werden
-		//LoadNextLevel();
 		yield return null;
 	}
 	private Animator _cameraAnimator;
@@ -140,53 +135,54 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 		
 	protected void AddMethod(IEnumerator method)
 	{
-		if (_methodController == null) {
-			//_methodController = GameObject.Find("CodingBox/CodingBox").GetComponent<CodingBoxMethodController>();
-			_methodController.SetOnCompleteAction(AllowRunndingCode);
-		}
+		
 
 
 		_methodController.AddMethod(method);
 	}
 
-	protected void AllowRunndingCode(){
-		//LevelController.AllowRunningCode();
-	}
+//	protected void AllowRunndingCode(){
+//
+//	}
 
 	private void takeItem() {
-		Debug.Log ("TakeItem");
-		if (objectInRobotsHand == null) { //Only take if robot has no object taken
-			Vector3 currentPosition = _playerPosition;
-			Vector3 newPosition = currentPosition;
-			GameObject stone = _gridController.getStoneFromTile (_playerPosition, (GridDirection)direction);
-			if (stone != null) {
-				objectInRobotsHand = stone;
-				objectInRobotsHand.transform.parent = this.transform;
-				objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
+		try {
+			Debug.Log ("TakeItem");
+			if (objectInRobotsHand == null) { //Only take if robot has no object taken
+				Vector3 currentPosition = _playerPosition;
+				Vector3 newPosition = currentPosition;
+				GameObject stone = _gridController.getStoneFromTile (_playerPosition, (GridDirection)direction);
+				if (stone != null) {
+					objectInRobotsHand = stone;
+					objectInRobotsHand.transform.parent = this.transform;
+					objectInRobotsHand.transform.localPosition = new Vector3 (0, 1.5f, 0);
+				}
 			}
-		}
 
-		((MovePlayerController)_movePlayerController).TakeObject();
+			((MovePlayerController)_movePlayerController).TakeObject();
+		}
+		catch (Exception e) {
+			this.executeCommand ();
+			Debug.Log(e.Message);
+		}
 	}
 
 	GameObject objectInRobotsHand;
 
 	private void dropItem() {
-		if (objectInRobotsHand) {
-			Debug.Log ("DropItem");
-			Vector3 currentPosition = _playerPosition;
-			//Vector3 newPosition = currentPosition;
-			if (_gridController.putStoneAtTile (objectInRobotsHand, _playerPosition, (GridDirection)direction)) {
-				objectInRobotsHand = null;
+		try {
+			if (objectInRobotsHand) {
+				Debug.Log ("DropItem");
+				if (_gridController.putStoneAtTile (objectInRobotsHand, _playerPosition, (GridDirection)direction)) {
+					objectInRobotsHand = null;
+				}
 			}
+			((MovePlayerController)_movePlayerController).DropObject();
 		}
-
-		//GameObject tile = _gridController.getTileAtPosition (currentPosition, (GridDirection)direction);
-		//objectInRobotsHand.transform.parent = tile.transform;
-		//objectInRobotsHand.transform.localPosition = new Vector3 (0, 0, 0);
-		//_gridController.setBlockStateOfTile (currentPosition, (GridDirection)direction,true);
-		//Debug.Log (tile.transform.childCount);
-		((MovePlayerController)_movePlayerController).DropObject();
+		catch (Exception e) {
+			this.executeCommand ();
+			Debug.Log(e.Message);
+		}
 	}
 
 	private void rotateLeft(){
@@ -214,12 +210,11 @@ public class MoveController : MonoBehaviour, CommandReceiver {
 	    try {
 	        newPosition = _gridController.GetNeighborTileVector(currentPosition, direction);
 			_playerPosition = newPosition;
-			Debug.Log(currentPosition.ToString()+":::::"+newPosition.ToString());
 			GridTile tile = _gridController.GetGridTile (_playerPosition,(GridDirection)direction);
-			Debug.Log ("TileID:"+tile.tileID);
 			_movePlayerController.MovePlayer(currentPosition, newPosition);
 	    }
 	    catch (Exception e) {
+			this.executeCommand ();
 			Debug.Log(e.Message);
 	    }
     }

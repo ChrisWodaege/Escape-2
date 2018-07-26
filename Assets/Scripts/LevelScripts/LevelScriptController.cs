@@ -129,7 +129,6 @@ public class LevelScriptController : MonoBehaviour {
 	public Coroutine CompleteLevel(int level) {
 		string completeText = GetLevelScriptSettings (level).TextOnLevelComplete;
 		if (!string.IsNullOrEmpty (completeText)) {
-			//return _codingBoxController.WriteToCodingBox ("Test");
             return _codingBoxController.WriteToCodingBox("        // " + GetLevelScriptSettings(level).TextOnLevelComplete + "\n");
 		} else {
 			return null;
@@ -142,17 +141,5 @@ public class LevelScriptController : MonoBehaviour {
 
 	private void Start() {
 		LoadLevelScript (0);
-
-		//set camera to zoomed mode only during zeroth level
-//		Animator _cameraController = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Animator> ();
-//		_cameraController.SetBool ("Zoom", true);
-//		_cameraController.Play ("FadeInZoom");
-
-		/*
-        //if you don't want the boot procedure
-        MovePlayerController _playerController = FindObjectOfType<MovePlayerController>();
-        Animator _playerAnimator = _playerController.GetComponentInChildren<Animator>();
-        _playerAnimator.Play("Idle");
-        */
 	}
 }

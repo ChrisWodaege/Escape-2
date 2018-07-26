@@ -56,7 +56,8 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 	private GameConsole gc;
     private string _currentAutomatedTextWriting;
     private Coroutine _automatedTextWritingCoroutine = null;
-
+	bool scriptingEnabled = false;
+	string userCodeContent = "";
     private readonly Dictionary<GameObject, Dictionary<string, Component>> _gameobjectComponents
         = new Dictionary<GameObject, Dictionary<string, Component>>();
 
@@ -132,13 +133,9 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         _codeToShow = fileContent.Substring(topSplitIndex, bottomSplitIndex - topSplitIndex);
         _linesOfCodeOnBottom = fileContent.Substring(bottomSplitIndex, fileContent.Length - bottomSplitIndex);
 
-			//Console.Clear ();
-		//Console.WriteLine (gc.output());
-		//gc.input(Console.ReadLine ());
 		String gcOutput = gc.output();
 		outputLength = gcOutput.Length;
 		yield return WriteToCodingBox(gcOutput);
-        //yield return WriteToCodingBox(_codeToShow);
     }
 
 	int outputLength = -1;
@@ -171,15 +168,12 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 			_movePlayerController.sendCommand (commands);
 
 		} catch(Parser.ParserException ex) {
-			//Debug.log(ex.ToString());
 			_errorBoxField.text = ex.Message;
 		}
     }
 
 	private List<Command> stringToCommandMapper(List<String> source) {
 		List<Command> cl = new List<Command> ();
-		//cl.Add(new Command(CommandType.Boot)); //TODO raus nehmen
-
 		foreach(String s in source){
 			Debug.Log ("CommandMapper:" + s);
 			switch (s) {
@@ -210,7 +204,6 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
         if (!string.IsNullOrEmpty(path)) {
             ForbitRunningCode();
-           // _loader.LoadAndWatchScriptsBundle(new[] { path });
         }
         else {
             Debug.LogError("Can not run file " + ComponentName);
@@ -362,40 +355,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         });
 
         _codingBoxInputField.onValueChanged.AddListener(ResetCodeHighlighting);
-		//_codingBoxInputField.onSubmit.AddListener(MyTestSubmit);
-        //_synchronizedInvoke = new DeferredSynchronizeInvoke();
-        // _loader = new ScriptBundleLoader(_synchronizedInvoke) {
-            // logWriter = new UnityLogTextWriter(),
-            // createInstance = (Type type) => {
-                // if (typeof(Component).IsAssignableFrom(type)) {
-                    // var componentParent = ComponentParent;
-                    // var components = _gameobjectComponents.GetOrAdd(componentParent, new Dictionary<string, Component>());
-                    // string componentName = type.Name;// _fileNameInputField.text;
-                    // Component component;
-                    // if (components.TryGetValue(componentName, out component)) {
-                        // Destroy(component);
-                    // }
-                    // component = componentParent.AddComponent(type);
-                    // components.Update(componentName, component);
-                    // return component;
-                // }
-                // else {
-                    // return Activator.CreateInstance(type);
-                // }
-            // },
-            // destroyInstance = (object instance) => {
-                // if (instance != null && instance is Component) {
-                    // if (instance is MonoBehaviour) {
-                        // var component = (instance as MonoBehaviour);
-                        // Dictionary<string, Component> components;
-                        // if (_gameobjectComponents.TryGetValue(component.gameObject, out components)) {
-                            // components.Remove(component.GetType().ToString());
-                        // }
-                        // Destroy(component);
-                    // }
-                // }
-            // }
-        // };
+
     }
 
     private void Update() {
@@ -403,27 +363,9 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 		if(	_codingBoxInputField.caretPosition < gc.contentLength) { //TODO Nullreference
 			_codingBoxInputField.caretPosition = gc.contentLength;
 		}
-//
-//		if (Input.GetKeyDown (KeyCode.Backspace) || Input.GetKey(KeyCode.Backspace)) {
-//			Debug.Log ("Backspace");
-//			if (_codingBoxInputField.caretPosition < gc.contentLength + 1) {
-//				_codingBoxInputField.text = gc.output ();
-//				_codingBoxInputField.caretPosition = gc.contentLength+1;
-//			} else if(_codingBoxInputField.text.Length<gc.contentLength) {
-//				_codingBoxInputField.text = gc.output ();
-//				_codingBoxInputField.caretPosition = gc.contentLength;
-//			}
-//		}
-
-
-		if (Input.GetKeyDown (KeyCode.Delete)) {
-			//Debug.Log ("Delete");
-		}
 
 		if(Input.GetKeyDown(KeyCode.Return)) {
-			if(!scriptingEnabled && _allowRunningCode)MyTestSubmit ();
-			//Eingabe bestätigen //Nur Console
-			//Nicht wenn in Script
+			if(!scriptingEnabled && _allowRunningCode)ConsoleSubmit ();
 		}
 
 		if (Input.GetKeyDown (KeyCode.F5) && scriptingEnabled) {
@@ -455,12 +397,6 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
         }
     }
 
-	string userCodeContent = "";
-
-    private void HighlightCode(string content) {
-        _highlightCoroutine = StartCoroutine(_unitySyntaxHighlighter.HighlightSourceCoroutine(content, OnCodingTextHighlighted));
-    }
-
     public void ResetCodeHighlighting(string content) {
 		if(	_codingBoxInputField.caretPosition < gc.contentLength){
 			if (Input.GetKeyDown (KeyCode.Backspace) || Input.GetKey (KeyCode.Backspace)) {
@@ -476,8 +412,8 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
     }
 
-	bool scriptingEnabled = false;
-	public void MyTestSubmit() {
+
+	public void ConsoleSubmit() {
 		String text = _unitySyntaxHighlighter.getCodeWithoutRichText (_codingBoxInputField.text);
 		String input = text;
 		Debug.Log (text);
@@ -493,32 +429,4 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 		outputLength = gcOutput.Length;
 		WriteToCodingBox(gcOutput+userCodeContent);
 	}
-
-    private void OnCodingTextHighlighted(string content) {
-		Debug.Log("OnCodingTextHighlighted");
-        if (!_codingBoxInputField.text.Equals(content)) {
-            _codingBoxInputField.onValueChanged.RemoveListener(ResetCodeHighlighting);
-            bool isReadonly = _codingBoxInputField.readOnly;
-            _codingBoxInputField.readOnly = true;
-
-            _caretPositionOnHighlighting = _codingBoxInputField.caretPosition;
-            _caretColorOnHighlighting = _codingBoxInputField.caretColor;
-            _codingBoxInputField.caretColor = new Color(0, 0, 0, 0);
-
-            int textLength = _codingBoxInputField.text.Length;
-            _codingBoxInputField.text = content;
-            StartCoroutine(SetCaret(content.Length >= textLength ? 1 : 0, isReadonly));
-        }
-    }
-
-    private IEnumerator SetCaret(int offset, bool isReadonly) {
-		Debug.Log("SetCaret");
-        yield return new WaitForEndOfFrame();
-        _codingBoxInputField.caretPosition = _caretPositionOnHighlighting + offset;
-        _codingBoxInputField.caretColor = _caretColorOnHighlighting;
-        yield return new WaitForEndOfFrame();
-        _codingBoxInputField.readOnly = isReadonly;
-        _codingBoxInputField.onValueChanged.AddListener(ResetCodeHighlighting);
-        _highlightCoroutine = null;
-    }
 }
