@@ -35,7 +35,7 @@ class GameConsole {
 		Debug.Log ("Gefiltert1: " + input);
 		input = input.Replace("\n","");
 		Debug.Log ("Gefiltert1: " + input);
-		if((int)input[input.Length-1]==10) input = input.Substring (0,input.Length-1);	//Enter entfernen
+		input = input.Substring (0,input.Length);	//Enter entfernen
 		Debug.Log ("Gefiltert: " + input);
 		gcs = gcs.input(input.ToLower().Split(new char[]{' '}));
 		if (!gcs.initialised)gcs.init ();
@@ -63,12 +63,13 @@ class GameConsole {
 		public bool initialised;
 		public bool showHelp;
 		public Dictionary<String, GameConsoleState> menuEntrys;
-
+		public GameConsoleState defautState;
 		public GameConsoleState() {
 			title = "";
 			text = "";
 			initialised = false;
 			this.menuEntrys = new Dictionary<String, GameConsoleState>();
+			this.defautState = null;
 		}
 
 		public virtual void init(){
@@ -86,6 +87,7 @@ class GameConsole {
 				return this.menuEntrys [args [0]];
 			} else {
 				showHelp = true;
+				if(this.defautState!=null) return this.defautState;
 				return this;
 			}
 		}
@@ -117,6 +119,7 @@ class GameConsole {
 			this.title = "#####Log####";
 			this.text = "Eines unserer Aufklärungsraumschiffe ist auf dem Planeten >>Erde<< beim Versuch einer Kontaktaufnahme in einem schwer zugänglichen Gebiet abgestürzt. Versuche den Wartungsroboter zu starten und das Schiff zu reparieren.";
 			this.menuEntrys.Add("",new MainMenu());
+			this.defautState = new MainMenu();
 		}
 	}
 
@@ -153,6 +156,7 @@ class GameConsole {
 			this.title = "#####Manual - Loop####";
 			this.text = "Mit loop kannst du dem Roboter die Anweisung geben Befehle in einer Schleife zu wiederholen.\nBsp: Den Roboter 5 mal laufen lassen.\nloop(1:5)\nmove()\nendloop";
 			this.menuEntrys.Add("",new HelpMenu());
+			this.defautState = new HelpMenu();
 		}
 	}
 
@@ -162,6 +166,7 @@ class GameConsole {
 			this.title = "#####Manual - Branches####";
 			this.text = "Branches ermöglichen es dir Aktionen deines Roboters anhand von Bedingungen zu verzweigen.\nBsp: Wenn die Variable \"bedingung\" true ist, wird move() ausgeführt,ansonstent turnleft().\n\nbedingung = true\nif(bedingung)\nmove()\nelse\nturnleft()\nendIf";
 			this.menuEntrys.Add("",new HelpMenu());
+			this.defautState = new HelpMenu();
 		}
 	}
 
@@ -171,6 +176,7 @@ class GameConsole {
 			this.title = "#####Manual - take()####";
 			this.text = "Der Befehl take() gib dem Roboter die Anweisung einen vor ihm befindlichen Gegenstand (Item/Stein) aufzunehmen.\nDer Roboter kann immer nur einen Gegenstand halten.";
 			this.menuEntrys.Add("",new HelpMenu());
+			this.defautState = new HelpMenu();
 		}
 	}
 
@@ -181,6 +187,7 @@ class GameConsole {
 			this.text = "Der Befehl drop() gib dem Roboter die Anweisung einen vor ihm befindlichen Gegenstand (Item/Stein) abzulegen.\nSteine können im Wasser abgelegt werden, um so eine Brücke zu bauen.";
 
 			this.menuEntrys.Add("",new HelpMenu());
+			this.defautState = new HelpMenu();
 		}
 	}
 
@@ -190,6 +197,7 @@ class GameConsole {
 			this.title = "#####Manual - boot()####";
 			this.text = "Der Befehl boot() aktiviert den Roboter.";
 			this.menuEntrys.Add("",new HelpMenu());
+			this.defautState = new HelpMenu();
 		}
 	}
 
@@ -199,6 +207,7 @@ class GameConsole {
 			this.title = "#####Manual - Move()####";
 			this.text = "Der Befehl move() lässt deinen Roboter in die Richtung laufen, in welche er gerade schaut.\nmove() wird nicht ausgeführt, wenn der Roboter vor einem Hindernis steht.";
 			this.menuEntrys.Add("",new HelpMenu());
+			this.defautState = new HelpMenu();
 		}
 	}
 
@@ -208,6 +217,7 @@ class GameConsole {
 			this.title = "#####Manual - TurnLeft()/TurnRight()####";
 			this.text = "Der Roboter kann neu ausgerichtet werden, indem er sich nach rechts oder links dreht. Dafür gibt es die Befehle turnleft() und turnright().";
 			this.menuEntrys.Add("",new HelpMenu());
+			this.defautState = new HelpMenu();
 		}
 	}
 }

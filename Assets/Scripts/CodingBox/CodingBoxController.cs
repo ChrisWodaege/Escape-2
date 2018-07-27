@@ -429,6 +429,7 @@ public class CodingBoxController : MonoBehaviour, ICodingBoxController
 
 		String gcOutput = gc.output();
 		outputLength = gcOutput.Length;
-		WriteToCodingBox(gcOutput+userCodeContent);
+		if(scriptingEnabled)WriteToCodingBox(gcOutput+userCodeContent);
+		else WriteToCodingBox(gcOutput);
 	}
 }
